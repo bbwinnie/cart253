@@ -26,4 +26,20 @@ function setup() {
 */
 function draw() {
 
+    land()
+
+}
+
+function land() {
+
+    // set the land as a ellipse, add the color and stroke
+    ellipse(150, 500, 450, 300);
+    fill("#007ca5");
+    noStroke();
+
+    // set the secound land as a elllipse, add the color and stroke
+    ellipse(430, 550, 500, 300);
+    fill("#157291");
+    noStroke();
+
 }
