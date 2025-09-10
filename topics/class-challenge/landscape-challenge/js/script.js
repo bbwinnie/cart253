@@ -1,17 +1,22 @@
 /**
- * Title of Project
- * Author Name
+ * landscape-challenge
+ * weini wang 
+ * partner: ziyan pan
  * 
- * HOW EMBARRASSING! I HAVE NO DESCRIPTION OF MY PROJECT!
- * PLEASE REMOVE A GRADE FROM MY WORK IF IT'S GRADED!
+ * draw a landscape with a house
  */
 
 "use strict";
 
 /**
- * OH LOOK I DIDN'T DESCRIBE SETUP!!
+ * SETUP THE CANVAS
 */
 function setup() {
+
+    // SET THE CANVAS 
+    createCanvas(640, 480);
+    // SET THE BACKGROUND COLOR
+    background("#80d6f1");
 
 }
 
