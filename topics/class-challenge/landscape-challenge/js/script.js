@@ -31,6 +31,7 @@ function draw() {
     cloud();
     moon();
     star();
+    drawHouse();
 
 }
 
@@ -48,7 +49,7 @@ function land() {
     push();
     fill("#157291");
     noStroke();
-    ellipse(430, 550, 500, 300);
+    ellipse(435, 550, 580, 300);
     pop();
 }
 
@@ -91,7 +92,7 @@ function star() {
 
 }
 
-//draw the people
+// Draw the people
 function people() {
 
     //the people
@@ -102,6 +103,63 @@ function people() {
     ellipse(100, 350, 20, 90);
     pop();
 
+}
+
+// Draws a lovely, cosy house with a pointy roof
+
+function drawHouse() {
+    drawBody();
+    drawRoof();
+    drawWindow();
+    drawDoor();
+}
+
+// Draws the main body of our house. inspiretion by pippin
+
+function drawBody() {
+    // The main body of the house
+    push();
+    noStroke();
+    fill("#3f3f87");
+    rect(300, 240, 280, 180);
+    pop();
+}
+
+// Draws the roof of our house (a triangle)
+
+function drawRoof() {
+    push();
+    noStroke();
+    fill("#32327c");
+    triangle(280, 240, 440, 180, 600, 240);
+    pop();
+}
+
+// Draws a window on our house
+
+function drawWindow() {
+    push();
+    noStroke();
+    fill("#8888BB");
+    ellipse(500, 320, 80, 80);
+    pop();
+}
+
+// Draws a door and a doorknob on our house
+function drawDoor() {
+    // The door
+    push();
+    noStroke();
+    fill("#7676B1");
+    rect(320, 300, 80, 120);
+    pop();
+
+    // The doorknob
+    push();
+    noStroke();
+    fill("#32327c");
+    ellipse(340, 360, 10, 10);
+    pop();
 }
 
 
