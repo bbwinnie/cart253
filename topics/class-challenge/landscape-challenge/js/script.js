@@ -26,11 +26,13 @@ function setup() {
 */
 function draw() {
 
-    land()
-    cloud()
+    land();
+    cloud();
+    moon();
 
 }
 
+// draw the land
 function land() {
 
     // set the land as a ellipse, add the color and stroke    
@@ -48,6 +50,7 @@ function land() {
     pop();
 }
 
+// draw the cloud
 function cloud() {
 
     // A cloud from pippin however we change the color and location
@@ -62,3 +65,14 @@ function cloud() {
     pop();
 }
 
+// draw the moon
+function moon() {
+
+    //The moon
+    push();
+    noStroke();
+    fill(255);
+    ellipse(100, 100, 120, 120);
+    pop();
+
+}
