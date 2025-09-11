@@ -29,6 +29,7 @@ function draw() {
     land();
     cloud();
     moon();
+    star();
 
 }
 
@@ -76,3 +77,16 @@ function moon() {
     pop();
 
 }
+
+// draw the star
+function star() {
+
+    //the star
+    push();
+    noStroke();
+    fill("#c2f1ed");
+    quad(230, 122, 246, 80, 230, 38, 214, 80);
+    pop();
+
+}
+
