@@ -22,7 +22,7 @@ function setup() {
 
 
 /**
- * OOPS I DIDN'T DESCRIBE WHAT MY DRAW DOES!
+ * Draw a house
 */
 function draw() {
 
@@ -106,7 +106,6 @@ function people() {
 }
 
 // Draws a lovely, cosy house with a pointy roof
-
 function drawHouse() {
     drawBody();
     drawRoof();
@@ -126,7 +125,6 @@ function drawBody() {
 }
 
 // Draws the roof of our house (a triangle)
-
 function drawRoof() {
     push();
     noStroke();
@@ -136,7 +134,6 @@ function drawRoof() {
 }
 
 // Draws a window on our house
-
 function drawWindow() {
     push();
     noStroke();
