@@ -26,6 +26,7 @@ function setup() {
 */
 function draw() {
 
+    people();
     land();
     cloud();
     moon();
@@ -89,4 +90,18 @@ function star() {
     pop();
 
 }
+
+//draw the people
+function people() {
+
+    //the people
+    push();
+    noStroke();
+    fill("#32327c");
+    ellipse(100, 300, 20, 20);
+    ellipse(100, 350, 20, 90);
+    pop();
+
+}
+
 
