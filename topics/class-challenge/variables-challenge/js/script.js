@@ -77,6 +77,9 @@ function draw() {
     mrFurious.fill.g = constrain(mrFurious.fill.g, 0, 255);
     mrFurious.fill.b = constrain(mrFurious.fill.b, 0, 255);
 
+    //make mrfurions shaking
+    mrFurious.x += random(-5, 5);
+
     // Draw Mr. Furious as a coloured circle
     push();
     noStroke();
