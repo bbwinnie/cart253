@@ -36,6 +36,20 @@ let sky = {
     reduceB: 0.5
 }
 
+// set the variable for bird.
+let birdP = {
+    // Position and size
+    x: 0,
+    y: 40,
+    size: 30,
+    // Colour
+    fill: {
+        r: 150,
+        g: 200,
+        b: 200,
+    }
+}
+
 /**
  * Create the canvas
  */
@@ -69,4 +83,15 @@ function draw() {
     fill(mrFurious.fill.r, mrFurious.fill.g, mrFurious.fill.b);
     ellipse(mrFurious.x, mrFurious.y, mrFurious.size);
     pop();
+
+    //Draw bird
+    bird();
+}
+
+//set the bird
+function bird() {
+
+    fill(birdP.fill.r, birdP.fill.g, birdP.fill.b);
+    ellipse(birdP.x, birdP.y, birdP.size);
+
 }
