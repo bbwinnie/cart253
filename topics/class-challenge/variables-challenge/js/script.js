@@ -63,17 +63,17 @@ function setup() {
 function draw() {
 
     //set the sky color turing blue and set the range.
-    sky.r = sky.r - sky.reduceR;
-    sky.g = sky.g - sky.reduceG;
-    sky.b = sky.b - sky.reduceB;
+    sky.r -= sky.reduceR;
+    sky.g -= sky.reduceG;
+    sky.b -= sky.reduceB;
     sky.r = constrain(sky.r, 0, 255);
     sky.g = constrain(sky.g, 0, 255);
     sky.b = constrain(sky.b, 0, 255);
     background(sky.r, sky.g, sky.b);
 
     //make Mr.Furious more and more red. set the range.
-    mrFurious.fill.g = mrFurious.fill.g - mrFurious.fill.reduceG;
-    mrFurious.fill.b = mrFurious.fill.b - mrFurious.fill.reduceB;
+    mrFurious.fill.g -= mrFurious.fill.reduceG;
+    mrFurious.fill.b -= mrFurious.fill.reduceB;
     mrFurious.fill.g = constrain(mrFurious.fill.g, 0, 255);
     mrFurious.fill.b = constrain(mrFurious.fill.b, 0, 255);
 
@@ -90,6 +90,11 @@ function draw() {
 
 //set the bird
 function bird() {
+
+    //move the bird
+    birdP.x += 1;
+    birdP.y += random(-5, 5);
+    birdP.y = constrain(birdP.y, 10, 60);
 
     fill(birdP.fill.r, birdP.fill.g, birdP.fill.b);
     ellipse(birdP.x, birdP.y, birdP.size);
