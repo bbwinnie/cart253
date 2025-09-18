@@ -50,6 +50,11 @@ let birdP = {
     }
 }
 
+let rate = 1;
+// let rage = {
+//     per: 0.5,
+//     v: 0
+// }
 /**
  * Create the canvas
  */
@@ -77,14 +82,21 @@ function draw() {
     mrFurious.fill.g = constrain(mrFurious.fill.g, 0, 255);
     mrFurious.fill.b = constrain(mrFurious.fill.b, 0, 255);
 
-    //make mrfurions shaking
+    //make mrfurions shake more and more
+    rate += 1;
+    frameRate(rate);
     mrFurious.x += random(-5, 5);
+    mrFurious.x = constrain(mrFurious.x, 195, 205);
+
+    //rage.v = lerp(-10, 10, rage.per);
+    //rage.per = random(0, 1);
+    //console.log(rage);
 
     // Draw Mr. Furious as a coloured circle
     push();
     noStroke();
     fill(mrFurious.fill.r, mrFurious.fill.g, mrFurious.fill.b);
-    ellipse(mrFurious.x, mrFurious.y, mrFurious.size);
+    ellipse(mrFurious.x, mrFurious.y, mrFurious.size); // if add rage v to x it also can move.
     pop();
 
     //Draw bird
