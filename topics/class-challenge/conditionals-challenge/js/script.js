@@ -61,6 +61,7 @@ function draw() {
     //draw Target
     drawTarget();
 
+    // checkTarget
     checkTarget();
 }
 
