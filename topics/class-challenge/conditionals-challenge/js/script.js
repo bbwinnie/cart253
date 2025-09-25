@@ -14,11 +14,7 @@ const puck = {
     x: 200,
     y: 200,
     size: 100,
-    fill: "#ff0000",
-    fills: {
-        noOverlap: "#ff0000", // red for no overlap
-        overlap: "#00ff00" // green for overlap
-    }
+    fill: "#f6a9a9ff",
 };
 
 //set the user detail
@@ -26,7 +22,7 @@ const user = {
     x: undefined, // will be mouseX
     y: undefined, // will be mouseY
     size: 75,
-    fill: "#000000"
+    fill: "#fff599ff"
 };
 
 // set the target detail
@@ -34,7 +30,11 @@ const target = {
     x: 70,
     y: 70,
     size: 100,
-    fill: "#3265b1ff"
+    fill: "#3265b1ff",
+    fills: {
+        noOverlap: "#89a2c8ee", // blue for no overlap
+        overlap: "#b5f2b5ff" // green for overlap
+    }
 }
 
 // Create the canvas
@@ -60,6 +60,8 @@ function draw() {
 
     //draw Target
     drawTarget();
+
+    checkTarget();
 }
 
 /**
@@ -133,4 +135,20 @@ function drawTarget() {
 //display the dashline
 function setLineDash(list) {
     drawingContext.setLineDash(list);
+}
+
+//display the checkTarget
+function checkTarget() {
+
+    //get the position for the puck and target.
+    const d = dist(puck.x, puck.y, target.x, target.y);
+    const overlap = (d < puck.size / 2 + target.size / 2);
+
+    // check the overlap for the target and puck.
+    if (overlap) {
+        target.fill = target.fills.overlap;
+    }
+    else {
+        target.fill = target.fills.noOverlap;
+    }
 }
