@@ -9,7 +9,7 @@
 
 "use strict";
 
-
+//set the puck detail
 const puck = {
     x: 200,
     y: 200,
@@ -21,6 +21,7 @@ const puck = {
     }
 };
 
+//set the user detail
 const user = {
     x: undefined, // will be mouseX
     y: undefined, // will be mouseY
@@ -28,9 +29,15 @@ const user = {
     fill: "#000000"
 };
 
-/**
- * Create the canvas
- */
+// set the target detail
+const target = {
+    x: 70,
+    y: 70,
+    size: 100,
+    fill: "#3265b1ff"
+}
+
+// Create the canvas
 function setup() {
     createCanvas(400, 400);
 }
@@ -48,7 +55,11 @@ function draw() {
     drawUser();
     drawPuck();
 
+    // move the puck
     movePuck();
+
+    //draw Target
+    drawTarget();
 }
 
 /**
@@ -81,9 +92,12 @@ function drawPuck() {
     pop();
 }
 
+//check the movePuck
 function movePuck() {
     const d = dist(user.x, user.y, puck.x, puck.y);
     const overlap = (d < user.size / 2 + puck.size / 2)
+
+    //add the if condition to move the puck
     if (overlap && user.x > puck.x) {
         puck.x -= 1;
     }
@@ -93,4 +107,20 @@ function movePuck() {
     // else {
     //     puck.fill = puck.fills.noOverlap;
     // }
+}
+
+//display the target
+function drawTarget() {
+    push();
+    stroke(255);
+    strokeWeight(2);
+    fill(target.fill);
+    setLineDash([10, 10]);
+    ellipse(target.x, target.y, target.size);
+    pop();
+}
+
+//display the dashline
+function setLineDash(list) {
+    drawingContext.setLineDash(list);
 }
