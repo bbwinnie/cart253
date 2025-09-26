@@ -13,19 +13,30 @@ let frogH = {
     x: 300,
     y: 150,
     w: 240,
-    h: 150
+    h: 170
 }
 
 // SET THE DETAIL FOR FORGEARS
-let forgE = {
+let frogE = {
     fill: "#D7B95A",
-    rightEarX: 250,
-    leftEarX: 350,
+    rightEarX: 350,
+    leftEarX: 250,
     y: 95,
     w: 65,
     h: 100,
     arcStartP: 180,
     arcStopP: 0
+}
+
+let frogEyes = {
+    fill: "#000000ff",
+    y: 72,
+    w: 32,
+    h: 38,
+    rotateLeft: 15,
+    rotateRight: 345,
+    strokeWeight: 2.5,
+    strokeColor: "#ffffffff"
 }
 /**
  * OH LOOK I DIDN'T DESCRIBE SETUP!!
@@ -34,9 +45,11 @@ function setup() {
 
     // set the canvas
     createCanvas(640, 480);
+
     // set the background color
     background("#c8f0eeff");
 
+    // set the angle unit by degrees.
     angleMode(DEGREES);
 
 }
@@ -47,6 +60,7 @@ function setup() {
 */
 function draw() {
 
+    //DRAW THE FROGHEAD
     frogHead();
 }
 
@@ -62,10 +76,30 @@ function frogHead() {
 
     //SET THE FROGEAR
     push();
-    fill("#D7B95A");
+    fill(frogE.fill);
     noStroke();
-    arc(forgE.leftEarX, forgE.y, forgE.w, forgE.h, forgE.arcStartP, forgE.arcStopP, CHORD);
-    arc(forgE.rightEarX, forgE.y, forgE.w, forgE.h, forgE.arcStartP, forgE.arcStopP, CHORD);
+    arc(frogE.leftEarX, frogE.y, frogE.w, frogE.h, frogE.arcStartP, frogE.arcStopP, CHORD);
+    arc(frogE.rightEarX, frogE.y, frogE.w, frogE.h, frogE.arcStartP, frogE.arcStopP, CHORD);
+    pop();
+
+    //SET THE FROG LEFT EYES
+    push();
+    fill(frogEyes.fill);
+    strokeWeight(frogEyes.strokeWeight);
+    stroke(frogEyes.strokeColor);
+    translate(frogE.leftEarX, frogEyes.y);
+    rotate(frogEyes.rotateLeft);
+    ellipse(0, 0, frogEyes.w, frogEyes.h);
+    pop();
+
+    //SET THE FROG RIGHT EYES
+    push();
+    fill(frogEyes.fill);
+    strokeWeight(frogEyes.strokeWeight);
+    stroke(frogEyes.strokeColor);
+    translate(frogE.rightEarX, frogEyes.y);
+    rotate(frogEyes.rotateRight);
+    ellipse(0, 0, frogEyes.w, frogEyes.h);
     pop();
 
 }
