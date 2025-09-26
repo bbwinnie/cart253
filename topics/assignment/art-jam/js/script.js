@@ -1,9 +1,8 @@
 /**
- * Title of Project
- * Author Name
+ * self portrait
+ * weini wang
  * 
- * HOW EMBARRASSING! I HAVE NO DESCRIPTION OF MY PROJECT!
- * PLEASE REMOVE A GRADE FROM MY WORK IF IT'S GRADED!
+ * A self portrait assignment
  */
 
 "use strict";
@@ -12,6 +11,11 @@
  * OH LOOK I DIDN'T DESCRIBE SETUP!!
 */
 function setup() {
+
+    // set the canvas
+    createCanvas(640, 480);
+    // set the background color
+    background("#c8f0eeff");
 
 }
 
