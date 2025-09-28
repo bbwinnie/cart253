@@ -75,6 +75,38 @@ let frogCheekLine = {
     strokeColor: 0
 }
 
+//SET THE PROPERTIES FOR THE STAREYES
+let starEyesP = {
+    quandx1and4: 240,
+    quandy1and2: 70,
+    quandx2and3: 260,
+    quandy3and4: 80,
+    quandRx1andRx4: 340,
+    quandRx2andRX3: 360,
+    arc1x: 240,
+    arcR1x: 340,
+    arc2x: 260,
+    arcR2x: 360,
+    arc1y: 70,
+    arc2y: 80,
+    arcw: 20,
+    arch: 12,
+    increase: 1,
+    increaseArc: 2,
+    strokeColor: "#ffffffff",
+    strokeWeight: 1,
+    fill: {
+        background: "#000000ff",
+        eyecolor: "#feffcbff"
+    },
+    ellipse: {
+        x1: 250,
+        x2: 350,
+        y: 75,
+        w: 40,
+        h: 50
+    }
+}
 
 /**
  * OH LOOK I DIDN'T DESCRIBE SETUP!!
@@ -98,10 +130,27 @@ function setup() {
 */
 function draw() {
 
+    //DRAW THE FROGBody
+    frogBody();
+
     //DRAW THE FROGHEAD
     frogHead();
 
-    stareyes();
+    //MAKE THE STAREYES BLINKING.
+    if (starEyesP.arc1y > 54) {
+        starEyesOpen();
+    }
+    else {
+        starEyesP.quandy1and2 = 70;
+        starEyesP.quandy3and4 = 80;
+        starEyesP.arc1y = 70;
+        starEyesP.arc2y = 80;
+        starEyesP.arch = 12;
+    }
+
+}
+
+function mousePressed() {
 
 }
 
@@ -184,81 +233,97 @@ function frogHead() {
 
 }
 
+//SET THE RIGHT AND LEFT FROG BLINKING EYES.
+function starEyesOpen() {
 
-
-
-// function stareyes() {
-
-//     push();
-
-//     stareyesP.rectH += stareyesP.increase
-//     noStroke();
-//     fill("#f5f821ff");
-//     rect(350, 50, 20, stareyesP.rectH,);
-//     pop();
-
-//     push();
-//     noStroke();
-//     fill("#000000ff");
-//     scale(1, 1);
-//     arc(350, 50, 20, 30, 0, 90);
-//     arc(370, 50, 20, 30, 90, 180);
-//     arc(350, 80, 20, 30, 270, 360);
-//     arc(370, 80, 20, 30, 180, 270);
-//     pop();
-
-
-// }
-
-
-let stareyesP = {
-    quandx1and3: 240,
-    quandy1and2: 60,
-    quandx2and4: 260,
-    quandy3and4: 90,
-    arc1x: 240,
-    arc2x: 260,
-    arc1y: 60,
-    arc2y: 90,
-    arcw: 20,
-    arch: 30,
-    increase: 0.1,
-    increaseArc: 0.2
-}
-
-function stareyes() {
-
-    console.log(stareyesP.arch);
+    //SET THE LEFT BLINKING FROGEYES
+    //background of the eyes
     push();
-    fill("#000000ff");
-    stroke("#ffffffff");
-    strokeWeight(1);
-    ellipse(250, 75, 40, 50);
+    fill(starEyesP.fill.background);
+    stroke(starEyesP.strokeColor);
+    strokeWeight(starEyesP.strokeWeight);
+    ellipse(starEyesP.ellipse.x1, starEyesP.ellipse.y, starEyesP.ellipse.w, starEyesP.ellipse.h);
     pop();
 
+    //set the star eyes
     push();
-    stareyesP.quandy1and2 -= stareyesP.increase
-    stareyesP.quandy3and4 += stareyesP.increase
-    stareyesP.quandy1and2 = constrain(stareyesP.quandy1and2, 60, 62);
-    stareyesP.quandy3and4 = constrain(stareyesP.quandy3and4, 90, 92);
+    fill(starEyesP.fill.eyecolor);
     noStroke();
-    fill("#f5f821ff");
-    quad(240, stareyesP.quandy1and2, 260, stareyesP.quandy1and2, 260, stareyesP.quandy3and4, 240, stareyesP.quandy3and4);
+    //SET THE MOVEMENT FOR THE FROGEYES INCRESASE AND KEEP THE STAR INSIDE THE EYES.
+    starEyesP.quandy1and2 -= starEyesP.increase;
+    starEyesP.quandy3and4 += starEyesP.increase;
+    starEyesP.quandy1and2 = constrain(starEyesP.quandy1and2, 54, 70); // 57 . 60
+    starEyesP.quandy3and4 = constrain(starEyesP.quandy3and4, 80, 96); // 90 . 93
+    quad(starEyesP.quandx1and4, starEyesP.quandy1and2, starEyesP.quandx2and3, starEyesP.quandy1and2, starEyesP.quandx2and3, starEyesP.quandy3and4, starEyesP.quandx1and4, starEyesP.quandy3and4);
     pop();
 
+    //set the star eyes
     push();
     noStroke();
-    fill("#000000ff");
-    stareyesP.arc1y -= stareyesP.increase
-    stareyesP.arc2y += stareyesP.increase
-    stareyesP.arch += stareyesP.increaseArc
-    stareyesP.arch = constrain(stareyesP.arch, 30, 40);
-    stareyesP.arc2y = constrain(stareyesP.arc2y, 90, 95);
-    stareyesP.arc1y = constrain(stareyesP.arc1y, 60, 65);
-    arc(240, stareyesP.arc1y, 20, stareyesP.arch, 0, 90);
-    arc(260, stareyesP.arc1y, 20, stareyesP.arch, 90, 180);
-    arc(240, stareyesP.arc2y, 20, stareyesP.arch, 270, 360);
-    arc(260, stareyesP.arc2y, 20, stareyesP.arch, 180, 270);
+    fill(starEyesP.fill.background);
+    //SET THE MOVEMENT FOR THE FROGEYES INCRESASE AND KEEP THE STAR INSIDE THE EYES.
+    starEyesP.arc1y -= starEyesP.increase;
+    starEyesP.arc2y += starEyesP.increase;
+    starEyesP.arch += starEyesP.increaseArc
+    starEyesP.arch = constrain(starEyesP.arch, 12, 42); //30.45
+    starEyesP.arc1y = constrain(starEyesP.arc1y, 54, 69);// 55 60
+    starEyesP.arc2y = constrain(starEyesP.arc2y, 81, 96); // 90 95
+    arc(starEyesP.quandx1and4, starEyesP.arc1y, starEyesP.arcw, starEyesP.arch, 0, 90);
+    arc(starEyesP.quandx2and3, starEyesP.arc1y, starEyesP.arcw, starEyesP.arch, 90, 180);
+    arc(starEyesP.quandx1and4, starEyesP.arc2y, starEyesP.arcw, starEyesP.arch, 270, 360);
+    arc(starEyesP.quandx2and3, starEyesP.arc2y, starEyesP.arcw, starEyesP.arch, 180, 270);
+    pop();
+
+    //SET THE RIGHT BLINKING FROGEYES
+    //background of the eyes
+    push();
+    fill(starEyesP.fill.background);
+    stroke(starEyesP.strokeColor);
+    strokeWeight(starEyesP.strokeWeight);
+    ellipse(starEyesP.ellipse.x2, starEyesP.ellipse.y, starEyesP.ellipse.w, starEyesP.ellipse.h);
+    pop();
+
+    //set the star eyes
+    push();
+    fill(starEyesP.fill.eyecolor);
+    noStroke();
+    //SET THE MOVEMENT FOR THE FROGEYES INCRESASE AND KEEP THE STAR INSIDE THE EYES.
+    starEyesP.quandy1and2 -= starEyesP.increase;
+    starEyesP.quandy3and4 += starEyesP.increase;
+    starEyesP.quandy1and2 = constrain(starEyesP.quandy1and2, 54, 70);
+    starEyesP.quandy3and4 = constrain(starEyesP.quandy3and4, 80, 96);
+    quad(starEyesP.quandRx1andRx4, starEyesP.quandy1and2, starEyesP.quandRx2andRX3, starEyesP.quandy1and2, starEyesP.quandRx2andRX3, starEyesP.quandy3and4, starEyesP.quandRx1andRx4, starEyesP.quandy3and4);
+    pop();
+
+    //set the star eyes
+    push();
+    noStroke();
+    fill(starEyesP.fill.background);
+    //SET THE MOVEMENT FOR THE FROGEYES INCRESASE AND KEEP THE STAR INSIDE THE EYES.
+    starEyesP.arc1y -= starEyesP.increase;
+    starEyesP.arc2y += starEyesP.increase;
+    starEyesP.arch += starEyesP.increaseArc
+    starEyesP.arch = constrain(starEyesP.arch, 12, 42);
+    starEyesP.arc1y = constrain(starEyesP.arc1y, 54, 69);
+    starEyesP.arc2y = constrain(starEyesP.arc2y, 81, 96);
+    arc(starEyesP.quandRx1andRx4, starEyesP.arc1y, starEyesP.arcw, starEyesP.arch, 0, 90);
+    arc(starEyesP.quandRx2andRX3, starEyesP.arc1y, starEyesP.arcw, starEyesP.arch, 90, 180);
+    arc(starEyesP.quandRx1andRx4, starEyesP.arc2y, starEyesP.arcw, starEyesP.arch, 270, 360);
+    arc(starEyesP.quandRx2andRX3, starEyesP.arc2y, starEyesP.arcw, starEyesP.arch, 180, 270);
     pop();
 }
 
+function frogBody() {
+
+    push();
+    fill("#D7B95A")
+    noStroke();
+    ellipse(300, 260, 175, 200);
+    pop();
+
+    push();
+    fill("#fff2f278")
+    noStroke();
+    ellipse(300, 260, 130, 180);
+    pop();
+}
