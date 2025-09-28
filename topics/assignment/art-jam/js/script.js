@@ -164,10 +164,60 @@ let frogBodyP = {
         w: 60,
         h: 30
     }
-
 }
+
+// SET THE PROPERTIES FOR THE MOUNTAIN
+let mountainP = {
+    fill: {
+        dark: "#c2eedfff",
+        light: "#d8eee3ff",
+        icelake: "#bccfe2ff"
+    },
+    mountain1: {
+        x1: -100,
+        y1: 300,
+        x2: 50,
+        y2: -100,
+        x3: 450,
+        y3: 300
+    },
+    mountain2: {
+        x1: 350,
+        y1: 300,
+        x2: 450,
+        y2: 100,
+        x3: 550,
+        y3: 300
+    },
+    mountain3: {
+        x1: 100,
+        y1: 300,
+        x2: 300,
+        y2: 0,
+        x3: 500,
+        y3: 300
+    },
+    mountain4: {
+        x1: 500,
+        y1: 300,
+        x2: 600,
+        y2: 100,
+        x3: 700,
+        y3: 300
+    },
+    icelake: {
+        x1: 200,
+        y1: 400,
+        w: 600,
+        h: 300,
+        x2: 450,
+        y2: 400,
+    },
+}
+
+
 /**
- * OH LOOK I DIDN'T DESCRIBE SETUP!!
+ * SETUP THE CANVAS AND DERGEES UNIT FOR THE CODE
 */
 function setup() {
 
@@ -180,12 +230,15 @@ function setup() {
 }
 
 /**
- * OOPS I DIDN'T DESCRIBE WHAT MY DRAW DOES!
+ * DARW THE FROG WITH BLINKING EYES WALK ON THE ICELAKE.
 */
 function draw() {
 
     // SET THE BACKGROUND COLOR
     background("#8fdbc1");
+
+    //DRAW THE MOUNTAIN
+    mountain();
 
     //DRAW THE FROGBODY
     frogBody();
@@ -538,5 +591,34 @@ function frogBody() {
     rotate(frogBodyP.leftHand.rotate);
     ellipse(0, 0, frogBodyP.leftHand.w, frogBodyP.leftHand.h);
     pop();
+}
+
+//SET THE FUNCTION OF MOUNTAIN
+function mountain() {
+
+    //SET THE MOUNTAIN
+    push();
+    fill(mountainP.fill.dark);
+    noStroke();
+    triangle(mountainP.mountain1.x1, mountainP.mountain1.y1, mountainP.mountain1.x2, mountainP.mountain1.y2, mountainP.mountain1.x3, mountainP.mountain1.y3);
+    triangle(mountainP.mountain2.x1, mountainP.mountain2.y1, mountainP.mountain2.x2, mountainP.mountain2.y2, mountainP.mountain2.x3, mountainP.mountain2.y3);
+    pop();
+
+    //SET THE MOUNTAIN
+    push();
+    fill(mountainP.fill.light);
+    noStroke();
+    triangle(mountainP.mountain3.x1, mountainP.mountain3.y1, mountainP.mountain3.x2, mountainP.mountain3.y2, mountainP.mountain3.x3, mountainP.mountain3.y3);
+    triangle(mountainP.mountain4.x1, mountainP.mountain4.y1, mountainP.mountain4.x2, mountainP.mountain4.y2, mountainP.mountain4.x3, mountainP.mountain4.y3);
+    pop();
+
+    //SET THE ICELAKE
+    push();
+    fill(mountainP.fill.icelake);
+    noStroke();
+    ellipse(mountainP.icelake.x1, mountainP.icelake.y1, mountainP.icelake.w, mountainP.icelake.h);
+    ellipse(mountainP.icelake.x2, mountainP.icelake.y2, mountainP.icelake.w, mountainP.icelake.h);
+    pop();
 
 }
+
