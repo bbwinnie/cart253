@@ -124,6 +124,48 @@ let snowp = {
 // SET THE UNIVERSAL TIME FOR SNOWFLAKES
 let time = 0;
 
+// SET THE PROPERTIES FOR THE FROG BODY
+let frogBodyP = {
+    fill: "#d3b64c",
+    shadow: "#efe96d",
+    rightHand: {
+        x: 215,
+        y: 250,
+        rotate: 320,
+        w: 60,
+        h: 30
+    },
+    body: {
+        x: 300,
+        y: 260,
+        w: 175,
+        h: 200
+    },
+    bodyShadow: {
+        w: 130,
+        h: 180
+    },
+    foot: {
+        rightXandY: 350,
+        rightW: 40,
+        rightH: 30,
+        leftX: 250,
+        leftY: 345,
+        leftW: 50,
+        leftH: 60
+    },
+    footShadow: {
+        size: 30
+    },
+    leftHand: {
+        x: 350,
+        y: 250,
+        rotate: 15,
+        w: 60,
+        h: 30
+    }
+
+}
 /**
  * OH LOOK I DIDN'T DESCRIBE SETUP!!
 */
@@ -142,8 +184,11 @@ function setup() {
 */
 function draw() {
 
-    // set the background color
+    // SET THE BACKGROUND COLOR
     background("#8fdbc1");
+
+    //DRAW THE FROGBODY
+    frogBody();
 
     //DRAW THE FROGHEAD
     frogHead();
@@ -442,4 +487,56 @@ function snow() {
         time -= 2000;
     }
     pop();
+}
+
+//SET THE FUNCTION OF FROGBODY
+function frogBody() {
+
+    // SET THE RIGHT HAND
+    push();
+    fill(frogBodyP.fill);
+    noStroke();
+    translate(frogBodyP.rightHand.x, frogBodyP.rightHand.y);
+    rotate(frogBodyP.rightHand.rotate);
+    ellipse(0, 0, frogBodyP.rightHand.w, frogBodyP.rightHand.h);
+    pop();
+
+    //SET THE FROG BODY
+    push();
+    fill(frogBodyP.fill)
+    noStroke();
+    ellipse(frogBodyP.body.x, frogBodyP.body.y, frogBodyP.body.w, frogBodyP.body.h);
+    pop();
+
+    // SET THE FROGBODY SHADOW
+    push();
+    fill(frogBodyP.shadow)
+    noStroke();
+    ellipse(frogBodyP.body.x, frogBodyP.body.y, frogBodyP.bodyShadow.w, frogBodyP.bodyShadow.h);
+    pop();
+
+    //SET THE FROG FOOT
+    push();
+    fill(frogBodyP.fill);
+    noStroke();
+    ellipse(frogBodyP.foot.rightXandY, frogBodyP.foot.rightXandY, frogBodyP.foot.rightW, frogBodyP.foot.rightH);
+    ellipse(frogBodyP.foot.leftX, frogBodyP.foot.leftY, frogBodyP.foot.leftW, frogBodyP.foot.leftH);
+    pop();
+
+    //SET THE FROG FOOT SHADOW
+    push();
+    fill(frogBodyP.shadow)
+    noStroke();
+    ellipse(frogBodyP.foot.leftX, frogBodyP.foot.leftY, frogBodyP.footShadow.size, frogBodyP.footShadow.size);
+    pop();
+
+    // SET THE lEFT HAND
+    push();
+    fill(frogBodyP.fill);
+    noStroke();
+    translate(frogBodyP.leftHand.x, frogBodyP.leftHand.y);
+    rotate(frogBodyP.leftHand.rotate);
+    ellipse(0, 0, frogBodyP.leftHand.w, frogBodyP.leftHand.h);
+    pop();
+
 }
