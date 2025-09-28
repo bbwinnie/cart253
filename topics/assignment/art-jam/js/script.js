@@ -9,7 +9,7 @@
 
 // SET THE DETAIL FOR FORGHEAD
 let frogH = {
-    fill: "#D7B95A",
+    fill: "#d3b64c",
     x: 300,
     y: 150,
     w: 240,
@@ -18,7 +18,7 @@ let frogH = {
 
 // SET THE DETAIL FOR FORGEARS
 let frogE = {
-    fill: "#D7B95A",
+    fill: "#d3b64c",
     rightEarX: 350,
     leftEarX: 250,
     y: 95,
@@ -42,7 +42,7 @@ let frogEyes = {
 
 //SET THE DETAIL FOR FROGMOUTH
 let frogMouth = {
-    fill: "#feffafff",
+    fill: "#f07979ff",
     x: 300,
     y: 100,
     w: 30,
@@ -53,7 +53,7 @@ let frogMouth = {
 
 //SET THE DETAIL FOR FROGCHEEK
 let frogCheek = {
-    fill: "#eecbcbff",
+    fill: "#f7f8c3ff",
     leftX: 230,
     rightX: 370,
     y: 130,
@@ -108,6 +108,22 @@ let starEyesP = {
     }
 }
 
+//SET THE BOOLEAN FOR THE EYE BLINKING MOTION DETECTION.
+let change = true;
+
+// SET THE PROPERTIES FOR THE SNOWFLAKES
+let snowp = {
+    xCoord: [0, 150, 300, 450, 600],
+    yCoord: [30, 30, 30, 30, 30],
+    x: 150,
+    y: 30,
+    vspeed: [1, -1, -1, 1, -1],
+    hspeed: [1, 1, 1, 1, 1],
+}
+
+// SET THE UNIVERSAL TIME FOR SNOWFLAKES
+let time = 0;
+
 /**
  * OH LOOK I DIDN'T DESCRIBE SETUP!!
 */
@@ -116,43 +132,46 @@ function setup() {
     // set the canvas
     createCanvas(640, 480);
 
-    // set the background color
-    background("#c8f0eeff");
-
     // set the angle unit by degrees.
     angleMode(DEGREES);
 
 }
-
 
 /**
  * OOPS I DIDN'T DESCRIBE WHAT MY DRAW DOES!
 */
 function draw() {
 
-    //DRAW THE FROGBody
-    frogBody();
+    // set the background color
+    background("#8fdbc1");
 
     //DRAW THE FROGHEAD
     frogHead();
 
-    //MAKE THE STAREYES BLINKING.
-    if (starEyesP.arc1y > 54) {
-        starEyesOpen();
+    //MAKE THE STAREYES BLINKING WHILE THE MOUSE BUTTON IS PRESSED.
+    if (mouseIsPressed) {
+        if (starEyesP.arc2y > 95) {
+            change = false;
+        }
+        if (starEyesP.arc2y < 82) {
+            change = true;
+        }
+        if (change == true) {
+            starEyesOpen();
+        }
+        else {
+            starEyesClose();
+        }
     }
     else {
-        starEyesP.quandy1and2 = 70;
-        starEyesP.quandy3and4 = 80;
-        starEyesP.arc1y = 70;
-        starEyesP.arc2y = 80;
-        starEyesP.arch = 12;
+        starEyesOpen();
     }
 
+    //DARW THE SNOWFLAKES
+    snow();
+
 }
 
-function mousePressed() {
-
-}
 
 //DISPLAY THE FORGHEAD
 function frogHead() {
@@ -313,17 +332,114 @@ function starEyesOpen() {
     pop();
 }
 
-function frogBody() {
+//SET THE RIGHT AND LEFT FROG BLINKING EYES.
+function starEyesClose() {
 
+    //SET THE LEFT BLINKING FROGEYES
+    //background of the eyes
     push();
-    fill("#D7B95A")
-    noStroke();
-    ellipse(300, 260, 175, 200);
+    fill(starEyesP.fill.background);
+    stroke(starEyesP.strokeColor);
+    strokeWeight(starEyesP.strokeWeight);
+    ellipse(starEyesP.ellipse.x1, starEyesP.ellipse.y, starEyesP.ellipse.w, starEyesP.ellipse.h);
     pop();
 
+    //set the star eyes
     push();
-    fill("#fff2f278")
+    fill(starEyesP.fill.eyecolor);
     noStroke();
-    ellipse(300, 260, 130, 180);
+    //SET THE MOVEMENT FOR THE FROGEYES INCRESASE AND KEEP THE STAR INSIDE THE EYES.
+    starEyesP.quandy1and2 += starEyesP.increase;
+    starEyesP.quandy3and4 -= starEyesP.increase;
+    starEyesP.quandy1and2 = constrain(starEyesP.quandy1and2, 54, 70); // 57 . 60
+    starEyesP.quandy3and4 = constrain(starEyesP.quandy3and4, 80, 96); // 90 . 93
+    quad(starEyesP.quandx1and4, starEyesP.quandy1and2, starEyesP.quandx2and3, starEyesP.quandy1and2, starEyesP.quandx2and3, starEyesP.quandy3and4, starEyesP.quandx1and4, starEyesP.quandy3and4);
+    pop();
+
+    //set the star eyes
+    push();
+    noStroke();
+    fill(starEyesP.fill.background);
+    //SET THE MOVEMENT FOR THE FROGEYES INCRESASE AND KEEP THE STAR INSIDE THE EYES.
+    starEyesP.arc1y += starEyesP.increase;
+    starEyesP.arc2y -= starEyesP.increase;
+    // starEyesP.arch += starEyesP.increaseArc
+    // starEyesP.arch = constrain(starEyesP.arch, 12, 42); //30.45
+    starEyesP.arc1y = constrain(starEyesP.arc1y, 54, 69);// 55 60
+    starEyesP.arc2y = constrain(starEyesP.arc2y, 81, 96); // 90 95
+    arc(starEyesP.quandx1and4, starEyesP.arc1y, starEyesP.arcw, starEyesP.arch, 0, 90);
+    arc(starEyesP.quandx2and3, starEyesP.arc1y, starEyesP.arcw, starEyesP.arch, 90, 180);
+    arc(starEyesP.quandx1and4, starEyesP.arc2y, starEyesP.arcw, starEyesP.arch, 270, 360);
+    arc(starEyesP.quandx2and3, starEyesP.arc2y, starEyesP.arcw, starEyesP.arch, 180, 270);
+    pop();
+
+    //SET THE RIGHT BLINKING FROGEYES
+    //background of the eyes
+    push();
+    fill(starEyesP.fill.background);
+    stroke(starEyesP.strokeColor);
+    strokeWeight(starEyesP.strokeWeight);
+    ellipse(starEyesP.ellipse.x2, starEyesP.ellipse.y, starEyesP.ellipse.w, starEyesP.ellipse.h);
+    pop();
+
+    //set the star eyes
+    push();
+    fill(starEyesP.fill.eyecolor);
+    noStroke();
+    //SET THE MOVEMENT FOR THE FROGEYES INCRESASE AND KEEP THE STAR INSIDE THE EYES.
+    starEyesP.quandy1and2 += starEyesP.increase;
+    starEyesP.quandy3and4 -= starEyesP.increase;
+    starEyesP.quandy1and2 = constrain(starEyesP.quandy1and2, 54, 70);
+    starEyesP.quandy3and4 = constrain(starEyesP.quandy3and4, 80, 96);
+    quad(starEyesP.quandRx1andRx4, starEyesP.quandy1and2, starEyesP.quandRx2andRX3, starEyesP.quandy1and2, starEyesP.quandRx2andRX3, starEyesP.quandy3and4, starEyesP.quandRx1andRx4, starEyesP.quandy3and4);
+    pop();
+
+    //set the star eyes
+    push();
+    noStroke();
+    fill(starEyesP.fill.background);
+    //SET THE MOVEMENT FOR THE FROGEYES INCRESASE AND KEEP THE STAR INSIDE THE EYES.
+    starEyesP.arc1y += starEyesP.increase;
+    starEyesP.arc2y -= starEyesP.increase;
+    starEyesP.arch += starEyesP.increaseArc
+    starEyesP.arch = constrain(starEyesP.arch, 12, 42);
+    starEyesP.arc1y = constrain(starEyesP.arc1y, 54, 69);
+    starEyesP.arc2y = constrain(starEyesP.arc2y, 81, 96);
+    arc(starEyesP.quandRx1andRx4, starEyesP.arc1y, starEyesP.arcw, starEyesP.arch, 0, 90);
+    arc(starEyesP.quandRx2andRX3, starEyesP.arc1y, starEyesP.arcw, starEyesP.arch, 90, 180);
+    arc(starEyesP.quandRx1andRx4, starEyesP.arc2y, starEyesP.arcw, starEyesP.arch, 270, 360);
+    arc(starEyesP.quandRx2andRX3, starEyesP.arc2y, starEyesP.arcw, starEyesP.arch, 180, 270);
+    pop();
+}
+
+// SET THE FUNCTION FOR SNOWFLAKES
+function snow() {
+    push();
+    textSize(35);
+    // TIMER
+    time += deltaTime;
+    // GENERATE 5 SNOWFLAKES
+    for (let n = 0; n < 5; n++) {
+        text('❄️', snowp.xCoord[n], snowp.yCoord[n])
+        //ADD THE VERTICAL AND HORIZANTAL SPPED FOR THE SNOWFLAKES.
+        snowp.xCoord[n] = snowp.xCoord[n] + snowp.vspeed[n];
+        snowp.yCoord[n] = snowp.yCoord[n] + snowp.hspeed[n];
+        //ONCE THE SNOWFLAKES FALL ON THE GROUND, RAMDOMLLY GENERATE THE NOW SNOWFLAKES ON THE TOP.
+        if (snowp.yCoord[n] > 480) {
+            snowp.yCoord[n] = 30;
+            snowp.xCoord[n] = random(0, 640);
+            snowp.vspeed[n] = random(-1, 1);
+            snowp.hspeed[n] = random(0.5, 1.5);
+        }
+    }
+
+    //MEKA THE SNOWFLAKES FLOW RAMDOMLLY EVERY 2 SECS.
+    if (time >= 2000) {
+        for (let i = 0; i < 5; i++) {
+            snowp.vspeed[i] = random(-1, 1);
+            snowp.hspeed[i] = random(0.5, 1.5);
+        }
+        time -= 2000;
+    }
     pop();
 }
