@@ -1,35 +1,35 @@
-# TITLE OF PROJECT
+# SELF PROTRAIT
 
-AUTHOR NAME
+WEINI WANG
 
-[View this project online](URL_FOR_THE_RUNNING_PROJECT)
+[View this project online](https://bbwinnie.github.io/cart253/topics/assignment/art-jam)
 
 ## Description
 
-This description should help the reader understand what the program is, anything they should know to be able to experience it (controls, special features, etc.), and what the desired user experience is. For example:
+Self Portrait is an interactive digital artwork created with p5.js. It represents aspects of my identity and interests: my love for the winters of Québec and my fondness for frogs.
 
-> *The Mayor of Clown Town* is a simulator experience that allows the user to control a small town populated entirely by clowns.
+The piece depicts a cute yellow frog with sparkling star-shaped eyes and blushing cheeks, standing joyfully on a snowy ice lake. Behind it, stylized geometric evergreen mountains form the background. Snowflakes drift down around the frog, landing playfully on its face, body, and the icy ground.
 
-> The experience is controlled via the mouse, with left click selecting a clown and bringing up a menu of options such as "slip of banana peel" or "get into impossible capacious clown-car."
-
-> The project is meant to give the user a sense of what it would be the mayor of a town of clowns, eventually getting the sense that clowns are not taking their civic duties seriously.
+Controls
+    > Pressed the mouse to make frog eyes blinking
+    > Move the mouse to change the color of frog cheek's line. 
 
 ## Screenshot(s)
 
-This bit should have some images of the program running so that the reader has a sense of what it looks like. For example:
-
-> ![Image of a clown face](./assets/images/clown.png)
+[Self-Protrait](./assets/images/Self-Protrait.png)
 
 ## Attribution
 
-This bit should attribute any code, assets or other elements used taken from other sources. For example:
+- This project uses [p5.js](https://p5js.org).
 
-> - This project uses [p5.js](https://p5js.org).
-> - The clown image is a capture of the clown from the Apple emoji character set.
-> - The barking sound effect is "single dog bark 1" by crazymonke9 from freesound.org: https://freesound.org/people/crazymonke9/sounds/418107/
+The function I used on P5.js:
+- Translate [p5.js/translate](https://p5js.org/reference/p5/translate/)
+- For [p5.js/for](https://p5js.org/reference/p5/for/)
+- Anglemode [p5.js/Anglemode](https://p5js.org/reference/p5/angleMode/)
+- Arc[p5.js/arc](https://p5js.org/reference/p5/arc/)
+- Text[p5.js/text](https://p5js.org/reference/p5/text/)
+- DeltaTime[p5.js/deltaTime](https://p5js.org/reference/p5/deltaTime/)
 
 ## License
 
-This bit should include the license you want to apply to your work. For example:
-
-> This project is licensed under a Creative Commons Attribution ([CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.en)) license with the exception of libraries and other components with their own licenses.
+This project is licensed under a Creative Commons Attribution ([CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.en)) license with the exception of libraries and other components with their own licenses.
