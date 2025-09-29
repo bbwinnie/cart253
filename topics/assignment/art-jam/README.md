@@ -16,7 +16,7 @@ Controls
 
 ## Screenshot(s)
 
-[Self-Protrait](./assets/images/Self-Protrait.png)
+![Self-Protrait](./assets/images/Self-Protrait.png)
 
 ## Attribution
 
