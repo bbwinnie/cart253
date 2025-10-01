@@ -69,3 +69,18 @@ function lose() {
 function keyReleased() {
     lose();
 }
+
+function mouseReleased() {
+    lose();
+}
+
+function mouseWheel() {
+    lose();
+}
+
+function mouseMoved() {
+    dist(width, height, mouseX, mouseY);
+
+    lose();
+
+}
