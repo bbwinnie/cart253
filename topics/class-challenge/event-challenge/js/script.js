@@ -67,7 +67,7 @@ function lose() {
     gameOver = true;
 }
 
-// if keypress, you will lose the game
+// // if keypress, you will lose the game
 function keyReleased() {
     lose();
 }
@@ -90,4 +90,11 @@ function mouseMoved() {
 // if internet is not disconnected, you will lose the game.
 window.addEventListener('offline', () => { //lambda funcation you define a function inside the function.
     lose();
+});
+
+//if you close the window you will lose the game.
+document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+        lose();
+    }
 });
