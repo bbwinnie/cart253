@@ -68,24 +68,36 @@ function lose() {
 }
 
 // // if keypress, you will lose the game
-function keyReleased() {
+window.addEventListener("keyup", function () {
     lose();
-}
+});
 
-// if mousereleased, you will lose the game
-function mouseReleased() {
+//if mousereleased, you will lose the game
+window.addEventListener("mouseup", function () {
     lose();
-}
+});
+
+// function mousereleased() {
+//     lose();
+// }
 
 //if mousewheel moved, you will lose the game
-function mouseWheel() {
+window.addEventListener("mousemove", function () {
     lose();
-}
+});
+
+// function mouseMoved() { 
+//     lose();
+// }
 
 //if mouseMoved , you will lose the game
-function mouseMoved() {
+window.addEventListener("wheel", function () {
     lose();
-}
+});
+
+// function mousewheel() { 
+//     lose();
+// }
 
 // if internet is not disconnected, you will lose the game.
 window.addEventListener('offline', () => { //lambda funcation you define a function inside the function.
