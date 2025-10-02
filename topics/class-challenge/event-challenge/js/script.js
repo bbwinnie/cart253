@@ -62,25 +62,32 @@ function displayScore() {
     pop();
 }
 
+// define the function
 function lose() {
     gameOver = true;
 }
 
+// if keypress, you will lose the game
 function keyReleased() {
     lose();
 }
 
+// if mousereleased, you will lose the game
 function mouseReleased() {
     lose();
 }
 
+//if mousewheel moved, you will lose the game
 function mouseWheel() {
     lose();
 }
 
+//if mouseMoved , you will lose the game
 function mouseMoved() {
-    dist(width, height, mouseX, mouseY);
-
     lose();
-
 }
+
+// if internet is not disconnected, you will lose the game.
+window.addEventListener('offline', () => { //lambda funcation you define a function inside the function.
+    lose();
+});
