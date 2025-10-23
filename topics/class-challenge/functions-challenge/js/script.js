@@ -9,17 +9,20 @@
 
 "use strict";
 
-// Our ball
-const ball = {
-    x: 300,
-    y: 20,
-    width: 10,
-    height: 10,
-    velocity: {
-        x: 0,
-        y: 10
-    }
-};
+// Our ball set the initial number.
+let ball = undefined;
+let ball2 = undefined;
+
+// const ball = {
+//     x: 300,
+//     y: 20,
+//     width: 10,
+//     height: 10,
+//     velocity: {
+//         x: 0,
+//         y: 1
+//     }
+// };
 
 // Our paddle
 const paddle = {
@@ -34,6 +37,10 @@ const paddle = {
 */
 function setup() {
     createCanvas(600, 300);
+
+    // set two ball
+    ball = createBall(300, 10);
+    ball2 = createBall(450, 3);
 }
 
 
@@ -43,17 +50,37 @@ function setup() {
 function draw() {
     background("#87ceeb");
 
+    //make the movement for the ball
     movePaddle(paddle);
     moveBall(ball);
+    moveBall(ball2)
 
     handleBounce(ball, paddle);
+    handleBounce(ball2, paddle);
 
+    //draw the two ball
     drawPaddle(paddle);
     drawBall(ball);
+    drawBall(ball2);
 
     //console.log(checkOverlap);
-    console.log(paddle.x);
+    console.log(ball.y);
     //console.log(ball.y);
+}
+
+//set the createball function to make the veriable change easier.
+function createBall(po, velocity_y) {
+    const ball = {
+        x: po,
+        y: 20,
+        width: 10,
+        height: 10,
+        velocity: {
+            x: 0,
+            y: velocity_y
+        }
+    };
+    return ball;
 }
 
 /**
@@ -68,15 +95,14 @@ function movePaddle(paddle) {
  */
 function moveBall(ball) {
     ball.y += ball.velocity.y
-    if (checkOverlap(paddle, ball) === true && ball.y == 0) {
-        ball.velocity.y = ball.velocity.y * -1;
-    }
 }
 
 /**
  * Bounces the provided ball off the provided paddle
  */
 function handleBounce(ball, Paddle) {
+
+    // using the if statment to check the overlap and make the ball bounce.
     if (checkOverlap(paddle, ball) === true) {
         ball.velocity.y = ball.velocity.y * -1;
     }
