@@ -43,24 +43,118 @@ const fly = {
     speed: 3
 };
 
+let gameState = "start";
+
+// SET THE DETAIL FOR FORGHEAD
+let frogH = {
+    fill: "#d3b64c",
+    x: 320, //300
+    y: 240, //150
+    w: 240,
+    h: 170
+}
+
+// SET THE DETAIL FOR FORGEARS
+let frogE = {
+    fill: "#d3b64c",
+    rightEarX: 370,
+    leftEarX: 270,
+    y: 185,
+    w: 65,
+    h: 100,
+    arcStartP: 180,
+    arcStopP: 0
+}
+
+//SET THE DETAIL FOR FROGEYES
+let frogEyes = {
+    fill: "#000000ff",
+    y: 162,
+    w: 32,
+    h: 38,
+    rotateLeft: 15,
+    rotateRight: 345,
+    strokeWeight: 2.5,
+    strokeColor: "#ffffffff"
+}
+
+//SET THE DETAIL FOR FROGMOUTH
+let frogMouth = {
+    fill: "#f07979ff",
+    x: 320,
+    y: 190,
+    w: 30,
+    h: 150,
+    arcStartP: 0,
+    arcStopP: 180,
+}
+
+//SET THE DETAIL FOR FROGCHEEK
+let frogCheek = {
+    fill: "#f7f8c3ff",
+    leftX: 250,
+    rightX: 390,
+    y: 220,
+    w: 70,
+    h: 50,
+}
+
+//SET THE LINE INSIDE THE FROGCHEECK
+let frogCheekLine = {
+    strokeWeight: 3,
+    leftLX1: 275,
+    RightLX1: 375,
+    y1: 210,
+    leftLx2: 260,
+    rightlx2: 360,
+    y2: 226,
+    x: 375,
+    y: 330,
+    strokeColor: 0
+}
+
+//DEFAUT THE FONT
+let myFont;
+
+//USED TO LOAD EXTERNAL FILES 
+function preload() {
+    myFont = loadFont('assets/textFont/Super joyful.ttf');
+}
+
 /**
  * Creates the canvas and initializes the fly
  */
 function setup() {
     createCanvas(640, 480);
 
+    angleMode(DEGREES);
+
     // Give the fly its first random position
     resetFly();
+
+    //reset the background
+    background(0);
+
+
+}
+
+function startTheGame() {
+
 }
 
 function draw() {
-    background("#87ceeb");
-    moveFly();
-    drawFly();
-    moveFrog();
-    moveTongue();
-    drawFrog();
-    checkTongueFlyOverlap();
+    // console.log(gameState);
+
+    if (gameState === "start") {
+        startScreen();
+    }
+    else if (gameState === "play") {
+        gameScreen();
+    }
+    else if (gameState === "end") {
+        endScreen();
+    }
+
 }
 
 /**
@@ -163,7 +257,7 @@ function checkTongueFlyOverlap() {
     // Get distance from tongue to fly
     const d = dist(frog.tongue.x, frog.tongue.y, fly.x, fly.y);
     // Check if it's an overlap
-    const eaten = (d < frog.tongue.size/2 + fly.size/2);
+    const eaten = (d < frog.tongue.size / 2 + fly.size / 2);
     if (eaten) {
         // Reset the fly
         resetFly();
@@ -179,4 +273,139 @@ function mousePressed() {
     if (frog.tongue.state === "idle") {
         frog.tongue.state = "outbound";
     }
+}
+
+function startScreen() {
+    background("#87ceeb");
+
+    startText();
+
+    //DRAW THE FROGHEAD
+    frogHead();
+
+    moveMouth();
+
+}
+
+
+function moveMouth() {
+
+    if (mouseIsPressed) {
+        //When the mouse is held down, gradually make the mouth bigger
+        frogMouth.w = min(frogMouth.w + 5, 800);  // Limit the maximum width to prevent infinite growth
+        frogMouth.h = min(frogMouth.h + 5, 1000);
+        frogMouth.arcStartP = min(frogMouth.arcStartP - 0.3, 0);
+        frogMouth.arcStopP = min(frogMouth.arcStopP + 0.3, 250);
+    } else {
+        //  When the mouse is released, gradually make the mouth smaller and set the mouth stay small.
+        frogMouth.w = max(frogMouth.w - 5, 30);
+        frogMouth.h = max(frogMouth.h - 3, 150);
+        frogMouth.arcStartP = min(frogMouth.arcStartP + 0.3, 0);
+        frogMouth.arcStopP = max(frogMouth.arcStopP - 0.3, 180);
+    }
+}
+
+
+
+function gameScreen() {
+
+    background("#87ceeb");
+    moveFly();
+    drawFly();
+    moveFrog();
+    moveTongue();
+    drawFrog();
+    checkTongueFlyOverlap();
+}
+
+function endScreen() {
+    background("#87ceeb");
+}
+
+
+function frogHead() {
+
+    //SET THE FROGHEAD
+    push();
+    fill(frogH.fill);
+    noStroke();
+    ellipse(frogH.x, frogH.y, frogH.w, frogH.h);
+    pop();
+
+    //SET THE FROGEAR
+    push();
+    fill(frogE.fill);
+    noStroke();
+    arc(frogE.leftEarX, frogE.y, frogE.w, frogE.h, frogE.arcStartP, frogE.arcStopP, CHORD);
+    arc(frogE.rightEarX, frogE.y, frogE.w, frogE.h, frogE.arcStartP, frogE.arcStopP, CHORD);
+    pop();
+
+    //SET THE FROG LEFT EYES
+    push();
+    fill(frogEyes.fill);
+    strokeWeight(frogEyes.strokeWeight);
+    stroke(frogEyes.strokeColor);
+    translate(frogE.leftEarX, frogEyes.y);
+    rotate(frogEyes.rotateLeft);
+    ellipse(0, 0, frogEyes.w, frogEyes.h);
+    pop();
+
+    //SET THE FROG RIGHT EYES
+    push();
+    fill(frogEyes.fill);
+    strokeWeight(frogEyes.strokeWeight);
+    stroke(frogEyes.strokeColor);
+    translate(frogE.rightEarX, frogEyes.y);
+    rotate(frogEyes.rotateRight);
+    ellipse(0, 0, frogEyes.w, frogEyes.h);
+    pop();
+
+    //SET THE CHEEK FOR THE FROG
+    push();
+    fill(frogCheek.fill);
+    noStroke();
+    ellipse(frogCheek.leftX, frogCheek.y, frogCheek.w, frogCheek.h);
+    ellipse(frogCheek.rightX, frogCheek.y, frogCheek.w, frogCheek.h);
+    pop();
+
+    //SET THE CHEEK DETAIL FOR THE FROG, MAKE THE COLOR CHANGE BY THE MOUSE
+    push();
+    strokeWeight(frogCheekLine.strokeWeight);
+
+    //MAKE THE FROGCHEEKLINE COLOR CHANGED BY MOUSE AND RANDOM B. WHEN THE MOUSE NOT MOVE, THE RGB(B) WILL NOT CHANGE. IF MOUSE MOVE, THE RGB(B)COLOR WILL CHANGE.
+    if (frogCheekLine.x == mouseX && frogCheekLine.y == mouseY) {
+        stroke(mouseX, mouseY, frogCheekLine.strokeColor);
+    }
+
+    else {
+        frogCheekLine.strokeColor = random(0, 255);
+        stroke(mouseX, mouseY, frogCheekLine.strokeColor);
+        frogCheekLine.x = mouseX;
+        frogCheekLine.y = mouseY;
+    }
+
+    line(frogCheekLine.leftLX1, frogCheekLine.y1, frogCheekLine.leftLx2, frogCheekLine.y2);
+    line(frogCheekLine.leftLX1 - 20, frogCheekLine.y1, frogCheekLine.leftLx2 - 20, frogCheekLine.y2);
+    line(frogCheekLine.leftLX1 - 40, frogCheekLine.y1, frogCheekLine.leftLx2 - 40, frogCheekLine.y2);
+    line(frogCheekLine.RightLX1, frogCheekLine.y1, frogCheekLine.rightlx2, frogCheekLine.y2);
+    line(frogCheekLine.RightLX1 + 20, frogCheekLine.y1, frogCheekLine.rightlx2 + 20, frogCheekLine.y2);
+    line(frogCheekLine.RightLX1 + 40, frogCheekLine.y1, frogCheekLine.rightlx2 + 40, frogCheekLine.y2);
+    pop();
+
+    //SET THE FROG MOUTH (PUT IT IN THE BOTTOM LAYER ONCE IT BECOME BIGGER CAN OVER ALL THE HEAD)
+    push();
+    fill(frogMouth.fill);
+    noStroke();
+    arc(frogMouth.x, frogMouth.y, frogMouth.w, frogMouth.h, frogMouth.arcStartP, frogMouth.arcStopP, CHORD);
+    pop();
+
+}
+
+function startText() {
+    push();
+    fill("#fcff37ff");
+    textSize(25);
+    textFont(myFont);
+    text("Pressed the mouse to start the game", 135, 400);
+    pop();
 }

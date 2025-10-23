@@ -39,7 +39,7 @@ function setup() {
     createCanvas(600, 300);
 
     // set two ball
-    ball = createBall(300, 10);
+    ball = createBall(300, 5);
     ball2 = createBall(450, 3);
 }
 
@@ -65,6 +65,9 @@ function draw() {
 
     //console.log(checkOverlap);
     console.log(ball.y);
+    console.log(ball.velocity.y);
+    console.log(ball2.y);
+    console.log(ball2.velocity.y);
     //console.log(ball.y);
 }
 
@@ -95,6 +98,9 @@ function movePaddle(paddle) {
  */
 function moveBall(ball) {
     ball.y += ball.velocity.y
+    if (ball.velocity.y < 0 && ball.y < 0) {
+        ball.velocity.y = ball.velocity.y * -1;
+    }
 }
 
 /**
@@ -141,9 +147,16 @@ function drawBall(ball) {
  * their paddlengles, and that paddle and ball are displayed CENTERED on their
  * x,y coordinates.
  */
-function checkOverlap(paddle, ball) {
-    return (paddle.x + paddle.width / 2 > ball.x - ball.width / 2 &&
-        paddle.x - paddle.width / 2 < ball.x + ball.width / 2 &&
-        paddle.y + paddle.height / 2 > ball.y - ball.height / 2 &&
-        paddle.y - paddle.height / 2 < ball.y + ball.height / 2);
+// function checkOverlap(paddle, ball) {
+//     return (paddle.x + paddle.width / 2 > ball.x - ball.width / 2 &&
+//         paddle.x - paddle.width / 2 < ball.x + ball.width / 2 &&
+//         paddle.y + paddle.height / 2 > ball.y - ball.height / 2 &&
+//         paddle.y - paddle.height / 2 < ball.y + ball.height / 2);
+// }
+
+function checkOverlap(rectA, rectB) {
+    return (rectA.x + rectA.width / 2 > rectB.x - rectB.width / 2 &&
+        rectA.x - rectA.width / 2 < rectB.x + rectB.width / 2 &&
+        rectA.y + rectA.height / 2 > rectB.y - rectB.height / 2 &&
+        rectA.y - rectA.height / 2 < rectB.y + rectB.height / 2);
 }
