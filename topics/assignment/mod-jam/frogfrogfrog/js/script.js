@@ -39,8 +39,18 @@ const frog = {
 const fly = {
     x: 0,
     y: 200, // Will be random
+    z: 0,
     size: 10,
-    speed: 3
+    speed: 3,
+    angle: 20,
+    angle2: -20,
+    wingW: 20,
+    wingH: 5,
+    color: {
+        r: 0,
+        g: 0,
+        b: 0,
+    }
 };
 
 let gameState = "start";
@@ -135,7 +145,6 @@ function setup() {
     //reset the background
     background(0);
 
-
 }
 
 function startTheGame() {
@@ -162,8 +171,14 @@ function draw() {
  * Resets the fly if it gets all the way to the right
  */
 function moveFly() {
+
     // Move the fly
     fly.x += fly.speed;
+
+    // Move the fly sine wave, add  the random.z make the fly show differently evertime it show up.
+    // Multiplying by 50 sets the maximum angle range (amplitude)
+    fly.y = 50 * sin(fly.x * 2) + fly.z;
+
     // Handle the fly going off the canvas
     if (fly.x > width) {
         resetFly();
@@ -174,11 +189,37 @@ function moveFly() {
  * Draws the fly as a black circle
  */
 function drawFly() {
+
+    /**Make the fly's angles swing smoothly between -20° and 20°
+    * The sine function creates a natural oscillation over time
+    *frameCount * 10 controls the speed of the swinging motion
+    *Multiplying by 20 sets the maximum angle range (amplitude)
+    */
+    fly.angle = sin(frameCount * 10) * 20;
+    fly.angle2 = -sin(frameCount * 10) * 20;
+
+    //Set the fly Color to ramdom color 
+    fly.color.r = random(0, 255);
+    fly.color.g = random(0, 255);
+    fly.color.b = random(0, 255);
+
     push();
     noStroke();
-    fill("#000000");
-    ellipse(fly.x, fly.y, fly.size);
+    fill(fly.color.r, fly.color.g, fly.color.b);
+    translate(fly.x, fly.y); //Translate the origin point to make the rotate on x and y.
+    rotate(fly.angle); // rotate the fly's wings.
+    ellipse(0, 0, fly.wingW, fly.wingH);
+    ellipse(0, 0, fly.size);
     pop();
+
+    push();
+    noStroke();
+    fill(fly.color.r, fly.color.g, fly.color.b);
+    translate(fly.x, fly.y);//Translate the origin point to make the rotate on x and y.
+    rotate(fly.angle2);// rotate the fly's wings.
+    ellipse(0, 0, fly.wingW, fly.wingH);
+    pop();
+
 }
 
 /**
@@ -186,7 +227,8 @@ function drawFly() {
  */
 function resetFly() {
     fly.x = 0;
-    fly.y = random(0, 300);
+    //fly.y = random(0, 300);
+    fly.z = random(0, 300);
 }
 
 /**
@@ -275,9 +317,11 @@ function mousePressed() {
     }
 }
 
+//Set the screen system for start the game
 function startScreen() {
     background("#87ceeb");
 
+    //Display the text
     startText();
 
     //DRAW THE FROGHEAD
@@ -287,7 +331,7 @@ function startScreen() {
 
 }
 
-
+//Making the mouth bigger by pressed the mouse.
 function moveMouth() {
 
     if (mouseIsPressed) {
@@ -296,7 +340,11 @@ function moveMouth() {
         frogMouth.h = min(frogMouth.h + 5, 1000);
         frogMouth.arcStartP = min(frogMouth.arcStartP - 0.3, 0);
         frogMouth.arcStopP = min(frogMouth.arcStopP + 0.3, 250);
-    } else {
+        //when the mouth cover the screen, the game will start.
+        if (frogMouth.w === 800) {
+            gameState = "play";
+        }
+    } else if (frogMouth.w <= 800) {
         //  When the mouse is released, gradually make the mouth smaller and set the mouth stay small.
         frogMouth.w = max(frogMouth.w - 5, 30);
         frogMouth.h = max(frogMouth.h - 3, 150);
@@ -305,8 +353,7 @@ function moveMouth() {
     }
 }
 
-
-
+//Set the screen system for the game
 function gameScreen() {
 
     background("#87ceeb");
@@ -318,11 +365,13 @@ function gameScreen() {
     checkTongueFlyOverlap();
 }
 
+
+//Set the screen system for end of game
 function endScreen() {
     background("#87ceeb");
 }
 
-
+//Display the Froghead
 function frogHead() {
 
     //SET THE FROGHEAD
@@ -401,11 +450,15 @@ function frogHead() {
 
 }
 
+
+//Displays the text
 function startText() {
+    //set the inform for the text
     push();
     fill("#fcff37ff");
     textSize(25);
     textFont(myFont);
-    text("Pressed the mouse to start the game", 135, 400);
+    text("Press and hold the mouse to start your adventure!", 55, 400);
     pop();
 }
+
