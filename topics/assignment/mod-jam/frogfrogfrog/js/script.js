@@ -21,7 +21,8 @@ const frog = {
     body: {
         x: 320,
         y: 520,
-        size: 150
+        sizeW: 240,
+        sizeH: 170,
     },
     // The frog's tongue has a position, size, speed, and state
     tongue: {
@@ -31,7 +32,19 @@ const frog = {
         speed: 20,
         // Determines how the tongue moves each frame
         state: "idle" // State can be: idle, outbound, inbound
-    }
+    },
+    leftEye: {
+        x: 280,
+        y: 440,
+        width: 30,
+        height: 55,
+    },
+    rightEye: {
+        x: 360,
+        y: 440,
+        width: 30,
+        height: 55,
+    },
 };
 
 // Our fly
@@ -58,8 +71,8 @@ let gameState = "start";
 // SET THE DETAIL FOR FORGHEAD
 let frogH = {
     fill: "#d3b64c",
-    x: 320, //300
-    y: 240, //150
+    x: 320,
+    y: 240,
     w: 240,
     h: 170
 }
@@ -238,6 +251,22 @@ function moveFrog() {
     frog.body.x = mouseX;
 }
 
+function eyesTrack() {
+
+    console.log((fly.x - frog.body.x) / (640 - frog.body.x))
+    if (fly.x === frog.body.x) {
+        frog.leftEye.x = frog.body.x - 40
+        frog.rightEye.x = frog.body.x + 40
+    }
+    else if (fly.x < frog.body.x) {
+        frog.leftEye.x = frog.body.x - 40 + 7 * ((fly.x - frog.body.x) / frog.body.x)
+        frog.rightEye.x = frog.body.x + 40 + 7 * ((fly.x - frog.body.x) / frog.body.x)
+    }
+    else if (fly.x > frog.body.x) {
+        frog.leftEye.x = frog.body.x - 40 + 7 * ((fly.x - frog.body.x) / (640 - frog.body.x))
+        frog.rightEye.x = frog.body.x + 40 + 7 * ((fly.x - frog.body.x) / (640 - frog.body.x))
+    }
+}
 /**
  * Handles moving the tongue based on its state
  */
@@ -272,24 +301,42 @@ function moveTongue() {
 function drawFrog() {
     // Draw the tongue tip
     push();
-    fill("#ff0000");
+    fill("#f07979ff");
     noStroke();
     ellipse(frog.tongue.x, frog.tongue.y, frog.tongue.size);
     pop();
 
     // Draw the rest of the tongue
     push();
-    stroke("#ff0000");
+    stroke("#f07979ff");
     strokeWeight(frog.tongue.size);
     line(frog.tongue.x, frog.tongue.y, frog.body.x, frog.body.y);
     pop();
 
     // Draw the frog's body
     push();
-    fill("#00ff00");
+    fill("#d3b64c");
     noStroke();
-    ellipse(frog.body.x, frog.body.y, frog.body.size);
+    ellipse(frog.body.x, frog.body.y, frog.body.sizeW, frog.body.sizeH);
+    ellipse(frog.body.x - 40, frog.body.y - 70, 65, 100);
+    ellipse(frog.body.x + 40, frog.body.y - 70, 65, 100);
     pop();
+
+    //Darw the frog's eyes
+    push();
+    fill("#ffffffff");
+    noStroke();
+    ellipse(frog.body.x - 40, frog.body.y - 80, 45, 70);
+    ellipse(frog.body.x + 40, frog.body.y - 80, 45, 70);
+    pop();
+
+    push();
+    fill("#000000ff");
+    noStroke();
+    ellipse(frog.leftEye.x, frog.body.y - 80, 30, 55);
+    ellipse(frog.rightEye.x, frog.body.y - 80, 30, 50);
+    pop();
+
 }
 
 /**
@@ -353,6 +400,7 @@ function moveMouth() {
     }
 }
 
+
 //Set the screen system for the game
 function gameScreen() {
 
@@ -360,6 +408,7 @@ function gameScreen() {
     moveFly();
     drawFly();
     moveFrog();
+    eyesTrack();
     moveTongue();
     drawFrog();
     checkTongueFlyOverlap();
