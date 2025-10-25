@@ -251,22 +251,31 @@ function moveFrog() {
     frog.body.x = mouseX;
 }
 
+//Make the eyes follow the fly
 function eyesTrack() {
 
     console.log((fly.x - frog.body.x) / (640 - frog.body.x))
+
+    // if eyes and fly on the same position, eyes did not move.
     if (fly.x === frog.body.x) {
         frog.leftEye.x = frog.body.x - 40
         frog.rightEye.x = frog.body.x + 40
     }
+
+    // if the fly on the left side of frog, the eyes will move gradually by the position of fly.
     else if (fly.x < frog.body.x) {
+        // using fly position subtract mouse.x position devide by mouse.x
         frog.leftEye.x = frog.body.x - 40 + 7 * ((fly.x - frog.body.x) / frog.body.x)
         frog.rightEye.x = frog.body.x + 40 + 7 * ((fly.x - frog.body.x) / frog.body.x)
     }
+
+    // if the fly on the right side of frog, the eyes will move gradually by the position of fly.
     else if (fly.x > frog.body.x) {
         frog.leftEye.x = frog.body.x - 40 + 7 * ((fly.x - frog.body.x) / (640 - frog.body.x))
         frog.rightEye.x = frog.body.x + 40 + 7 * ((fly.x - frog.body.x) / (640 - frog.body.x))
     }
 }
+
 /**
  * Handles moving the tongue based on its state
  */
@@ -330,6 +339,7 @@ function drawFrog() {
     ellipse(frog.body.x + 40, frog.body.y - 80, 45, 70);
     pop();
 
+    //Draw the frog's eyeball
     push();
     fill("#000000ff");
     noStroke();
@@ -371,7 +381,7 @@ function startScreen() {
     //Display the text
     startText();
 
-    //DRAW THE FROGHEAD
+    //Draw the froghead
     frogHead();
 
     moveMouth();
@@ -399,7 +409,6 @@ function moveMouth() {
         frogMouth.arcStopP = max(frogMouth.arcStopP - 0.3, 180);
     }
 }
-
 
 //Set the screen system for the game
 function gameScreen() {
