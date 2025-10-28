@@ -158,7 +158,7 @@ let bombText = {
 }
 
 
-//DEFAUT THE FONT
+//defaut of font
 let myFont;
 
 let startTextP = {
@@ -167,6 +167,13 @@ let startTextP = {
     fontSize: 25,
     x: 55,
     y: 400,
+}
+
+// set the defaut of timer, make game time will be 15sec.
+let timer = {
+    startTime: 0,//set everthing to 0 
+    timePassed: 0,//set everthing to 0 
+    timeInterval: 15000
 }
 
 
@@ -191,9 +198,6 @@ function setup() {
 
 }
 
-function startTheGame() {
-
-}
 
 function draw() {
     // console.log(gameState);
@@ -222,6 +226,9 @@ function startScreen() {
 
     //Draw the MoveMouth
     moveMouth();
+
+    // when the code start run, the timer start crount
+    timer.startTime = millis();
 
 }
 //Display the Froghead
@@ -349,7 +356,13 @@ function gameScreen() {
     checkTongueFlyOverlap();
     drawFrog();
     writeText();
-
+    // crount the time , using the runing program time 
+    // subtract the time when you enter the game Screen.
+    timer.timePassed = millis() - timer.startTime;
+    // if time over 15sec, game end.
+    if (timer.timePassed > timer.timeInterval) {
+        gameState = "end"
+    }
 }
 
 /**
