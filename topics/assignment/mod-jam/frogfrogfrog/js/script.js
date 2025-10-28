@@ -15,6 +15,8 @@
 
 "use strict";
 
+let backgroundColor = "#87ceeb";
+
 // Our frog
 const frog = {
     // The frog's body has a position and size
@@ -33,12 +35,14 @@ const frog = {
         // Determines how the tongue moves each frame
         state: "idle" // State can be: idle, outbound, inbound
     },
+    // the frog left eyes have a position, size
     leftEye: {
         x: 280,
         y: 440,
         width: 30,
         height: 55,
     },
+    // the frog right eyes have a position, size
     rightEye: {
         x: 360,
         y: 440,
@@ -64,12 +68,15 @@ const fly = {
         g: 0,
         b: 0,
     },
-    state: "free" // State can be: free and caught
+    state: "free",// State can be: free and caught
+    mode: "normal" // flymode can be : normal and bomb
 };
 
+//defuat the game state
 let gameState = "start";
 
-// SET THE DETAIL FOR FORGHEAD
+// froghead inside game screen
+// has a position,color and size
 let frogH = {
     fill: "#d3b64c",
     x: 320,
@@ -78,7 +85,7 @@ let frogH = {
     h: 170
 }
 
-// SET THE DETAIL FOR FORGEARS
+// forg eyes has a position,color,startpoint, endpoint and size.
 let frogE = {
     fill: "#d3b64c",
     rightEarX: 370,
@@ -90,7 +97,7 @@ let frogE = {
     arcStopP: 0
 }
 
-//SET THE DETAIL FOR FROGEYES
+// forg eyes ball has a position,color, rotate position, strokewidth, and size.
 let frogEyes = {
     fill: "#000000ff",
     y: 162,
@@ -102,7 +109,7 @@ let frogEyes = {
     strokeColor: "#ffffffff"
 }
 
-//SET THE DETAIL FOR FROGMOUTH
+//forg mouth has a position, color, size, arcstartPoint and arcEndPoint.
 let frogMouth = {
     fill: "#f07979ff",
     x: 320,
@@ -113,7 +120,7 @@ let frogMouth = {
     arcStopP: 180,
 }
 
-//SET THE DETAIL FOR FROGCHEEK
+//forg cheek has a position, color, and size.
 let frogCheek = {
     fill: "#f7f8c3ff",
     leftX: 250,
@@ -123,7 +130,7 @@ let frogCheek = {
     h: 50,
 }
 
-//SET THE LINE INSIDE THE FROGCHEECK
+//the line inside forg cheek has stokeWeight, position and color.
 let frogCheekLine = {
     strokeWeight: 3,
     leftLX1: 275,
@@ -137,8 +144,25 @@ let frogCheekLine = {
     strokeColor: 0
 }
 
+//bomb has emoji and size.
+let bombText = {
+    text: "💣",
+    textSize: 25,
+}
+
+
 //DEFAUT THE FONT
 let myFont;
+
+let startTextP = {
+    text: "Press and hold the mouse to start your adventure!",
+    fill: "#fcff37ff",
+    fontSize: 25,
+    x: 55,
+    y: 400,
+
+}
+
 
 //USED TO LOAD EXTERNAL FILES 
 function preload() {
@@ -182,7 +206,7 @@ function draw() {
 
 //Set the screen system for start the game
 function startScreen() {
-    background("#87ceeb");
+    background(backgroundColor);
 
     //Display the text
     startText();
@@ -299,24 +323,26 @@ function moveMouth() {
 function startText() {
     //set the inform for the text
     push();
-    fill("#fcff37ff");
-    textSize(25);
+    fill(startTextP.fill);
+    textSize(startTextP.fontSize);
     textFont(myFont);
-    text("Press and hold the mouse to start your adventure!", 55, 400);
+    text(startTextP.text, startTextP.x, startTextP.y);
     pop();
 }
 
 //Set the screen system for the game
 function gameScreen() {
 
-    background("#87ceeb");
+    background(backgroundColor);
     moveFly();
-    drawFly();
+    bomb(); // run the keyPressed first, than draw the fly or bomb
+    changeFly();
     moveFrog();
     eyesTrack();
     moveTongue();
     checkTongueFlyOverlap();
     drawFrog();
+
 }
 
 /**
@@ -325,21 +351,21 @@ function gameScreen() {
 function drawFrog() {
     // Draw the tongue tip
     push();
-    fill("#f07979ff");
+    fill(frogMouth.fill);
     noStroke();
     ellipse(frog.tongue.x, frog.tongue.y, frog.tongue.size);
     pop();
 
     // Draw the rest of the tongue
     push();
-    stroke("#f07979ff");
+    stroke(frogMouth.fill);
     strokeWeight(frog.tongue.size);
     line(frog.tongue.x, frog.tongue.y, frog.body.x, frog.body.y);
     pop();
 
     // Draw the frog's body
     push();
-    fill("#d3b64c");
+    fill(frogH.fill);
     noStroke();
     ellipse(frog.body.x, frog.body.y, frog.body.sizeW, frog.body.sizeH);
     ellipse(frog.body.x - 40, frog.body.y - 70, 65, 100);
@@ -382,6 +408,7 @@ function drawFly() {
     fly.color.g = random(0, 255);
     fly.color.b = random(0, 255);
 
+    //Draw the fly wings
     push();
     noStroke();
     fill(fly.color.r, fly.color.g, fly.color.b);
@@ -391,6 +418,7 @@ function drawFly() {
     ellipse(0, 0, fly.size);
     pop();
 
+    //Draw the fly wings
     push();
     noStroke();
     fill(fly.color.r, fly.color.g, fly.color.b);
@@ -530,13 +558,47 @@ function eyesTrack() {
     }
 }
 
+//draw the fly or bomb
+function changeFly() {
+    // if fly.mode become bomb draw bomb
+    if (fly.mode === "bomb") {
+        drawBomb();
+    }
+    //else fly.mode become normal draw fly
+    else {
+        drawFly();
+    }
+}
 
+// check the key is pressed or not.
+function bomb() {
+
+    //if key is pressed fly mode become bomb 
+    if (keyIsPressed) {
+        fly.mode = "bomb";
+    }
+    //else key is not Pressed fly mode is normal
+    else {
+        fly.mode = "normal";
+    }
+
+}
+
+//Draw the Bomb
+function drawBomb() {
+
+    //Draw the Bomb
+    push();
+    textSize(bombText.textSize);
+    text(bombText.text, fly.x, fly.y);
+    pop();
+
+}
 
 
 //Set the screen system for end of game
 function endScreen() {
-    background("#87ceeb");
+    background(backgroundColor);
 }
-
 
 
