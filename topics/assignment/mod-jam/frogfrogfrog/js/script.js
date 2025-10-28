@@ -63,7 +63,8 @@ const fly = {
         r: 0,
         g: 0,
         b: 0,
-    }
+    },
+    state: "free" // State can be: free and caught
 };
 
 let gameState = "start";
@@ -179,201 +180,6 @@ function draw() {
 
 }
 
-/**
- * Moves the fly according to its speed
- * Resets the fly if it gets all the way to the right
- */
-function moveFly() {
-
-    // Move the fly
-    fly.x += fly.speed;
-
-    // Move the fly sine wave, add  the random.z make the fly show differently evertime it show up.
-    // Multiplying by 50 sets the maximum angle range (amplitude)
-    fly.y = 50 * sin(fly.x * 2) + fly.z;
-
-    // Handle the fly going off the canvas
-    if (fly.x > width) {
-        resetFly();
-    }
-}
-
-/**
- * Draws the fly as a black circle
- */
-function drawFly() {
-
-    /**Make the fly's angles swing smoothly between -20° and 20°
-    * The sine function creates a natural oscillation over time
-    *frameCount * 10 controls the speed of the swinging motion
-    *Multiplying by 20 sets the maximum angle range (amplitude)
-    */
-    fly.angle = sin(frameCount * 10) * 20;
-    fly.angle2 = -sin(frameCount * 10) * 20;
-
-    //Set the fly Color to ramdom color 
-    fly.color.r = random(0, 255);
-    fly.color.g = random(0, 255);
-    fly.color.b = random(0, 255);
-
-    push();
-    noStroke();
-    fill(fly.color.r, fly.color.g, fly.color.b);
-    translate(fly.x, fly.y); //Translate the origin point to make the rotate on x and y.
-    rotate(fly.angle); // rotate the fly's wings.
-    ellipse(0, 0, fly.wingW, fly.wingH);
-    ellipse(0, 0, fly.size);
-    pop();
-
-    push();
-    noStroke();
-    fill(fly.color.r, fly.color.g, fly.color.b);
-    translate(fly.x, fly.y);//Translate the origin point to make the rotate on x and y.
-    rotate(fly.angle2);// rotate the fly's wings.
-    ellipse(0, 0, fly.wingW, fly.wingH);
-    pop();
-
-}
-
-/**
- * Resets the fly to the left with a random y
- */
-function resetFly() {
-    fly.x = 0;
-    //fly.y = random(0, 300);
-    fly.z = random(0, 300);
-}
-
-/**
- * Moves the frog to the mouse position on x
- */
-function moveFrog() {
-    frog.body.x = mouseX;
-}
-
-//Make the eyes follow the fly
-function eyesTrack() {
-
-    console.log((fly.x - frog.body.x) / (640 - frog.body.x))
-
-    // if eyes and fly on the same position, eyes did not move.
-    if (fly.x === frog.body.x) {
-        frog.leftEye.x = frog.body.x - 40
-        frog.rightEye.x = frog.body.x + 40
-    }
-
-    // if the fly on the left side of frog, the eyes will move gradually by the position of fly.
-    else if (fly.x < frog.body.x) {
-        // using fly position subtract mouse.x position devide by mouse.x
-        frog.leftEye.x = frog.body.x - 40 + 7 * ((fly.x - frog.body.x) / frog.body.x)
-        frog.rightEye.x = frog.body.x + 40 + 7 * ((fly.x - frog.body.x) / frog.body.x)
-    }
-
-    // if the fly on the right side of frog, the eyes will move gradually by the position of fly.
-    else if (fly.x > frog.body.x) {
-        frog.leftEye.x = frog.body.x - 40 + 7 * ((fly.x - frog.body.x) / (640 - frog.body.x))
-        frog.rightEye.x = frog.body.x + 40 + 7 * ((fly.x - frog.body.x) / (640 - frog.body.x))
-    }
-}
-
-/**
- * Handles moving the tongue based on its state
- */
-function moveTongue() {
-    // Tongue matches the frog's x
-    frog.tongue.x = frog.body.x;
-    // If the tongue is idle, it doesn't do anything
-    if (frog.tongue.state === "idle") {
-        // Do nothing
-    }
-    // If the tongue is outbound, it moves up
-    else if (frog.tongue.state === "outbound") {
-        frog.tongue.y += -frog.tongue.speed;
-        // The tongue bounces back if it hits the top
-        if (frog.tongue.y <= 0) {
-            frog.tongue.state = "inbound";
-        }
-    }
-    // If the tongue is inbound, it moves down
-    else if (frog.tongue.state === "inbound") {
-        frog.tongue.y += frog.tongue.speed;
-        // The tongue stops if it hits the bottom
-        if (frog.tongue.y >= height) {
-            frog.tongue.state = "idle";
-        }
-    }
-}
-
-/**
- * Displays the tongue (tip and line connection) and the frog (body)
- */
-function drawFrog() {
-    // Draw the tongue tip
-    push();
-    fill("#f07979ff");
-    noStroke();
-    ellipse(frog.tongue.x, frog.tongue.y, frog.tongue.size);
-    pop();
-
-    // Draw the rest of the tongue
-    push();
-    stroke("#f07979ff");
-    strokeWeight(frog.tongue.size);
-    line(frog.tongue.x, frog.tongue.y, frog.body.x, frog.body.y);
-    pop();
-
-    // Draw the frog's body
-    push();
-    fill("#d3b64c");
-    noStroke();
-    ellipse(frog.body.x, frog.body.y, frog.body.sizeW, frog.body.sizeH);
-    ellipse(frog.body.x - 40, frog.body.y - 70, 65, 100);
-    ellipse(frog.body.x + 40, frog.body.y - 70, 65, 100);
-    pop();
-
-    //Darw the frog's eyes
-    push();
-    fill("#ffffffff");
-    noStroke();
-    ellipse(frog.body.x - 40, frog.body.y - 80, 45, 70);
-    ellipse(frog.body.x + 40, frog.body.y - 80, 45, 70);
-    pop();
-
-    //Draw the frog's eyeball
-    push();
-    fill("#000000ff");
-    noStroke();
-    ellipse(frog.leftEye.x, frog.body.y - 80, 30, 55);
-    ellipse(frog.rightEye.x, frog.body.y - 80, 30, 50);
-    pop();
-
-}
-
-/**
- * Handles the tongue overlapping the fly
- */
-function checkTongueFlyOverlap() {
-    // Get distance from tongue to fly
-    const d = dist(frog.tongue.x, frog.tongue.y, fly.x, fly.y);
-    // Check if it's an overlap
-    const eaten = (d < frog.tongue.size / 2 + fly.size / 2);
-    if (eaten) {
-        // Reset the fly
-        resetFly();
-        // Bring back the tongue
-        frog.tongue.state = "inbound";
-    }
-}
-
-/**
- * Launch the tongue on click (if it's not launched yet)
- */
-function mousePressed() {
-    if (frog.tongue.state === "idle") {
-        frog.tongue.state = "outbound";
-    }
-}
-
 //Set the screen system for start the game
 function startScreen() {
     background("#87ceeb");
@@ -384,51 +190,10 @@ function startScreen() {
     //Draw the froghead
     frogHead();
 
+    //Draw the MoveMouth
     moveMouth();
 
 }
-
-//Making the mouth bigger by pressed the mouse.
-function moveMouth() {
-
-    if (mouseIsPressed) {
-        //When the mouse is held down, gradually make the mouth bigger
-        frogMouth.w = min(frogMouth.w + 5, 800);  // Limit the maximum width to prevent infinite growth
-        frogMouth.h = min(frogMouth.h + 5, 1000);
-        frogMouth.arcStartP = min(frogMouth.arcStartP - 0.3, 0);
-        frogMouth.arcStopP = min(frogMouth.arcStopP + 0.3, 250);
-        //when the mouth cover the screen, the game will start.
-        if (frogMouth.w === 800) {
-            gameState = "play";
-        }
-    } else if (frogMouth.w <= 800) {
-        //  When the mouse is released, gradually make the mouth smaller and set the mouth stay small.
-        frogMouth.w = max(frogMouth.w - 5, 30);
-        frogMouth.h = max(frogMouth.h - 3, 150);
-        frogMouth.arcStartP = min(frogMouth.arcStartP + 0.3, 0);
-        frogMouth.arcStopP = max(frogMouth.arcStopP - 0.3, 180);
-    }
-}
-
-//Set the screen system for the game
-function gameScreen() {
-
-    background("#87ceeb");
-    moveFly();
-    drawFly();
-    moveFrog();
-    eyesTrack();
-    moveTongue();
-    drawFrog();
-    checkTongueFlyOverlap();
-}
-
-
-//Set the screen system for end of game
-function endScreen() {
-    background("#87ceeb");
-}
-
 //Display the Froghead
 function frogHead() {
 
@@ -508,6 +273,27 @@ function frogHead() {
 
 }
 
+//Making the mouth bigger by pressed the mouse.
+function moveMouth() {
+
+    if (mouseIsPressed) {
+        //When the mouse is held down, gradually make the mouth bigger
+        frogMouth.w = min(frogMouth.w + 5, 800);  // Limit the maximum width to prevent infinite growth
+        frogMouth.h = min(frogMouth.h + 5, 1000);
+        frogMouth.arcStartP = min(frogMouth.arcStartP - 0.3, 0);
+        frogMouth.arcStopP = min(frogMouth.arcStopP + 0.3, 250);
+        //when the mouth cover the screen, the game will start.
+        if (frogMouth.w === 800) {
+            gameState = "play";
+        }
+    } else if (frogMouth.w <= 800) {
+        //  When the mouse is released, gradually make the mouth smaller and set the mouth stay small.
+        frogMouth.w = max(frogMouth.w - 5, 30);
+        frogMouth.h = max(frogMouth.h - 3, 150);
+        frogMouth.arcStartP = min(frogMouth.arcStartP + 0.3, 0);
+        frogMouth.arcStopP = max(frogMouth.arcStopP - 0.3, 180);
+    }
+}
 
 //Displays the text
 function startText() {
@@ -519,4 +305,238 @@ function startText() {
     text("Press and hold the mouse to start your adventure!", 55, 400);
     pop();
 }
+
+//Set the screen system for the game
+function gameScreen() {
+
+    background("#87ceeb");
+    moveFly();
+    drawFly();
+    moveFrog();
+    eyesTrack();
+    moveTongue();
+    checkTongueFlyOverlap();
+    drawFrog();
+}
+
+/**
+ * Displays the tongue (tip and line connection) and the frog (body)
+ */
+function drawFrog() {
+    // Draw the tongue tip
+    push();
+    fill("#f07979ff");
+    noStroke();
+    ellipse(frog.tongue.x, frog.tongue.y, frog.tongue.size);
+    pop();
+
+    // Draw the rest of the tongue
+    push();
+    stroke("#f07979ff");
+    strokeWeight(frog.tongue.size);
+    line(frog.tongue.x, frog.tongue.y, frog.body.x, frog.body.y);
+    pop();
+
+    // Draw the frog's body
+    push();
+    fill("#d3b64c");
+    noStroke();
+    ellipse(frog.body.x, frog.body.y, frog.body.sizeW, frog.body.sizeH);
+    ellipse(frog.body.x - 40, frog.body.y - 70, 65, 100);
+    ellipse(frog.body.x + 40, frog.body.y - 70, 65, 100);
+    pop();
+
+    //Darw the frog's eyes
+    push();
+    fill("#ffffffff");
+    noStroke();
+    ellipse(frog.body.x - 40, frog.body.y - 80, 45, 70);
+    ellipse(frog.body.x + 40, frog.body.y - 80, 45, 70);
+    pop();
+
+    //Draw the frog's eyeball
+    push();
+    fill("#000000ff");
+    noStroke();
+    ellipse(frog.leftEye.x, frog.body.y - 80, 30, 55);
+    ellipse(frog.rightEye.x, frog.body.y - 80, 30, 50);
+    pop();
+
+}
+
+/**
+ * Draws the fly as a black circle
+ */
+function drawFly() {
+
+    /**Make the fly's angles swing smoothly between -20° and 20°
+    * The sine function creates a natural oscillation over time
+    *frameCount * 10 controls the speed of the swinging motion
+    *Multiplying by 20 sets the maximum angle range (amplitude)
+    */
+    fly.angle = sin(frameCount * 10) * 20;
+    fly.angle2 = -sin(frameCount * 10) * 20;
+
+    //Set the fly Color to ramdom color 
+    fly.color.r = random(0, 255);
+    fly.color.g = random(0, 255);
+    fly.color.b = random(0, 255);
+
+    push();
+    noStroke();
+    fill(fly.color.r, fly.color.g, fly.color.b);
+    translate(fly.x, fly.y); //Translate the origin point to make the rotate on x and y.
+    rotate(fly.angle); // rotate the fly's wings.
+    ellipse(0, 0, fly.wingW, fly.wingH);
+    ellipse(0, 0, fly.size);
+    pop();
+
+    push();
+    noStroke();
+    fill(fly.color.r, fly.color.g, fly.color.b);
+    translate(fly.x, fly.y);//Translate the origin point to make the rotate on x and y.
+    rotate(fly.angle2);// rotate the fly's wings.
+    ellipse(0, 0, fly.wingW, fly.wingH);
+    pop();
+
+}
+
+/**
+ * Moves the fly according to its speed
+ * Resets the fly if it gets all the way to the right
+ */
+function moveFly() {
+
+    //If frog.tougue catch the fly, fly position will fellow by tongue's position
+    if (fly.state === "caught") {
+        fly.x = frog.tongue.x;
+        fly.y = frog.tongue.y
+
+        //If the tougue get into the mouth and frog position reach under frog head. fly will reset.
+        if (frog.tongue.state === "inbound" && frog.tongue.y === 400) {
+            //Reset the fly on random position of left of canvas
+            resetFly();
+            //Reset the fly state to free, make it keep moving
+            fly.state = "free";
+        }
+        //End the function when the fly is caught.
+        return;
+    }
+
+    // Move the fly
+    fly.x += fly.speed;
+
+    // Move the fly sine wave, add  the random.z make the fly show differently evertime it show up.
+    // Multiplying by 50 sets the maximum angle range (amplitude)
+    fly.y = 50 * sin(fly.x * 2) + fly.z;
+
+    //Handle the fly going off the canvas
+    if (fly.x > width) {
+        resetFly();
+    }
+}
+
+/**
+ * Resets the fly to the left with a random y
+ */
+function resetFly() {
+    fly.x = 0;
+    //fly.y = random(0, 300);
+    fly.z = random(0, 300);
+}
+
+/**
+ * Handles moving the tongue based on its state
+ */
+function moveTongue() {
+    // Tongue matches the frog's x
+    frog.tongue.x = frog.body.x;
+    // If the tongue is idle, it doesn't do anything
+    if (frog.tongue.state === "idle") {
+        // Do nothing
+    }
+    // If the tongue is outbound, it moves up
+    else if (frog.tongue.state === "outbound") {
+        frog.tongue.y += -frog.tongue.speed;
+        // The tongue bounces back if it hits the top
+        if (frog.tongue.y <= 0) {
+            frog.tongue.state = "inbound";
+        }
+    }
+    // If the tongue is inbound, it moves down
+    else if (frog.tongue.state === "inbound") {
+        frog.tongue.y += frog.tongue.speed;
+        // The tongue stops if it hits the bottom
+        if (frog.tongue.y >= height) {
+            frog.tongue.state = "idle";
+        }
+    }
+}
+
+/**
+ * Handles the tongue overlapping the fly
+ */
+function checkTongueFlyOverlap() {
+    // Get distance from tongue to fly
+    const d = dist(frog.tongue.x, frog.tongue.y, fly.x, fly.y);
+    // Check if it's an overlap
+    const eaten = (d < frog.tongue.size / 2 + fly.size / 2);
+
+    //If tongue cauth the fly. fly.state become caught and bring back the tongue
+    if (eaten && fly.state === "free") {
+        // catch the fly
+        fly.state = "caught";
+        // Bring back the tongue
+        frog.tongue.state = "inbound";
+    }
+}
+
+/**
+ * Launch the tongue on click (if it's not launched yet)
+ */
+function mousePressed() {
+    if (frog.tongue.state === "idle") {
+        frog.tongue.state = "outbound";
+    }
+}
+
+/**
+ * Moves the frog to the mouse position on x
+ */
+function moveFrog() {
+    frog.body.x = mouseX;
+}
+
+//Make the eyes follow the fly
+function eyesTrack() {
+
+    // if eyes and fly on the same position, eyes did not move.
+    if (fly.x === frog.body.x) {
+        frog.leftEye.x = frog.body.x - 40
+        frog.rightEye.x = frog.body.x + 40
+    }
+
+    // if the fly on the left side of frog, the eyes will move gradually by the position of fly.
+    else if (fly.x < frog.body.x) {
+        // using fly position subtract mouse.x position devide by mouse.x
+        frog.leftEye.x = frog.body.x - 40 + 7 * ((fly.x - frog.body.x) / frog.body.x)
+        frog.rightEye.x = frog.body.x + 40 + 7 * ((fly.x - frog.body.x) / frog.body.x)
+    }
+
+    // if the fly on the right side of frog, the eyes will move gradually by the position of fly.
+    else if (fly.x > frog.body.x) {
+        frog.leftEye.x = frog.body.x - 40 + 7 * ((fly.x - frog.body.x) / (640 - frog.body.x))
+        frog.rightEye.x = frog.body.x + 40 + 7 * ((fly.x - frog.body.x) / (640 - frog.body.x))
+    }
+}
+
+
+
+
+//Set the screen system for end of game
+function endScreen() {
+    background("#87ceeb");
+}
+
+
 
