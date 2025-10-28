@@ -176,6 +176,8 @@ let timer = {
     timeInterval: 15000
 }
 
+let score = 0;
+
 
 //USED TO LOAD EXTERNAL FILES 
 function preload() {
@@ -363,6 +365,8 @@ function gameScreen() {
     if (timer.timePassed > timer.timeInterval) {
         gameState = "end"
     }
+
+    console.log(score);
 }
 
 /**
@@ -536,6 +540,15 @@ function checkTongueFlyOverlap() {
         fly.state = "caught";
         // Bring back the tongue
         frog.tongue.state = "inbound";
+        // score crount system when frog eat a fly or bomb.
+        //  if eat a fly, fly.mode is normal, score add by 1.
+        if (fly.mode === "normal") {
+            score++;
+        }
+        //  if eat a bomb, fly.mode is bomb, score subtract by 1.
+        else {
+            score--;
+        }
     }
 }
 
