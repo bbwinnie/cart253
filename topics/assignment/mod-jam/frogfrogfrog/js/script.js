@@ -144,10 +144,17 @@ let frogCheekLine = {
     strokeColor: 0
 }
 
-//bomb has emoji and size.
+//bomb has emojim, text size and text position.
 let bombText = {
     text: "💣",
     textSize: 25,
+    textSize2: 15,
+    text2: "Press any key to see your spical dinner!😈",
+    text3: "😈",
+    x: 200,
+    xL: 178,
+    xR: 450,
+    y: 20,
 }
 
 
@@ -160,7 +167,6 @@ let startTextP = {
     fontSize: 25,
     x: 55,
     y: 400,
-
 }
 
 
@@ -342,6 +348,7 @@ function gameScreen() {
     moveTongue();
     checkTongueFlyOverlap();
     drawFrog();
+    writeText();
 
 }
 
@@ -595,6 +602,24 @@ function drawBomb() {
 
 }
 
+function writeText() {
+
+    //Draw the Text 
+    push();
+    textSize(bombText.textSize2);
+    fill(startTextP.fill);
+    textFont(myFont);
+    text(bombText.text2, bombText.x, bombText.y);
+    pop();
+
+    //Draw the Text for instruction
+    push();
+    textSize(bombText.textSize2);
+    fill(startTextP.fill);
+    text(bombText.text3, bombText.xR, bombText.y);
+    text(bombText.text3, bombText.xL, bombText.y);
+    pop();
+}
 
 //Set the screen system for end of game
 function endScreen() {
