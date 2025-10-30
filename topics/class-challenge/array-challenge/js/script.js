@@ -12,7 +12,7 @@
 let ball = undefined; // Will create it with createBall()
 
 //creat the empty array for balls.
-let balloon = [];
+let balloons = [];
 
 /**
  * Create the canvas and the ball
@@ -50,11 +50,12 @@ function createBall() {
  */
 function draw() {
     background("#87ceeb");
-
-    //Convert to functions with parameters
-    moveBall(ball);
-    bounceBall(ball);
-    drawBall(ball);
+    for (let ball of balloons) {
+        //Convert to functions with parameters
+        moveBall(ball);
+        bounceBall(ball);
+        drawBall(ball);
+    }
 }
 
 /**
