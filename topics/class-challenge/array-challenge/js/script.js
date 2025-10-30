@@ -22,6 +22,7 @@ function setup() {
     createCanvas(400, 400);
     // Create the ball
     ball = createBall();
+
 }
 
 /**
@@ -31,8 +32,8 @@ function createBall() {
     // Create a ball object with appropriate properties
     const newBall = {
         // Position and dimensions
-        x: 200,
-        y: 200,
+        x: mouseX, // ball will show up at mouseX
+        y: mouseY, // ball will show up at mouseY
         size: 20,
         // Colour
         fill: "#000000",
@@ -50,13 +51,25 @@ function createBall() {
  */
 function draw() {
     background("#87ceeb");
+    //add a for loop for the balls. 
     for (let ball of balloons) {
         //Convert to functions with parameters
         moveBall(ball);
         bounceBall(ball);
         drawBall(ball);
     }
+
 }
+
+
+// when the mouse Pressed, have a new ball.
+function mousePressed() {
+
+    let newBall = createBall();
+    balloons.push(newBall);
+
+}
+
 
 /**
  * Moves the ball according to its velocity
@@ -64,6 +77,7 @@ function draw() {
 function moveBall(ball) {
     ball.x += ball.velocity.x;
     ball.y += ball.velocity.y;
+
 }
 
 /**
