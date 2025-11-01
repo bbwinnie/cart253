@@ -118,6 +118,8 @@ let frogMouth = {
     h: 150,
     arcStartP: 0,
     arcStopP: 180,
+    arcRatio: 0.2
+    // The default ratio equals to the quotient of the original width divided by height  0.2 = 30 / 150
 }
 
 //forg cheek has a position, color, and size.
@@ -173,10 +175,28 @@ let startTextP = {
 let timer = {
     startTime: 0,//set everthing to 0 
     timePassed: 0,//set everthing to 0 
-    timeInterval: 15000
+    timeInterval: 15000 // set the time to be 15secs.
 }
 
 let score = 0;
+
+let scoreP = {
+    y: 400,
+    outLine: {
+        fill: "#fff9a9ff",
+        weight: 30,
+        x1: 120,
+        x2: 520,
+    },
+    scoreLine: {
+        fill: "#f5bfcfff",
+        weight: 20,
+        x1: 120,
+        x2: 120,
+    }
+}
+
+let scoreEndX2 = 120;
 
 
 //USED TO LOAD EXTERNAL FILES 
@@ -233,6 +253,7 @@ function startScreen() {
     timer.startTime = millis();
 
 }
+
 //Display the Froghead
 function frogHead() {
 
@@ -312,25 +333,32 @@ function frogHead() {
 
 }
 
-//Making the mouth bigger by pressed the mouse.
 function moveMouth() {
 
     if (mouseIsPressed) {
         //When the mouse is held down, gradually make the mouth bigger
         frogMouth.w = min(frogMouth.w + 5, 800);  // Limit the maximum width to prevent infinite growth
-        frogMouth.h = min(frogMouth.h + 5, 1000);
-        frogMouth.arcStartP = min(frogMouth.arcStartP - 0.3, 0);
-        frogMouth.arcStopP = min(frogMouth.arcStopP + 0.3, 250);
+        frogMouth.h = min(frogMouth.h + 5, 920);
+        frogMouth.arcStartP = min(frogMouth.arcStartP - frogMouth.arcRatio, 0);
+        frogMouth.arcStopP = min(frogMouth.arcStopP + frogMouth.arcRatio, 250);
         //when the mouth cover the screen, the game will start.
         if (frogMouth.w === 800) {
             gameState = "play";
+            frogMouth.w = 30; //reset the mouth default size
+            frogMouth.h = 150;//reset the mouth default size
         }
     } else if (frogMouth.w <= 800) {
         //  When the mouse is released, gradually make the mouth smaller and set the mouth stay small.
-        frogMouth.w = max(frogMouth.w - 5, 30);
-        frogMouth.h = max(frogMouth.h - 3, 150);
-        frogMouth.arcStartP = min(frogMouth.arcStartP + 0.3, 0);
-        frogMouth.arcStopP = max(frogMouth.arcStopP - 0.3, 180);
+        frogMouth.arcRatio = frogMouth.w / frogMouth.h // Calculate the ratio of the current mouth
+        if (frogMouth.w > 30) {
+            frogMouth.w = max(frogMouth.w - 5, 30);
+            frogMouth.h = max(frogMouth.h - 5, 150);
+            frogMouth.arcStartP = min(frogMouth.arcStartP + frogMouth.arcRatio, 0);
+            frogMouth.arcStopP = max(frogMouth.arcStopP - frogMouth.arcRatio, 180);
+        }
+        else {
+            frogMouth.arcRatio = 0.2; // Reset the ratio to default
+        }
     }
 }
 
@@ -366,7 +394,6 @@ function gameScreen() {
         gameState = "end"
     }
 
-    console.log(score);
 }
 
 /**
@@ -492,7 +519,7 @@ function moveFly() {
  * Resets the fly to the left with a random y
  */
 function resetFly() {
-    fly.x = 0;
+    fly.x = -20; // set the out of the window when the fly rest
     //fly.y = random(0, 300);
     fly.z = random(0, 300);
 }
@@ -628,6 +655,7 @@ function drawBomb() {
 
 }
 
+//Display the instruaction for bomb;
 function writeText() {
 
     //Draw the Text 
@@ -650,6 +678,58 @@ function writeText() {
 //Set the screen system for end of game
 function endScreen() {
     background(backgroundColor);
+    frogHead();
+    dispayScore();
+    scoreCalculator();
 }
 
+
+function scoreCalculator() {
+
+    scoreEndX2 = score * (400 / 14) + 120
+
+    if (score >= 0 && score <= 14) {
+        scoreP.scoreLine.x2 += 2;
+        if (scoreP.scoreLine.x2 >= scoreEndX2) {
+            scoreP.scoreLine.x2 = scoreEndX2
+        }
+    }
+
+    else if (score >= 15) {
+        score = 14;
+        scoreP.scoreLine.x2 += 2;
+        if (scoreP.scoreLine.x2 === 400) {
+            scoreP.scoreLine.x2 = scoreEndX2
+        }
+    }
+
+    else if (score <= 0) {
+        score = 0;
+    }
+}
+
+function dispayScore() {
+
+    // Draw the ScoreOutline
+    push();
+    stroke(scoreP.outLine.fill);
+    strokeWeight(scoreP.outLine.weight);
+    line(scoreP.outLine.x1, scoreP.y, scoreP.outLine.x2, scoreP.y);
+    pop();
+
+    // Draw the ScoreLine
+    push();
+    stroke(scoreP.scoreLine.fill);
+    strokeWeight(scoreP.scoreLine.weight);
+    line(scoreP.scoreLine.x1, scoreP.y, scoreP.scoreLine.x2, scoreP.y);
+    pop();
+
+    //Show the Score%
+    push();
+    textSize(24);
+    textFont(myFont);
+    fill(255);
+    text(int(score / 14 * 100) + "%", 305, 380);
+    pop();
+}
 
