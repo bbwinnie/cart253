@@ -175,7 +175,7 @@ let startTextP = {
 let timer = {
     startTime: 0,//set everthing to 0 
     timePassed: 0,//set everthing to 0 
-    timeInterval: 15000 // set the time to be 15secs.
+    timeInterval: 5000 // set the time to be 15secs.
 }
 
 let score = 0;
@@ -249,6 +249,8 @@ function startScreen() {
     //Draw the MoveMouth
     moveMouth();
 
+    //Draw the frogeyes and mouth
+    frogStart();
     // when the code start run, the timer start crount
     timer.startTime = millis();
 
@@ -272,25 +274,25 @@ function frogHead() {
     arc(frogE.rightEarX, frogE.y, frogE.w, frogE.h, frogE.arcStartP, frogE.arcStopP, CHORD);
     pop();
 
-    //SET THE FROG LEFT EYES
-    push();
-    fill(frogEyes.fill);
-    strokeWeight(frogEyes.strokeWeight);
-    stroke(frogEyes.strokeColor);
-    translate(frogE.leftEarX, frogEyes.y);
-    rotate(frogEyes.rotateLeft);
-    ellipse(0, 0, frogEyes.w, frogEyes.h);
-    pop();
+    // //SET THE FROG LEFT EYES
+    // push();
+    // fill(frogEyes.fill);
+    // strokeWeight(frogEyes.strokeWeight);
+    // stroke(frogEyes.strokeColor);
+    // translate(frogE.leftEarX, frogEyes.y);
+    // rotate(frogEyes.rotateLeft);
+    // ellipse(0, 0, frogEyes.w, frogEyes.h);
+    // pop();
 
-    //SET THE FROG RIGHT EYES
-    push();
-    fill(frogEyes.fill);
-    strokeWeight(frogEyes.strokeWeight);
-    stroke(frogEyes.strokeColor);
-    translate(frogE.rightEarX, frogEyes.y);
-    rotate(frogEyes.rotateRight);
-    ellipse(0, 0, frogEyes.w, frogEyes.h);
-    pop();
+    // //SET THE FROG RIGHT EYES
+    // push();
+    // fill(frogEyes.fill);
+    // strokeWeight(frogEyes.strokeWeight);
+    // stroke(frogEyes.strokeColor);
+    // translate(frogE.rightEarX, frogEyes.y);
+    // rotate(frogEyes.rotateRight);
+    // ellipse(0, 0, frogEyes.w, frogEyes.h);
+    // pop();
 
     //SET THE CHEEK FOR THE FROG
     push();
@@ -324,6 +326,36 @@ function frogHead() {
     line(frogCheekLine.RightLX1 + 40, frogCheekLine.y1, frogCheekLine.rightlx2 + 40, frogCheekLine.y2);
     pop();
 
+    // //SET THE FROG MOUTH (PUT IT IN THE BOTTOM LAYER ONCE IT BECOME BIGGER CAN OVER ALL THE HEAD)
+    // push();
+    // fill(frogMouth.fill);
+    // noStroke();
+    // arc(frogMouth.x, frogMouth.y, frogMouth.w, frogMouth.h, frogMouth.arcStartP, frogMouth.arcStopP, CHORD);
+    // pop();
+
+}
+
+function frogStart() {
+    //SET THE FROG LEFT EYES
+    push();
+    fill(frogEyes.fill);
+    strokeWeight(frogEyes.strokeWeight);
+    stroke(frogEyes.strokeColor);
+    translate(frogE.leftEarX, frogEyes.y);
+    rotate(frogEyes.rotateLeft);
+    ellipse(0, 0, frogEyes.w, frogEyes.h);
+    pop();
+
+    //SET THE FROG RIGHT EYES
+    push();
+    fill(frogEyes.fill);
+    strokeWeight(frogEyes.strokeWeight);
+    stroke(frogEyes.strokeColor);
+    translate(frogE.rightEarX, frogEyes.y);
+    rotate(frogEyes.rotateRight);
+    ellipse(0, 0, frogEyes.w, frogEyes.h);
+    pop();
+
     //SET THE FROG MOUTH (PUT IT IN THE BOTTOM LAYER ONCE IT BECOME BIGGER CAN OVER ALL THE HEAD)
     push();
     fill(frogMouth.fill);
@@ -332,7 +364,6 @@ function frogHead() {
     pop();
 
 }
-
 function moveMouth() {
 
     if (mouseIsPressed) {
@@ -386,6 +417,7 @@ function gameScreen() {
     checkTongueFlyOverlap();
     drawFrog();
     writeText();
+
     // crount the time , using the runing program time 
     // subtract the time when you enter the game Screen.
     timer.timePassed = millis() - timer.startTime;
@@ -678,9 +710,9 @@ function writeText() {
 //Set the screen system for end of game
 function endScreen() {
     background(backgroundColor);
-    frogHead();
     dispayScore();
     scoreCalculator();
+    scoreEmoji();
 }
 
 
@@ -708,6 +740,56 @@ function scoreCalculator() {
     }
 }
 
+function scoreEmoji() {
+    if (score >= 7 && score <= 14) {
+        frogHead();
+        frogStart();
+    }
+    if (score >= 2 && score < 7) {
+        frogHead();
+        frogSmile();
+    }
+}
+
+function frogSmile() {
+
+    //SET THE FROG LEFT EYES
+    push();
+    fill(frogEyes.fill);
+    noStroke();
+    arc(280, 160, 25, 40, 0, 180, open);
+    pop();
+
+    push();
+    fill(frogEyes.fill);
+    strokeWeight(5);
+    line(250, 160, 290, 160) //270,275
+    pop();
+
+
+    //SET THE FROG right EYES
+    push();
+    fill(frogEyes.fill);
+    noStroke();
+    arc(380, 160, 25, 40, 0, 180, open); //370
+    pop();
+
+    push();
+    fill(frogEyes.fill);
+    strokeWeight(5);
+    line(350, 160, 390, 160) //270,275
+    pop();
+
+
+    //SET THE FROG MOUTH (PUT IT IN THE BOTTOM LAYER ONCE IT BECOME BIGGER CAN OVER ALL THE HEAD)
+    push();
+    noFill();
+    stroke(frogMouth.fill);
+    strokeWeight(5);
+    arc(320, 200, 20, 30, 180, 0);
+    pop();
+
+}
 function dispayScore() {
 
     // Draw the ScoreOutline
@@ -732,4 +814,6 @@ function dispayScore() {
     text(int(score / 14 * 100) + "%", 305, 380);
     pop();
 }
+
+
 
