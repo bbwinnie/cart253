@@ -175,7 +175,7 @@ let startTextP = {
 let timer = {
     startTime: 0,//set everthing to 0 
     timePassed: 0,//set everthing to 0 
-    timeInterval: 5000 // set the time to be 15secs.
+    timeInterval: 15000 // set the time to be 15secs.
 }
 
 let score = 0;
@@ -198,6 +198,12 @@ let scoreP = {
 
 let scoreEndX2 = 120;
 
+let frogHeartP = {
+    r: 0,
+    g: 0,
+    b: 0
+}
+
 
 //USED TO LOAD EXTERNAL FILES 
 function preload() {
@@ -208,6 +214,7 @@ function preload() {
  * Creates the canvas and initializes the fly
  */
 function setup() {
+
     createCanvas(640, 480);
 
     angleMode(DEGREES);
@@ -274,26 +281,6 @@ function frogHead() {
     arc(frogE.rightEarX, frogE.y, frogE.w, frogE.h, frogE.arcStartP, frogE.arcStopP, CHORD);
     pop();
 
-    // //SET THE FROG LEFT EYES
-    // push();
-    // fill(frogEyes.fill);
-    // strokeWeight(frogEyes.strokeWeight);
-    // stroke(frogEyes.strokeColor);
-    // translate(frogE.leftEarX, frogEyes.y);
-    // rotate(frogEyes.rotateLeft);
-    // ellipse(0, 0, frogEyes.w, frogEyes.h);
-    // pop();
-
-    // //SET THE FROG RIGHT EYES
-    // push();
-    // fill(frogEyes.fill);
-    // strokeWeight(frogEyes.strokeWeight);
-    // stroke(frogEyes.strokeColor);
-    // translate(frogE.rightEarX, frogEyes.y);
-    // rotate(frogEyes.rotateRight);
-    // ellipse(0, 0, frogEyes.w, frogEyes.h);
-    // pop();
-
     //SET THE CHEEK FOR THE FROG
     push();
     fill(frogCheek.fill);
@@ -325,13 +312,6 @@ function frogHead() {
     line(frogCheekLine.RightLX1 + 20, frogCheekLine.y1, frogCheekLine.rightlx2 + 20, frogCheekLine.y2);
     line(frogCheekLine.RightLX1 + 40, frogCheekLine.y1, frogCheekLine.rightlx2 + 40, frogCheekLine.y2);
     pop();
-
-    // //SET THE FROG MOUTH (PUT IT IN THE BOTTOM LAYER ONCE IT BECOME BIGGER CAN OVER ALL THE HEAD)
-    // push();
-    // fill(frogMouth.fill);
-    // noStroke();
-    // arc(frogMouth.x, frogMouth.y, frogMouth.w, frogMouth.h, frogMouth.arcStartP, frogMouth.arcStopP, CHORD);
-    // pop();
 
 }
 
@@ -406,6 +386,7 @@ function startText() {
 
 //Set the screen system for the game
 function gameScreen() {
+
 
     background(backgroundColor);
     moveFly();
@@ -709,16 +690,20 @@ function writeText() {
 
 //Set the screen system for end of game
 function endScreen() {
+
+    console.log(score);
+
     background(backgroundColor);
     dispayScore();
     scoreCalculator();
     scoreEmoji();
+
 }
 
 
 function scoreCalculator() {
 
-    scoreEndX2 = score * (400 / 14) + 120
+    scoreEndX2 = score * (400 / 14) + 120;
 
     if (score >= 0 && score <= 14) {
         scoreP.scoreLine.x2 += 2;
@@ -741,13 +726,21 @@ function scoreCalculator() {
 }
 
 function scoreEmoji() {
-    if (score >= 7 && score <= 14) {
+
+    if (score >= 7 && score < 14) {
         frogHead();
         frogStart();
     }
-    if (score >= 2 && score < 7) {
+    else if (score >= 2 && score < 7) {
         frogHead();
         frogSmile();
+    }
+    else if (score >= 14) {
+        frogHead();
+        frogHeart();
+    }
+    else if (score <= 2) {
+        frogDead();
     }
 }
 
@@ -780,16 +773,130 @@ function frogSmile() {
     line(350, 160, 390, 160) //270,275
     pop();
 
-
-    //SET THE FROG MOUTH (PUT IT IN THE BOTTOM LAYER ONCE IT BECOME BIGGER CAN OVER ALL THE HEAD)
+    //SET THE FROG MOUTH 
     push();
     noFill();
     stroke(frogMouth.fill);
     strokeWeight(5);
     arc(320, 200, 20, 30, 180, 0);
     pop();
+}
+
+function frogHeart() {
+
+    //SET THE FROG LEFT EYES
+    frogHeartP.r = random(0, 255);
+    frogHeartP.g = random(0, 255);
+    frogHeartP.b = random(0, 255);
+
+    push();
+    fill(frogHeartP.r, frogHeartP.g, frogHeartP.b);
+    noStroke();
+    translate(270, 160)
+    //draw heart
+    beginShape();
+    vertex(0, 0);
+    bezierVertex(0, -15, 35, -5, 0, 20);
+    vertex(0, 0);
+    bezierVertex(0, -15, -35, -5, 0, 20);
+    endShape();
+    pop();
+
+    //SET THE FROG right EYES
+    push();
+    fill(frogHeartP.r, frogHeartP.g, frogHeartP.b);
+    noStroke();
+    translate(370, 160);
+    //draw heart
+    beginShape();
+    vertex(0, 0);
+    bezierVertex(0, -15, 35, -5, 0, 20);
+    vertex(0, 0);
+    bezierVertex(0, -15, -35, -5, 0, 20);
+    endShape();
+    pop();
+
+    //SET THE FROG MOUTH 
+    push();
+    noFill();
+    stroke("#a74e4eff");
+    strokeWeight(5);
+    arc(320, 200, 20, 30, 0, 180);
+    pop();
+}
+
+function frogDead() {
+
+    push();
+    stroke("#6d6565ff");
+    strokeWeight(15);
+    line(310, 60, 340, 60);
+    line(325, 45, 325, 80);
+    pop();
+
+    //SET THE FROGHEAD
+    push();
+    fill("#6d6565ff");
+    noStroke();
+    ellipse(335, 200, 170, 240);
+    rect(250, 265, 170, 55, 5, 5)
+    pop();
+
+    //SET THE FROGHEAD
+    push();
+    fill("#c2c2c2ff");
+    noStroke();
+    ellipse(320, 200, 170, 240);
+    pop();
+
+    //SET THE FROGHEAD
+    push();
+    fill("#c2c2c2ff");
+    noStroke();
+    ellipse(320, 200, 170, 240);
+    pop();
+
+    push();
+    fill("#c2c2c2ff");
+    noStroke();
+    rect(235, 270, 170, 50, 5, 5)
+    pop();
+
+    //SET THE FROGEAR
+    push();
+    fill("#6d6565ff");
+    noStroke();
+    arc(300, 132, 22, 38, frogE.arcStartP, frogE.arcStopP, CHORD);//270
+    arc(340, 132, 22, 38, frogE.arcStartP, frogE.arcStopP, CHORD);
+    ellipse(frogH.x, 150, 80, 55);
+    pop();
+
+    push();
+    textFont(myFont);
+    fill("#383535ff");
+    textSize(20);
+    text("x", 295, 132);
+    text("x", 335, 132);
+    pop();
+
+    push();
+    textFont(myFont);
+    fill("#383535ff");
+    textSize(10);
+    text("x", 318, 150);
+    pop();
+
+    push();
+    textFont(myFont);
+    fill("#383535ff");
+    textSize(50);
+    text("R.I.P", 280, 250);
+    pop();
+
 
 }
+
+
 function dispayScore() {
 
     // Draw the ScoreOutline
