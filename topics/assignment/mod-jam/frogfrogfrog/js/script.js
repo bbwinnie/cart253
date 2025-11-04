@@ -390,7 +390,7 @@ let frogDeadP = {
 //USED TO LOAD EXTERNAL FILES 
 function preload() {
     // load the font file
-    myFont = loadFont('assets/textFont/Superjoyful.ttf');
+    myFont = loadFont('assets/textFont/SuperJoyful.ttf');
 
     //set the sound Formats
     soundFormats('mp3');
