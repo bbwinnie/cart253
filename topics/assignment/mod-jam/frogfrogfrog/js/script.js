@@ -157,10 +157,12 @@ let bombText = {
     xL: 178,
     xR: 450,
     y: 20,
+    comboText4: "combo:",
+    comboXY: 30
 }
 
 
-//defaut of font
+//default of font
 let myFont;
 
 // startText has text, fill, fontsize and position.
@@ -172,11 +174,11 @@ let startTextP = {
     y: 400,
 }
 
-// set the defaut of timer, make game time will be 15sec.
+// set the default of timer, make game time will be 15sec.
 let timer = {
     startTime: 0,//set everthing to 0 
     timePassed: 0,//set everthing to 0 
-    timeInterval: 5000 // set the time to be 15secs.
+    timeInterval: 15000 // set the time to be 15secs.
 }
 
 // Score bar has position, color, and weight.
@@ -193,6 +195,19 @@ let scoreP = {
         weight: 20,
         x1: 120,
         x2: 120,
+    },
+    scoreN: {
+        size: 24,
+        fill: 255,
+        x: 300,
+        y: 380,
+    },
+    hCombo: {
+        size: 15,
+        fill: "#c93030ff",
+        text: "Hightest Combo: ",
+        x: 400,
+        y: 380,
     }
 }
 
@@ -218,14 +233,24 @@ let reStartButtonP = {
     }
 }
 
-//set the defaut score bar start at x position 120
+//set the default score bar start at x position 120
 let scoreEndX2 = 120;
 
-//set the defaut for sound.
+//set the default for sound.
 let mySoundStart;
 
-// set the defaut of score is 0.
-let score = 15;
+// set the default of score is 0.
+let score = 0;
+
+//set the default for combo is 0.
+let combo = 0;
+let highestCombo = 0;
+
+//set the default of moving tongue
+let shotActive = false;
+
+//set the default of tongue hit the fly
+let shotHit = false;
 
 //frog smile face 
 let frogSmileP = {
@@ -552,15 +577,35 @@ function startText() {
 //Set the screen system for the game
 function gameScreen() {
 
+    //draw the background
     background(backgroundColor);
+
+    //move the fly 
     moveFly();
-    bomb(); // run the keyPressed first, than draw the fly or bomb
+
+    // run the keyPressed first, than draw the fly or bomb
+    // when the keypressed fly become a bomb
+    bomb();
+
+    // function change the fly
     changeFly();
+
+    //draw the moving frogs
     moveFrog();
+
+    //eyes track function to move the eyeball follow the fly
     eyesTrack();
+
+    //eatting function for frog eat fly
     moveTongue();
+
+    //chek if the tongue is eating the fly
     checkTongueFlyOverlap();
+
+    //draw the frog
     drawFrog();
+
+    //write the instruaction
     writeText();
 
     // crount the time , using the runing program time 
@@ -663,7 +708,8 @@ function drawFly() {
  */
 function moveFly() {
 
-    //If frog.tougue catch the fly, fly position will fellow by tongue's position
+    //If frog.tougue catch the fly, fly position will fellow by tongue's position   
+    //visually bring the fly back to the frog mouth
     if (fly.state === "caught") {
         fly.x = frog.tongue.x;
         fly.y = frog.tongue.y
@@ -698,7 +744,7 @@ function moveFly() {
 function resetFly() {
     fly.x = -20; // set the out of the window when the fly rest
     //fly.y = random(0, 300);
-    fly.z = random(0, 300);
+    fly.z = random(30, 300);
 }
 
 /**
@@ -725,6 +771,13 @@ function moveTongue() {
         // The tongue stops if it hits the bottom
         if (frog.tongue.y >= height) {
             frog.tongue.state = "idle";
+            // if the tonge doens't catch a fly, reset combo to 0.   
+            if (shotActive === true) {
+                if (shotHit === false) {
+                    combo = 0;
+                    shotActive = false;
+                }
+            }
         }
     }
 }
@@ -733,6 +786,7 @@ function moveTongue() {
  * Handles the tongue overlapping the fly
  */
 function checkTongueFlyOverlap() {
+    console.log(highestCombo);
     // Get distance from tongue to fly
     const d = dist(frog.tongue.x, frog.tongue.y, fly.x, fly.y);
     // Check if it's an overlap
@@ -744,14 +798,23 @@ function checkTongueFlyOverlap() {
         fly.state = "caught";
         // Bring back the tongue
         frog.tongue.state = "inbound";
-        // score crount system when frog eat a fly or bomb.
+        // score count system when frog eat a fly or bomb.
         //  if eat a fly, fly.mode is normal, score add by 1.
         if (fly.mode === "normal") {
             score++;
+            // Combo increase 1 if catch a fly. 
+            combo++;
+            shotHit = true;
+            if (combo > highestCombo) {
+                highestCombo = combo;
+            }
         }
         //  if eat a bomb, fly.mode is bomb, score subtract by 1.
-        else {
+        else if (fly.mode === "bomb") {
             score--;
+            // Reset Combo to 0 if catch a bomb.
+            combo = 0;
+            shotHit = true;
         }
     }
 }
@@ -763,6 +826,8 @@ function checkTongueFlyOverlap() {
 function mousePressed() {
     if (frog.tongue.state === "idle") {
         frog.tongue.state = "outbound";
+        shotActive = true; //one the tongue come out, the state become ture
+        shotHit = false;
     }
 }
 
@@ -850,6 +915,14 @@ function writeText() {
     fill(startTextP.fill);
     text(bombText.text3, bombText.xR, bombText.y);
     text(bombText.text3, bombText.xL, bombText.y);
+    pop();
+
+    //Display the combo text
+    push();
+    textSize(bombText.textSize2);
+    fill(255);
+    textFont(myFont);
+    text(bombText.comboText4 + combo, bombText.comboXY, bombText.comboXY);
     pop();
 }
 
@@ -1026,7 +1099,7 @@ function frogDead() {
     //draw the cross
     push();
     stroke(frogDeadP.color.MedGray);
-    strokeWeight(frogDeadP.cross.strokeW));
+    strokeWeight(frogDeadP.cross.strokeW);
     line(frogDeadP.cross.x1, frogDeadP.cross.y1, frogDeadP.cross.x2, frogDeadP.cross.y1);
     line(frogDeadP.cross.x3, frogDeadP.cross.y2, frogDeadP.cross.x3, frogDeadP.cross.y3);
     pop();
@@ -1107,11 +1180,20 @@ function displayScore() {
 
     //Show the Score%
     push();
-    textSize(24);
+    textSize(scoreP.scoreN.size);
     textFont(myFont);
-    fill(255);
-    text(int(score / 14 * 100) + "%", 305, 380);
+    fill(scoreP.scoreN.fill);
+    text(int(score / 14 * 100) + "%", scoreP.scoreN.x, scoreP.scoreN.y); //only show the integer of score
     pop();
+
+    //Show the highest Combo
+    push();
+    textSize(scoreP.hCombo.size);
+    textFont(myFont);
+    fill(scoreP.hCombo.fill);
+    text(scoreP.hCombo.text + highestCombo, scoreP.hCombo.x, scoreP.hCombo.y);
+    pop();
+
 
 }
 
@@ -1174,4 +1256,8 @@ function restartGame() {
 
     //reset the game State to play. back to game screen.
     gameState = "play";
+
+    //reset combo and highestCombo to be 0
+    combo = 0;
+    highestCombo = 0;
 }
