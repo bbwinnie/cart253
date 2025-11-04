@@ -9,10 +9,10 @@
  * - Move the frog with your mouse
  * - Click to launch the tongue
  * - Catch flies
- * - Pressed any key to change the fly to bomb
+ * - Press any key,turn the current fly into a bomb for a second player
  * - Combo system and Score system
- * - will show the different emoji depending on the score
- * - Once game finish, you can play again
+ * - Unlock fun emojis as your score increases
+ * - You can always play again!
  * 
  * Made with p5
  * https://p5js.org/
@@ -258,7 +258,7 @@ let shotActive = false;
 let shotHit = false;
 
 //frog smile face 
-let frogSmileP = {
+let frogSadP = {
     //eyes has position and size
     arc: {
         x: 280,
@@ -993,12 +993,12 @@ function scoreEmoji() {
         // draw the happy face
         frogStart();
     }
-    //if score is > 2 and socre < 7. darw the frog head with smailling face.
+    //if score is > 2 and socre < 7. darw the frog head with sad face.
     else if (score > 2 && score < 7) {
         //draw the frog head
         frogHead();
-        //draw the smailling face 
-        frogSmile();
+        //draw the sad face 
+        frogSad();
     }
     //if score is >=14.darw the heart face
     else if (score >= 14) {
@@ -1007,48 +1007,48 @@ function scoreEmoji() {
         //draw the heart face 
         frogHeart();
     }
-    //if score is >=14.darw the heart face
+    //if score is <2.darw the frogDead
     else if (score <= 2) {
         //draw the frogDead
         frogDead();
     }
 }
 
-//Draw the frog Smile face.
-function frogSmile() {
+//Draw the frog sad face.
+function frogSad() {
 
     //SET THE FROG LEFT EYES
     push();
     fill(frogEyes.fill);
     noStroke();
-    arc(frogSmileP.arc.x, frogSmileP.arc.y, frogSmileP.arc.w, frogSmileP.arc.h, 0, 180, open);
+    arc(frogSadP.arc.x, frogSadP.arc.y, frogSadP.arc.w, frogSadP.arc.h, 0, 180, open);
     pop();
 
     push();
     fill(frogEyes.fill);
-    strokeWeight(frogSmileP.line.strokeW);
-    line(frogSmileP.line.x1, frogSmileP.line.y, frogSmileP.line.x2, frogSmileP.line.y)
+    strokeWeight(frogSadP.line.strokeW);
+    line(frogSadP.line.x1, frogSadP.line.y, frogSadP.line.x2, frogSadP.line.y)
     pop();
 
     //SET THE FROG right EYES
     push();
     fill(frogEyes.fill);
     noStroke();
-    arc(frogSmileP.arc.xr, frogSmileP.arc.y, frogSmileP.arc.w, frogSmileP.arc.h, 0, 180, open);
+    arc(frogSadP.arc.xr, frogSadP.arc.y, frogSadP.arc.w, frogSadP.arc.h, 0, 180, open);
     pop();
 
     push();
     fill(frogEyes.fill);
-    strokeWeight(frogSmileP.line.strokeW);
-    line(frogSmileP.line.xr1, frogSmileP.line.y, frogSmileP.line.xr2, frogSmileP.line.y) //270,275
+    strokeWeight(frogSadP.line.strokeW);
+    line(frogSadP.line.xr1, frogSadP.line.y, frogSadP.line.xr2, frogSadP.line.y) //270,275
     pop();
 
     //SET THE FROG MOUTH 
     push();
     noFill();
     stroke(frogMouth.fill);
-    strokeWeight(frogSmileP.line.strokeW);
-    arc(frogSmileP.arcM.x, frogSmileP.arcM.y, frogSmileP.arcM.w, frogSmileP.arcM.h, 180, 0);
+    strokeWeight(frogSadP.line.strokeW);
+    arc(frogSadP.arcM.x, frogSadP.arcM.y, frogSadP.arcM.w, frogSadP.arcM.h, 180, 0);
     pop();
 }
 
