@@ -199,6 +199,28 @@ let scoreP = {
     }
 }
 
+//reStart button 
+let reStartButtonP = {
+    //button has color, position and size
+    button: {
+        fill: "#d3843bff",
+        x: 320,
+        y: 445,
+        size: 45,
+    },
+    //text has color, position and size
+    text: {
+        size: 12,
+        fill: 255,
+        t1: "Play",
+        x1: 309,
+        y1: 442,
+        t2: "Again",
+        x2: 306,
+        y2: 452,
+    }
+}
+
 //set the defaut score bar start at x position 120
 let scoreEndX2 = 120;
 
@@ -998,18 +1020,18 @@ function reStartGameButton() {
 
     //draw the button
     push();
-    fill("#d3843bff");
+    fill(reStartButtonP.button.fill);
     noStroke();
-    ellipse(320, 445, 45);
+    ellipse(reStartButtonP.button.x, reStartButtonP.button.y, reStartButtonP.button.size);
     pop();
 
     //draw the text
     push();
     textFont(myFont);
-    textSize(12);
-    fill(255);
-    text("Play", 309, 442);
-    text("Again", 306, 452);
+    textSize(reStartButtonP.text.size);
+    fill(reStartButtonP.text.fill);
+    text(reStartButtonP.text.t1, reStartButtonP.text.x1, reStartButtonP.text.y1);
+    text(reStartButtonP.text.t2, reStartButtonP.text.x2, reStartButtonP.text.y2);
     pop();
 }
 
