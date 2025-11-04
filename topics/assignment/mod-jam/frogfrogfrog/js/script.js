@@ -163,7 +163,6 @@ let bombText = {
 //defaut of font
 let myFont;
 
-// startText has text, fill, fontsize and position.
 let startTextP = {
     text: "Press and hold the mouse to start your adventure!",
     fill: "#fcff37ff",
@@ -176,13 +175,11 @@ let startTextP = {
 let timer = {
     startTime: 0,//set everthing to 0 
     timePassed: 0,//set everthing to 0 
-    timeInterval: 5000 // set the time to be 15secs.
+    timeInterval: 15000 // set the time to be 15secs.
 }
 
-// set the defaut of score is 0.
-let score = 8;
+let score = 0;
 
-// Score bar has position, color, and weight.
 let scoreP = {
     y: 400,
     outLine: {
@@ -199,9 +196,7 @@ let scoreP = {
     }
 }
 
-//set the defaut score bar start at x position 120
 let scoreEndX2 = 120;
-
 
 let frogHeartP = {
     r: 0,
@@ -209,41 +204,10 @@ let frogHeartP = {
     b: 0
 }
 
-let mySoundStart;
-
-//frog smile face 
-let frogSmileP = {
-    //eyes has position and size
-    arc: {
-        x: 280,
-        y: 160,
-        w: 25,
-        h: 40,
-        xr: 380,
-    },
-    //eyes has position and size
-    line: {
-        x1: 250,
-        x2: 290,
-        y: 160,
-        strokeW: 5,
-        xr1: 350,
-        xr2: 390,
-    },
-    //mouth has position and size
-    arcM: {
-        x: 320,
-        y: 200,
-        w: 20,
-        h: 30,
-    }
-}
 
 //USED TO LOAD EXTERNAL FILES 
 function preload() {
     myFont = loadFont('assets/textFont/Super joyful.ttf');
-    soundFormats('mp3', 'ogg');
-    mySoundStart = loadSound('assets/sounds/Accept.mp3');
 }
 
 /**
@@ -265,7 +229,7 @@ function setup() {
 
 
 function draw() {
-    console.log(gameState);
+    // console.log(gameState);
 
     if (gameState === "start") {
         startScreen();
@@ -383,12 +347,6 @@ function frogStart() {
 function moveMouth() {
 
     if (mouseIsPressed) {
-        // When the mouse is pressed, play the start sound only once.
-        // The check event prevents it from replaying every frame
-        // while the mouse button is held down.
-        if (!mySoundStart.isPlaying()) {
-            mySoundStart.play();
-        }
         //When the mouse is held down, gradually make the mouth bigger
         frogMouth.w = min(frogMouth.w + 5, 800);  // Limit the maximum width to prevent infinite growth
         frogMouth.h = min(frogMouth.h + 5, 920);
@@ -397,6 +355,8 @@ function moveMouth() {
         //when the mouth cover the screen, the game will start.
         if (frogMouth.w === 800) {
             gameState = "play";
+            frogMouth.w = 30; //reset the mouth default size
+            frogMouth.h = 150;//reset the mouth default size
         }
     } else if (frogMouth.w <= 800) {
         //  When the mouse is released, gradually make the mouth smaller and set the mouth stay small.
@@ -413,10 +373,8 @@ function moveMouth() {
     }
 }
 
-
 //Displays the text
 function startText() {
-
     //set the inform for the text
     push();
     fill(startTextP.fill);
@@ -428,6 +386,7 @@ function startText() {
 
 //Set the screen system for the game
 function gameScreen() {
+
 
     background(backgroundColor);
     moveFly();
@@ -633,7 +592,6 @@ function checkTongueFlyOverlap() {
     }
 }
 
-
 /**
  * Launch the tongue on click (if it's not launched yet)
  */
@@ -733,100 +691,72 @@ function writeText() {
 //Set the screen system for end of game
 function endScreen() {
 
-    // draw the background color
+    console.log(score);
+
     background(backgroundColor);
-
-    //display the Score artwork
-    displayScore();
-
-    //calculator the score and move the score bar
+    dispayScore();
     scoreCalculator();
-
-    //display the different score of emoji;
     scoreEmoji();
 
-    // display the reStart Game Button
-    reStartGameButton();
 }
 
 
-//Calculator the score and move the score bar
 function scoreCalculator() {
 
-    // score bar secound point x position will change by the % of score.
-    // it also need add the start point 120. 
     scoreEndX2 = score * (400 / 14) + 120;
 
-    // if the score is 0 to 14 , score bar will adding by 2 and end at score%
     if (score >= 0 && score <= 14) {
-        scoreP.scoreLine.x2 += 2; // adding by 2 
+        scoreP.scoreLine.x2 += 2;
         if (scoreP.scoreLine.x2 >= scoreEndX2) {
-            scoreP.scoreLine.x2 = scoreEndX2 //stop at score %
+            scoreP.scoreLine.x2 = scoreEndX2
         }
     }
 
-    // if the score is bigger or equal to 15 , score bar will adding by 2 and end at 100%
     else if (score >= 15) {
-        score = 14; //score biiger than 15 is equal to 100%
-        scoreP.scoreLine.x2 += 2; // adding by 2 
+        score = 14;
+        scoreP.scoreLine.x2 += 2;
         if (scoreP.scoreLine.x2 === 400) {
-            scoreP.scoreLine.x2 = scoreEndX2    //stop at score %
+            scoreP.scoreLine.x2 = scoreEndX2
         }
     }
 
-    // if the score is small or equal to 0 , score bar will do nothing. stay at start point.
     else if (score <= 0) {
         score = 0;
     }
 }
 
-//Draw the different emoji for the score
 function scoreEmoji() {
 
-    //if score is >= 7 and socre < 14. reset the Mouthsize, and darw the frog head with happy face.
     if (score >= 7 && score < 14) {
-        frogMouth.w = 30; //reset the mouth default size
-        frogMouth.h = 150;//reset the mouth default size
-        //draw the frog head
         frogHead();
-        // draw the happy face
         frogStart();
     }
-    //if score is > 2 and socre < 7. darw the frog head with smailling face.
-    else if (score > 2 && score < 7) {
-        //draw the frog head
+    else if (score >= 2 && score < 7) {
         frogHead();
-        //draw the smailling face 
         frogSmile();
     }
-    //if score is >=14.darw the heart face
     else if (score >= 14) {
-        //draw the frog head
         frogHead();
-        //draw the heart face 
         frogHeart();
     }
-    //if score is >=14.darw the heart face
     else if (score <= 2) {
-        //draw the frogDead
         frogDead();
     }
 }
 
-//Draw the frog Smile face.
 function frogSmile() {
 
     //SET THE FROG LEFT EYES
     push();
     fill(frogEyes.fill);
     noStroke();
-    arc(frogSmileP.arc.x, frogSmileP.arc.y, frogSmileP.arc.w, frogSmileP.arc.h, 0, 180, open);
+    arc(280, 160, 25, 40, 0, 180, open);
     pop();
 
     push();
     fill(frogEyes.fill);
-    strokeWeight(frogSmileP.line.strokeW);
-    line(frogSmileP.line.x1, frogSmileP.line.y, frogSmileP.line.x2, frogSmileP.line.y)
+    strokeWeight(5);
+    line(250, 160, 290, 160) //270,275
     pop();
 
 
@@ -834,38 +764,36 @@ function frogSmile() {
     push();
     fill(frogEyes.fill);
     noStroke();
-    arc(frogSmileP.arc.xr, frogSmileP.arc.y, frogSmileP.arc.w, frogSmileP.arc.h, 0, 180, open);
+    arc(380, 160, 25, 40, 0, 180, open); //370
     pop();
 
     push();
     fill(frogEyes.fill);
-    strokeWeight(frogSmileP.line.strokeW);
-    line(frogSmileP.line.xr1, frogSmileP.line.y, frogSmileP.line.xr2, frogSmileP.line.y) //270,275
+    strokeWeight(5);
+    line(350, 160, 390, 160) //270,275
     pop();
 
     //SET THE FROG MOUTH 
     push();
     noFill();
     stroke(frogMouth.fill);
-    strokeWeight(frogSmileP.line.strokeW);
-    arc(frogSmileP.arcM.x, frogSmileP.arcM.y, frogSmileP.arcM.w, frogSmileP.arcM.h, 180, 0);
+    strokeWeight(5);
+    arc(320, 200, 20, 30, 180, 0);
     pop();
 }
 
-//draw the frog Heart face
 function frogHeart() {
 
-    //set the frog eyes become random color
+    //SET THE FROG LEFT EYES
     frogHeartP.r = random(0, 255);
     frogHeartP.g = random(0, 255);
     frogHeartP.b = random(0, 255);
 
-    //SET THE FROG LEFT EYES
     push();
     fill(frogHeartP.r, frogHeartP.g, frogHeartP.b);
     noStroke();
     translate(270, 160)
-    //draw heart shape
+    //draw heart
     beginShape();
     vertex(0, 0);
     bezierVertex(0, -15, 35, -5, 0, 20);
@@ -879,7 +807,7 @@ function frogHeart() {
     fill(frogHeartP.r, frogHeartP.g, frogHeartP.b);
     noStroke();
     translate(370, 160);
-    //draw heart shape
+    //draw heart
     beginShape();
     vertex(0, 0);
     bezierVertex(0, -15, 35, -5, 0, 20);
@@ -888,7 +816,7 @@ function frogHeart() {
     endShape();
     pop();
 
-    //SET THE FROG MOUTH    
+    //SET THE FROG MOUTH 
     push();
     noFill();
     stroke("#a74e4eff");
@@ -897,10 +825,8 @@ function frogHeart() {
     pop();
 }
 
-//draw the frog dead 
 function frogDead() {
 
-    //draw the cross
     push();
     stroke("#6d6565ff");
     strokeWeight(15);
@@ -908,7 +834,7 @@ function frogDead() {
     line(325, 45, 325, 80);
     pop();
 
-    //SET THE tombstone shadow
+    //SET THE FROGHEAD
     push();
     fill("#6d6565ff");
     noStroke();
@@ -916,7 +842,14 @@ function frogDead() {
     rect(250, 265, 170, 55, 5, 5)
     pop();
 
-    //SET THE tombstone
+    //SET THE FROGHEAD
+    push();
+    fill("#c2c2c2ff");
+    noStroke();
+    ellipse(320, 200, 170, 240);
+    pop();
+
+    //SET THE FROGHEAD
     push();
     fill("#c2c2c2ff");
     noStroke();
@@ -938,7 +871,6 @@ function frogDead() {
     ellipse(frogH.x, 150, 80, 55);
     pop();
 
-    //set the frog eyes
     push();
     textFont(myFont);
     fill("#383535ff");
@@ -947,7 +879,6 @@ function frogDead() {
     text("x", 335, 132);
     pop();
 
-    //set the frog mouth
     push();
     textFont(myFont);
     fill("#383535ff");
@@ -955,7 +886,6 @@ function frogDead() {
     text("x", 318, 150);
     pop();
 
-    //set the R.I.P text
     push();
     textFont(myFont);
     fill("#383535ff");
@@ -963,11 +893,11 @@ function frogDead() {
     text("R.I.P", 280, 250);
     pop();
 
+
 }
 
 
-//display the score%
-function displayScore() {
+function dispayScore() {
 
     // Draw the ScoreOutline
     push();
@@ -990,66 +920,7 @@ function displayScore() {
     fill(255);
     text(int(score / 14 * 100) + "%", 305, 380);
     pop();
-
-}
-
-//Draw the restart button
-function reStartGameButton() {
-
-    //draw the button
-    push();
-    fill("#d3843bff");
-    noStroke();
-    ellipse(320, 445, 45);
-    pop();
-
-    //draw the text
-    push();
-    textFont(myFont);
-    textSize(12);
-    fill(255);
-    text("Play", 309, 442);
-    text("Again", 306, 452);
-    pop();
 }
 
 
-//set the function for the mouseClicked
-function mouseClicked() {
 
-    //if gameState is end, when the mouse is touching the button, restart Game
-    if (gameState === "end") {
-
-        // Get distance from mouse and button
-        let distance = dist(mouseX, mouseY, 320, 445);
-
-        // if mouse touch, restart Game
-        if (distance < 45 / 2) {
-            restartGame();
-        }
-    }
-}
-
-//set the function for the restartGame
-function restartGame() {
-
-    // reset the time crount from 0
-    timer.startTime = millis();
-    timer.timePassed = 0;
-
-    //reset the game score to 0, and score bar to start point
-    score = 0;
-    scoreP.scoreLine.x2 = 120;
-
-    // reset the fly position, mode and state
-    resetFly();
-    fly.state = "free";
-    fly.mode = "normal";
-
-    //reset the frog mouse 
-    frog.tongue.state = "idle";
-    frog.tongue.y = height; //reset the frog tongue at top of screen
-
-    //reset the game State to play. back to game screen.
-    gameState = "play";
-}
