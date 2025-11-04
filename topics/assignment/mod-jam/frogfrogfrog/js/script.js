@@ -1,13 +1,18 @@
 /**
- * Frogfrogfrog
- * Pippin Barr
+ * Hungry Frog
+ * Weini Wang
  * 
  * A game of catching flies with your frog-tongue
  * 
  * Instructions:
+ * - Press and hold the mouse to start the game
  * - Move the frog with your mouse
  * - Click to launch the tongue
  * - Catch flies
+ * - Pressed any key to change the fly to bomb
+ * - Combo system and Score system
+ * - will show the different emoji depending on the score
+ * - Once game finish, you can play again
  * 
  * Made with p5
  * https://p5js.org/
@@ -385,7 +390,7 @@ let frogDeadP = {
 //USED TO LOAD EXTERNAL FILES 
 function preload() {
     // load the font file
-    myFont = loadFont('assets/textFont/Super joyful.ttf');
+    myFont = loadFont('assets/textFont/Superjoyful.ttf');
 
     //set the sound Formats
     soundFormats('mp3');
