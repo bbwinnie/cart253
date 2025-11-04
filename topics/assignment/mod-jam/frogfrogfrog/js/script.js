@@ -179,9 +179,6 @@ let timer = {
     timeInterval: 5000 // set the time to be 15secs.
 }
 
-// set the defaut of score is 0.
-let score = 8;
-
 // Score bar has position, color, and weight.
 let scoreP = {
     y: 400,
@@ -224,14 +221,11 @@ let reStartButtonP = {
 //set the defaut score bar start at x position 120
 let scoreEndX2 = 120;
 
-
-let frogHeartP = {
-    r: 0,
-    g: 0,
-    b: 0
-}
-
+//set the defaut for sound.
 let mySoundStart;
+
+// set the defaut of score is 0.
+let score = 15;
 
 //frog smile face 
 let frogSmileP = {
@@ -261,10 +255,117 @@ let frogSmileP = {
     }
 }
 
+//frog Heart Face
+let frogHeartP = {
+    //color
+    color: {
+        r: 0,
+        g: 0,
+        b: 0,
+    },
+    //leftEyes has position
+    leftEye: {
+        x: 270,
+        y: 160,
+    },
+    //leftEyes has position
+    rightEye: {
+        x: 370,
+        y: 160,
+    },
+    //mouth has position,color and size
+    mouth: {
+        fill: "#a74e4eff",
+        storkeW: 5,
+        x: 320,
+        y: 200,
+        w: 20,
+        h: 30,
+    }
+}
+
+//frogDeath
+let frogDeadP = {
+    //different color for frogDeath
+    color: {
+        MedGray: "#6d6565ff",
+        lightGray: "#c2c2c2ff",
+        darkGray: "#383535ff",
+    },
+    //cross has strokweight, point position 
+    cross: {
+        strokeW: 15,
+        x1: 310,
+        y1: 60,
+        x2: 340,
+        x3: 325,
+        y2: 45,
+        y3: 80,
+    },
+    //tombston shadow has circle size,position, rect size and position.
+    tombstoneS: {
+        Ex: 335,
+        Ey: 200,
+        Ew: 170,
+        Eh: 240,
+        Rx: 250,
+        Ry: 265,
+        Rw: 170,
+        Rh: 55,
+        RR: 5,
+    },
+    //tombston has circle size,position, rect size and position.
+    tombstone: {
+        Ex: 320,
+        Ey: 200,
+        Ew: 170,
+        Eh: 240,
+        Rx: 235,
+        Ry: 270,
+    },
+    //frogEar has position and size.
+    frogEar: {
+        Ax1: 300,
+        Ay: 132,
+        Ax2: 340,
+        w: 22,
+        h: 38,
+        eY: 150,
+        eW: 80,
+        eH: 55,
+    },
+    //frogEyes has size, position and Text
+    frogEyes: {
+        size: 20,
+        text: "x",
+        x1: 295,
+        y: 132,
+        x2: 335,
+    },
+    //frogMouth has size and position
+    frogMouth: {
+        size: 10,
+        x: 318,
+        y: 150,
+    },
+    //RIP has text, position and size 
+    RIP: {
+        size: 50,
+        text: "R.I.P",
+        x: 280,
+        y: 250,
+    }
+}
+
 //USED TO LOAD EXTERNAL FILES 
 function preload() {
+    // load the font file
     myFont = loadFont('assets/textFont/Super joyful.ttf');
-    soundFormats('mp3', 'ogg');
+
+    //set the sound Formats
+    soundFormats('mp3');
+
+    //load the sound file
     mySoundStart = loadSound('assets/sounds/Accept.mp3');
 }
 
@@ -275,6 +376,7 @@ function setup() {
 
     createCanvas(640, 480);
 
+    //set the angle mode to degrees
     angleMode(DEGREES);
 
     // Give the fly its first random position
@@ -287,7 +389,7 @@ function setup() {
 
 
 function draw() {
-    console.log(gameState);
+
 
     if (gameState === "start") {
         startScreen();
@@ -434,7 +536,6 @@ function moveMouth() {
         }
     }
 }
-
 
 //Displays the text
 function startText() {
@@ -851,7 +952,6 @@ function frogSmile() {
     line(frogSmileP.line.x1, frogSmileP.line.y, frogSmileP.line.x2, frogSmileP.line.y)
     pop();
 
-
     //SET THE FROG right EYES
     push();
     fill(frogEyes.fill);
@@ -878,15 +978,15 @@ function frogSmile() {
 function frogHeart() {
 
     //set the frog eyes become random color
-    frogHeartP.r = random(0, 255);
-    frogHeartP.g = random(0, 255);
-    frogHeartP.b = random(0, 255);
+    frogHeartP.color.r = random(0, 255);
+    frogHeartP.color.g = random(0, 255);
+    frogHeartP.color.b = random(0, 255);
 
     //SET THE FROG LEFT EYES
     push();
-    fill(frogHeartP.r, frogHeartP.g, frogHeartP.b);
+    fill(frogHeartP.color.r, frogHeartP.color.g, frogHeartP.color.b);
     noStroke();
-    translate(270, 160)
+    translate(frogHeartP.leftEye.x, frogHeartP.leftEye.y)
     //draw heart shape
     beginShape();
     vertex(0, 0);
@@ -898,9 +998,9 @@ function frogHeart() {
 
     //SET THE FROG right EYES
     push();
-    fill(frogHeartP.r, frogHeartP.g, frogHeartP.b);
+    fill(frogHeartP.color.r, frogHeartP.color.g, frogHeartP.color.b);
     noStroke();
-    translate(370, 160);
+    translate(frogHeartP.rightEye.x, frogHeartP.rightEye.y);
     //draw heart shape
     beginShape();
     vertex(0, 0);
@@ -913,80 +1013,80 @@ function frogHeart() {
     //SET THE FROG MOUTH    
     push();
     noFill();
-    stroke("#a74e4eff");
+    stroke(frogHeartP.mouth.fill);
     strokeWeight(5);
-    arc(320, 200, 20, 30, 0, 180);
+    arc(frogHeartP.mouth.x, frogHeartP.mouth.y, frogHeartP.mouth.w, frogHeartP.mouth.h, 0, 180);
     pop();
 }
+
 
 //draw the frog dead 
 function frogDead() {
 
     //draw the cross
     push();
-    stroke("#6d6565ff");
-    strokeWeight(15);
-    line(310, 60, 340, 60);
-    line(325, 45, 325, 80);
+    stroke(frogDeadP.color.MedGray);
+    strokeWeight(frogDeadP.cross.strokeW));
+    line(frogDeadP.cross.x1, frogDeadP.cross.y1, frogDeadP.cross.x2, frogDeadP.cross.y1);
+    line(frogDeadP.cross.x3, frogDeadP.cross.y2, frogDeadP.cross.x3, frogDeadP.cross.y3);
     pop();
 
     //SET THE tombstone shadow
     push();
-    fill("#6d6565ff");
+    fill(frogDeadP.color.MedGray);
     noStroke();
-    ellipse(335, 200, 170, 240);
-    rect(250, 265, 170, 55, 5, 5)
+    ellipse(frogDeadP.tombstoneS.Ex, frogDeadP.tombstoneS.Ey, frogDeadP.tombstoneS.Ew, frogDeadP.tombstoneS.Eh);
+    rect(frogDeadP.tombstoneS.Rx, frogDeadP.tombstoneS.Ry, frogDeadP.tombstoneS.Rw, frogDeadP.tombstoneS.Rh, frogDeadP.tombstoneS.RR, frogDeadP.tombstoneS.RR)
     pop();
 
     //SET THE tombstone
     push();
-    fill("#c2c2c2ff");
+    fill(frogDeadP.color.lightGray);
     noStroke();
-    ellipse(320, 200, 170, 240);
+    ellipse(frogDeadP.tombstone.Ex, frogDeadP.tombstone.Ey, frogDeadP.tombstone.Ew, frogDeadP.tombstone.Eh);
     pop();
 
     push();
-    fill("#c2c2c2ff");
+    fill(frogDeadP.color.lightGray);
     noStroke();
-    rect(235, 270, 170, 50, 5, 5)
+    rect(frogDeadP.tombstone.Rx, frogDeadP.tombstone.Ry, frogDeadP.tombstoneS.Rw, frogDeadP.tombstoneS.Rh, frogDeadP.tombstoneS.RR, frogDeadP.tombstoneS.RR)
     pop();
 
     //SET THE FROGEAR
     push();
-    fill("#6d6565ff");
+    fill(frogDeadP.color.MedGray);
     noStroke();
-    arc(300, 132, 22, 38, frogE.arcStartP, frogE.arcStopP, CHORD);//270
-    arc(340, 132, 22, 38, frogE.arcStartP, frogE.arcStopP, CHORD);
-    ellipse(frogH.x, 150, 80, 55);
+    arc(frogDeadP.frogEar.Ax1, frogDeadP.frogEar.Ay, frogDeadP.frogEar.w, frogDeadP.frogEar.h, frogE.arcStartP, frogE.arcStopP, CHORD);//270
+    arc(frogDeadP.frogEar.Ax2, frogDeadP.frogEar.Ay, frogDeadP.frogEar.w, frogDeadP.frogEar.h, frogE.arcStartP, frogE.arcStopP, CHORD);
+    ellipse(frogH.x, frogDeadP.frogEar.eY, frogDeadP.frogEar.eW, frogDeadP.frogEar.eH);
     pop();
 
     //set the frog eyes
     push();
     textFont(myFont);
-    fill("#383535ff");
-    textSize(20);
-    text("x", 295, 132);
-    text("x", 335, 132);
+    fill(frogDeadP.color.darkGray);
+    textSize(frogDeadP.frogEyes.size);
+    text(frogDeadP.frogEyes.text, frogDeadP.frogEyes.x1, frogDeadP.frogEyes.y);
+    text(frogDeadP.frogEyes.text, frogDeadP.frogEyes.x2, frogDeadP.frogEyes.y);
     pop();
 
     //set the frog mouth
     push();
     textFont(myFont);
-    fill("#383535ff");
-    textSize(10);
-    text("x", 318, 150);
+    fill(frogDeadP.color.darkGray);
+    textSize(frogDeadP.frogMouth.size);
+    text(frogDeadP.frogEyes.text, frogDeadP.frogMouth.x, frogDeadP.frogMouth.y);
     pop();
 
     //set the R.I.P text
     push();
     textFont(myFont);
-    fill("#383535ff");
-    textSize(50);
-    text("R.I.P", 280, 250);
+    fill(frogDeadP.color.darkGray);
+    textSize(frogDeadP.RIP.size);
+    text(frogDeadP.RIP.text, frogDeadP.RIP.x, frogDeadP.RIP.y);
     pop();
 
 }
-
 
 //display the score%
 function displayScore() {
