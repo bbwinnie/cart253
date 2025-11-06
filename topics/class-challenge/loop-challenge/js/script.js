@@ -28,6 +28,20 @@ function draw() {
     let y = 0;
     let b = 0;
 
+    let startColor = color("#6bc4ffff"); //0%
+    let endColor = color("#8126a5ff") //100%
+
+    //draw the color square
+    for (let j = 0; j < 10; j++) {
+        for (let i = 0; i < 10; i++) {
+            let percent = i / 10
+            let c = lerpColor(startColor, endColor, percent);
+            fill(c);
+            rect(50 * i, 50 * j, 50);
+        }
+
+    }
+
     // While x smaller than width, draw a line.
     while (x < width) {
         stroke(c);
@@ -44,7 +58,25 @@ function draw() {
         y += 50;
     }
 
-    for
+
+
+    // const CELL_SIZE = 50
+    // const NUM_COLS = width / CELL_SIZE;
+    // const NUM_ROWS = height / CELL_SIZE;
+
+    // rectMode(CORNER)
+    // for (let x = 0; x < NUM_COLS; x++) {
+    //     fill("#ff0000");
+    //     rect(CELL_SIZE * x, 0, CELL_SIZE)
+    // }
+
+    // for (let y = 0; y < NUM_ROWS; y++) {
+    //     fill("#ff0000");
+    //     for (x = 0; x < NUM_COLS; x++) {
+    //         rect(CELL_SIZE * x, CELL_SIZE * y, CELL_SIZE)
+    //     }
+    // }
+
 
     // stroke(0);
     // line(0, 0, 0, height);
