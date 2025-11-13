@@ -15,6 +15,8 @@ let carData = undefined;
 let dinosaurData = undefined;
 let langData = undefined;
 let lang = "fr";
+let jsonCar;
+let JsonDinosaurs;
 
 // Starts with the instruction
 let carName = "Click to generate a car name.";
@@ -23,7 +25,8 @@ let carName = "Click to generate a car name.";
  * Load the car and dinosaur data
  */
 function preload() {
-
+    jsonCar = loadJSON("assets/data/cars.json");
+    JsonDinosaurs = loadJSON("assets/data/dinosaurs.json");
 }
 
 /**
@@ -52,4 +55,12 @@ function draw() {
  */
 function mousePressed() {
 
+    //console.log(carData);
+
+    //get the random index number inside the array
+    carData = floor(random(0, jsonCar.cars.length))
+    dinosaurData = floor(random(0, JsonDinosaurs.dinosaurs.length))
+
+    //get the name of car and dinosars 
+    carName = jsonCar.cars[carData] + JsonDinosaurs.dinosaurs[dinosaurData];
 }
