@@ -64,3 +64,5 @@ function mousePressed() {
     //get the name of car and dinosars 
     carName = jsonCar.cars[carData] + JsonDinosaurs.dinosaurs[dinosaurData];
 }
+
+
