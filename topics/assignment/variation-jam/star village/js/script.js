@@ -1,10 +1,8 @@
 /**
- * Variation Menu
- * Pippin Barr
+ * Star Village
+ * Weini Wang
  * 
- * A relatively simple example of a set of variations within a single
- * project. (When we learn Object-Oriented Programming this will be a
- * LOT easier.)
+ * A small game with three distinctive variations. The game was talking about star Village.
  */
 
 "use strict";
@@ -15,7 +13,7 @@ let state = "menu";
  * Create the canvas
 */
 function setup() {
-    createCanvas(650, 500);
+    createCanvas(700, 500);
 }
 
 
@@ -27,14 +25,11 @@ function draw() {
         case "menu":
             menuDraw();
             break;
-        case "red-variation":
-            redDraw();
-            break
-        case "green-variation":
-            greenDraw();
+        case "intro":
+            introDraw();
             break;
-        case "blue-variation":
-            blueDraw();
+        case "gamemenu":
+            gameMenuDraw();
             break;
     }
 }
@@ -44,19 +39,11 @@ function draw() {
  * current state
  */
 function mousePressed() {
-    switch (state) {
-        case "menu":
-            menuMousePressed();
-            break;
-        case "red-variation":
-            redMousePressed();
-            break
-        case "green-variation":
-            greenMousePressed();
-            break;
-        case "blue-variation":
-            blueMousePressed();
-            break;
+    if (state === "menu") {
+        menuMousePressed();
+    }
+    else if (state === "intro") {
+        introMousePressed();
     }
 }
 
@@ -68,15 +55,6 @@ function keyPressed(event) {
     switch (state) {
         case "menu":
             menuKeyPressed(event);
-            break;
-        case "red-variation":
-            redKeyPressed(event);
-            break
-        case "green-variation":
-            greenKeyPressed(event);
-            break;
-        case "blue-variation":
-            blueKeyPressed(event);
             break;
     }
 }
