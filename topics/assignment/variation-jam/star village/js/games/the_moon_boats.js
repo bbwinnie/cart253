@@ -7,29 +7,30 @@
 /**
  * This will be called just before the green variation starts
  */
-function greenSetup() {
+function yellowSetup() {
 
 }
 
 /**
  * This will be called every frame when the green variation is active
  */
-function greenDraw() {
+function yellowDraw() {
     background("green");
 }
 
 /**
  * This will be called whenever a key is pressed while the green variation is active
  */
-function greenKeyPressed(event) {
+function yellowKeyPressed(event) {
     if (event.keyCode === 27) {
-        state = "menu";
+        setup();
+        state = "gamemenu";
     }
 }
 
 /**
  * This will be called whenever the mouse is pressed while the green variation is active
  */
-function greenMousePressed() {
+function yellowMousePressed() {
 
 }

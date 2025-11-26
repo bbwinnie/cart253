@@ -1,57 +1,94 @@
 /**
  * This menu file contains the code to run *only* the menu part of the program.
- * Note how it has its own draw, menuDraw(), and its own keyPressed, menuKeyPressed().
- * This keeps the stuff the menu needs to do *separate* from the rest of the program.
  */
 
-let title = "Click any star to start";
-let firstGame = "Lightcatcher Basket";
-let secondGame = "Star Wand";
-let thirdGame = "Moon Boat";
+//set the text for the game
+let title = {
+    text: "Click any star to start",
+    color: "#ffcc00",
+    size: 32,
+    x: 350,
+    y: 50
+}
+let game = {
+    g1: {
+        text: "Magic Basket",
+        x: 700 / 6,
+        y: 500 / 2,
+    },
+    g2: {
+        text: "Star Wand",
+        x: 700 / 6 * 3,
+    },
+    g3: {
+        text: "Moon Boat",
+        x: 700 / 6 * 5,
+    },
+    color: "#f8a01cff",
+    size: 20,
+    imgs: 240,
+    textY: 300,
+}
 
+
+
+
+//draw the star and menu option
 function gameMenuDraw() {
-    push();
+
+    //draw the background
     background(bgImg);
+
+    //draw the intro text
+    push();
     textFont(myFont);
-    textSize(32);
-    fill("#ffcc00")
+    textSize(title.size);
+    fill(title.color)
     textAlign(CENTER, CENTER);
-    text(title, width / 2, 50);
+    text(title.text, title.x, title.y);
+    pop();
 
-    //Game Select Menu
-    textSize(20);
-    fill("#080808ff");
+    //draw the game select menu
+    push();
+    textSize(game.size);
+    fill(game.color);
+    textFont(myFont);
+    textAlign(CENTER, CENTER);
     imageMode(CENTER);
-    //1st Game Left
-    image(game1BG, width / 6, height / 2, 240, 240);
-    text(firstGame, width / 6, height / 4 * 3);
+    //1st Game Left 
+    image(game1BG, game.g1.x, game.g1.y, game.imgs, game.imgs);
+    text(game.g1.text, game.g1.x, game.textY);
     //2nd Game Middle
-    image(game2BG, width / 6 * 3, height / 2, 240, 240);
-    text(secondGame, width / 6 * 3, height / 4 * 3);
+    image(game2BG, game.g2.x, game.g1.y, game.imgs, game.imgs);
+    text(game.g2.text, game.g2.x, game.textY);
     //3rd Game Right
-    image(game3BG, width / 6 * 5, height / 2, 240, 240);
-    text(thirdGame, width / 6 * 5, height / 4 * 3);
-
+    image(game3BG, game.g3.x, game.g1.y, game.imgs, game.imgs);
+    text(game.g3.text, game.g3.x, game.textY);
     pop();
 }
 
-function gamelSelectMousePressed() {
-    let xImg1 = width / 6;
-    let xImg2 = width / 6 * 3;
-    let xImg3 = width / 6 * 5;
-    let yImg = height / 2;
-    let xWidth = 240 / 6;
-    let yHeight = 240 / 6;
+//set the game selection, when you click the star, the game state will change, you will get in to the game.
+function gameSelectMousePressed() {
 
-    if (mouseX >= xImg1 - xWidth && mouseX <= xImg1 + xWidth && mouseY >= yImg - yHeight && mouseY <= yImg + yHeight) {
+    //get the distance from mouseX and mouseY to the each star
+    let d1 = dist(game.g1.x, game.g1.y, mouseX, mouseY);
+    let d2 = dist(game.g2.x, game.g1.y, mouseX, mouseY);
+    let d3 = dist(game.g3.x, game.g1.y, mouseX, mouseY);
+
+    // if mousex and mousey on the first star, go to game 1
+    if (d1 <= 240 / 2) {
         game1Setup();
         state = "game1";
     }
-    else if (mouseX >= xImg2 - xWidth && mouseX <= xImg2 + xWidth && mouseY >= yImg - yHeight && mouseY <= yImg + yHeight) {
+
+    // if mousex and mousey on the secound star, go to game 2
+    else if (d2 <= 240 / 2) {
         redSetup();
         state = "game2";
     }
-    else if (mouseX >= xImg3 - xWidth && mouseX <= xImg3 + xWidth && mouseY >= yImg - yHeight && mouseY <= yImg + yHeight) {
+
+    // if mousex and mousey on the third star, go to game 3
+    else if (d3 <= 240 / 2) {
         yellowSetup();
         state = "game3";
     }

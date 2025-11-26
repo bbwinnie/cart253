@@ -7,6 +7,7 @@
 
 "use strict";
 
+//set the screen state
 let state = "menu";
 
 /**
@@ -16,9 +17,8 @@ function setup() {
     createCanvas(700, 500);
 }
 
-
 /**
- * Display the menu or the current variation
+ * Display the menu or the game variation
 */
 function draw() {
     switch (state) {
@@ -30,6 +30,15 @@ function draw() {
             break;
         case "gamemenu":
             gameMenuDraw();
+            break;
+        case "game1":
+            game1Draw();
+            break;
+        case "game2":
+            redDraw();
+            break;
+        case "game3":
+            yellowDraw();
             break;
     }
 }
@@ -45,6 +54,9 @@ function mousePressed() {
     else if (state === "intro") {
         introMousePressed();
     }
+    else if (state === "gamemenu") {
+        gameSelectMousePressed();
+    }
 }
 
 /**
@@ -55,6 +67,15 @@ function keyPressed(event) {
     switch (state) {
         case "menu":
             menuKeyPressed(event);
+            break;
+        case "game1":
+            game1KeyPressed(event);
+            break
+        case "game2":
+            redKeyPressed(event);
+            break;
+        case "game3":
+            yellowKeyPressed(event);
             break;
     }
 }

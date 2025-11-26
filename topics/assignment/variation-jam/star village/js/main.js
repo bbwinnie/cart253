@@ -30,11 +30,14 @@ function preload() {
  * Display the mean pages
  */
 function menuDraw() {
-    push();
+    //set the background
     background(bgImg);
+
+    //set the text font, size and position for the game
+    push();
     textFont(myFont);
-    textSize(32);
-    fill("#ffcc00")
+    textSize(50);
+    fill("#ffcc00");
     textAlign(CENTER, CENTER);
     text(menuText, width / 2, height / 2);
     pop();
