@@ -41,11 +41,19 @@ function preload() {
  * Display the mean pages
  */
 function menuDraw() {
+
     //set the background
-    background(bgImg);
+    drawBgImage()
 
     //display the Tittle
     drawTittle();
+}
+
+function drawBgImage() {
+    push();
+    imageMode(CORNER);
+    image(bgImg, 0, 0, width, height);
+    pop();
 }
 
 function drawTittle() {

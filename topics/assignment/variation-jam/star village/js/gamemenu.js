@@ -29,14 +29,14 @@ let game = {
     color: "#f8a01cff",
     size: 20,
     imgs: 150,
-    textY: 320,
+    textY: 335,
 }
 
 //draw the star and menu option
 function gameMenuDraw() {
 
     //draw the background
-    background(bgImg);
+    drawBgImage();
 
     //display the intro Text
     drawIntroText();

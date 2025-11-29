@@ -23,6 +23,8 @@ function preloadGame1() {
     star1 = loadImage("assets/images/star.gif");
     MoodsList = loadJSON("assets/JSON/moods.json");
 }
+
+
 /**
  * This will be called just before the blue variation starts
  */

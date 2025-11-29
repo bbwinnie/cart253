@@ -35,29 +35,42 @@ function draw() {
             game1Draw();
             break;
         case "game2":
-            redDraw();
+            game2Draw();
             break;
         case "game3":
-            yellowDraw();
+            game3Draw();
             break;
     }
 }
+
 
 /**
  * Listen for mouse pressed and call the function for it in the
  * current state
  */
 function mousePressed() {
-    if (state === "menu") {
-        menuMousePressed();
-    }
-    else if (state === "intro") {
-        introMousePressed();
-    }
-    else if (state === "gamemenu") {
-        gameSelectMousePressed();
+    switch (state) {
+        case "menu":
+            menuMousePressed();
+            break;
+        case "intro":
+            introMousePressed();
+            break;
+        case "gamemenu":
+            gameSelectMousePressed();
+            break;
+        case "game1":
+            game1MousePressed();
+            break;
+        case "game2":
+            game2MousePressed();
+            break;
+        case "game3":
+            game3MousePressed();
+            break;
     }
 }
+
 
 /**
  * Listen for keypressed and call the function for it in the

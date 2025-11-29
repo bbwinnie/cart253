@@ -32,9 +32,10 @@ function introDraw() {
 //draw the img 
 function drawImg() {
 
+    drawBgImage();
+
     push();
     //draw the background
-    image(bgImg, 0, 0, width, height);
     //set the image position as center
     imageMode(CENTER);
     //draw the text background
