@@ -51,11 +51,11 @@ function game1Setup() {
  * This will be called every frame when the blue variation is active
  */
 function game1Draw() {
-    push();
+
     imageMode(CENTER);
     image(bgImg1, 350, 250, 700, 500);
     image(char1, mouseX, 400, 200, 200);
-    // 第一部分：用 myFont 画前面的字
+
     push();
     textFont(myFont);
     textSize(20);
@@ -63,17 +63,18 @@ function game1Draw() {
     textAlign(LEFT, CENTER);
     text("Starman Caught: " + starCount, 25, 50);
     pop();
-    // 第二部分：用系统默认字体画 emoji ⭐
+
     push();
     textSize(20);
     textAlign(LEFT, CENTER);
     textFont("sans-serif");
-    text("⭐", 225, 52); // x 要自己调一下，让它接在后面
+    text("⭐", 225, 52); //
     pop();
+
     starDraw();
     starCatchCount()
     starmanwords()
-    pop();
+
 }
 
 function starDraw() {
@@ -152,25 +153,25 @@ function starmanwords() {
             text('“I’m scared I’m not good enough.”', mouseX, 320);
             break;
         case 4:
-            text('“One step at a time. Even tiny turtles get where they’re going.”', mouseX, 320);
+            text('“One step at a time.”', mouseX, 320);
             break;
         case 5:
             text('“You’re not failing—you’re just buffering.”', mouseX, 320);
             break;
         case 6:
-            text('“It’s okay if today feels heavy. You’re still carrying it beautifully.”', mouseX, 320);
+            text('“It’s okay if today feels heavy.”', mouseX, 320);
             break;
         case 7:
             text('“You’re doing enough, truly.”', mouseX, 320);
             break;
         case 8:
-            text(' “It’s okay to be a little scrambled today. Even eggs get scrambled and people still love them.”', mouseX, 320);
+            text(' “It’s okay to be a little scrambled today. ”', mouseX, 320);
             break;
         case 9:
             text(' “You’re doing better than you think.', mouseX, 320);
             break;
         case 10:
-            text('“It’s okay. The stars don’t shine all the time either—they take turns.”', mouseX, 320);
+            text('“The stars don’t shine all the time either—they take turns.”', mouseX, 320);
             break;
     }
     pop();

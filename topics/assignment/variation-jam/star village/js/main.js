@@ -7,6 +7,11 @@
 // set the game name 
 const menuText = "Star Village";
 
+let tittleP = {
+    size: 50,
+    fill: "#ffcc00",
+}
+
 //define my font and image variable
 let myFont;
 let bgImg;
@@ -33,11 +38,16 @@ function menuDraw() {
     //set the background
     background(bgImg);
 
+    //display the Tittle
+    drawTittle();
+}
+
+function drawTittle() {
     //set the text font, size and position for the game
     push();
     textFont(myFont);
-    textSize(50);
-    fill("#ffcc00");
+    textSize(tittleP.size);
+    fill(tittleP.fill);
     textAlign(CENTER, CENTER);
     text(menuText, width / 2, height / 2);
     pop();

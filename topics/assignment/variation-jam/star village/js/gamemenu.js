@@ -2,7 +2,7 @@
  * This menu file contains the code to run *only* the menu part of the program.
  */
 
-//set the text for the game
+//set the text , color and position for the game
 let title = {
     text: "Click any star to start",
     color: "#ffcc00",
@@ -10,6 +10,8 @@ let title = {
     x: 350,
     y: 50
 }
+
+//set the 3 game's size, position, color and game text.
 let game = {
     g1: {
         text: "Magic Basket",
@@ -30,16 +32,21 @@ let game = {
     textY: 300,
 }
 
-
-
-
 //draw the star and menu option
 function gameMenuDraw() {
 
     //draw the background
     background(bgImg);
 
-    //draw the intro text
+    //display the intro Text
+    drawIntroText();
+
+    //display the game select menu
+    drawStar();
+}
+
+//draw the intro text
+function drawIntroText() {
     push();
     textFont(myFont);
     textSize(title.size);
@@ -47,8 +54,10 @@ function gameMenuDraw() {
     textAlign(CENTER, CENTER);
     text(title.text, title.x, title.y);
     pop();
+}
 
-    //draw the game select menu
+//draw the game select menu
+function drawStar() {
     push();
     textSize(game.size);
     fill(game.color);
