@@ -24,10 +24,16 @@ let game3BG;
 function preload() {
     myFont = loadFont('assets/font/PixelifySans-VariableFont_wght.ttf');
     bgImg = loadImage('assets/images/startbackground.jpeg');
+    gamemenuImg1 = loadImage('assets/images/sun.gif');
+    gamemenuImg2 = loadImage('assets/images/game1end.gif');
+    gamemenuImg3 = loadImage('assets/images/game2end.gif');
+    gamemenuImg4 = loadImage('assets/images/game3end.gif');
+    gamemenuImg5 = loadImage('assets/images/gameinitial.gif');
+    storyI = loadImage('assets/images/starbaby.gif');
     textBg = loadImage('assets/images/pages.gif');
-    game1BG = loadImage('assets/images/starb.png');
-    game2BG = loadImage('assets/images/starr.png');
-    game3BG = loadImage('assets/images/stary.png');
+    game1BG = loadImage('assets/images/game1.gif');
+    game2BG = loadImage('assets/images/game2.gif');
+    game3BG = loadImage('assets/images/game3.gif');
     preloadGame1();
 }
 

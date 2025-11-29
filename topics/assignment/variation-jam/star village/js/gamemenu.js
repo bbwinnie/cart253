@@ -4,7 +4,7 @@
 
 //set the text , color and position for the game
 let title = {
-    text: "Click any star to start",
+    text: "Collect all the three magic item",
     color: "#ffcc00",
     size: 32,
     x: 350,
@@ -28,8 +28,8 @@ let game = {
     },
     color: "#f8a01cff",
     size: 20,
-    imgs: 240,
-    textY: 300,
+    imgs: 150,
+    textY: 320,
 }
 
 //draw the star and menu option
