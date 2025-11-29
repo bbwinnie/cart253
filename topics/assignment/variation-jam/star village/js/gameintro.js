@@ -20,11 +20,15 @@ let isTyping = true;
 // draw the background and set the img
 function introDraw() {
 
-    // draw the background img
-    background(bgImg);
+    //display the background and set the img
+    drawImg();
 
-    //draw the img 
+}
+
+//draw the img 
+function drawImg() {
     push();
+    image(bgImg, 0, 0, width, height);
     imageMode(CENTER);
     image(textBg, width / 2, height / 2 + 25, 700, 750);
     introType();
