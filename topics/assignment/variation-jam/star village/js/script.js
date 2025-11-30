@@ -93,6 +93,7 @@ function keyPressed(event) {
     }
 }
 
+// Listen for keypReleased and call the function for it in the current state
 function keyReleased(event) {
     switch (state) {
         case "game3":

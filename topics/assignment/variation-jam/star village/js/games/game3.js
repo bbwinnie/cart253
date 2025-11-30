@@ -22,6 +22,7 @@ let textItemY;
 let textItemHSpeed;
 let textItemVSpeed;
 let itemVSpeedTimer;
+let BoatItemDist;
 
 
 //preload all the img and json file
@@ -87,6 +88,7 @@ function game3Setup() {
         //set rain with negative emotion words
         if (itemArray[i].itemImg === rain) {
             itemArray[i].MoodWords = random(MoodsList.negative);
+            itemArray[i].textItemY = itemArray[i].itemY + 50;
         }
         else {
             itemArray[i].MoodWords = random(MoodsList.positive);
@@ -94,7 +96,7 @@ function game3Setup() {
 
         //keep the same speed and position of words as item
         itemArray[i].textItemX = itemArray[i].itemX;
-        itemArray[i].textItemY = itemArray[i].itemY + 50;
+        itemArray[i].textItemY = itemArray[i].itemY + 25;
         itemArray[i].textItemHSpeed = itemArray[i].itemHSpeed;
         itemArray[i].textItemVSpeed = itemArray[i].itemVSpeed;
     }
@@ -119,6 +121,9 @@ function game3Draw() {
 
     //draw the starBoats
     starBoatDraw();
+
+    //draw the item
+    itemDraw();
 
 
 }
@@ -169,6 +174,73 @@ function starBoatDraw() {
     push();
     imageMode(CENTER);
     image(char3, boatX, boatY, 100, 100);
+    pop();
+}
+
+//draw the items(star and rain), touch the star +1 score , touch the rain -1 score
+function itemDraw() {
+    // set the image and font
+    imageMode(CENTER);
+    textFont(myFont);
+    textSize(20);
+    textAlign(CENTER, CENTER);
+
+    //draw the random items at random position, total 3 items 
+    for (let i = 0; i < itemCount; i++) {
+
+        //Draw a random item
+        image(itemArray[i].itemImg, itemArray[i].itemX, itemArray[i].itemY, 100, 100);
+
+        //if item is rain, emotion words become red 
+        if (itemArray[i].itemImg === rain) {
+            fill("#e70909ff");
+        } else {
+            fill("#ffcc00");
+        }
+        //draw the random text 
+        text(itemArray[i].MoodWords, itemArray[i].textItemX, itemArray[i].textItemY);
+        itemArray[i].itemVSpeedTimer--;
+
+        //keep the current speed of items ecah 2 secs. make sure item move smoothly
+        if (itemArray[i].itemVSpeedTimer === 0) {
+            itemArray[i].itemVSpeed = random(-2, 2);
+            itemArray[i].textItemVSpeed = itemArray[i].itemVSpeed;
+            itemArray[i].itemVSpeedTimer = 120;
+        }
+
+        // move the text and item
+        itemArray[i].itemX += itemArray[i].itemHSpeed;
+        itemArray[i].itemY += itemArray[i].itemVSpeed;
+        itemArray[i].textItemX += itemArray[i].textItemHSpeed;
+        itemArray[i].textItemY += itemArray[i].textItemVSpeed;
+
+        // if the item touch the border change the vertical speed 
+        if (itemArray[i].itemY <= 50 || itemArray[i].itemY >= 450) {
+            itemArray[i].itemVSpeed = -1 * itemArray[i].itemVSpeed;
+            itemArray[i].textItemVSpeed = itemArray[i].itemVSpeed;
+        }
+
+        // if item went out of canvas, reset the item
+        if (itemArray[i].itemX <= 0) {
+            itemArray[i].itemX = 800;
+            itemArray[i].itemHSpeed = random(-1, -2);
+            itemArray[i].itemVSpeedTimer = 120;
+            // also reset the text
+            itemArray[i].textItemX = itemArray[i].itemX;
+            itemArray[i].textItemY = itemArray[i].itemY + 25;
+            itemArray[i].textItemHSpeed = itemArray[i].itemHSpeed;
+            itemArray[i].itemImg = random(itemImages);
+            if (itemArray[i].itemImg === rain) {
+                itemArray[i].MoodWords = random(MoodsList.negative);
+                itemArray[i].textItemY = itemArray[i].itemY + 50;
+            }
+            else {
+                itemArray[i].MoodWords = random(MoodsList.positive);
+            }
+
+        }
+
+    }
     pop();
 }
 
