@@ -128,6 +128,8 @@ function game2Draw() {
     //
     starJarDraw();
 
+    WandStarsMovingDraw();
+
 }
 
 //set the detectMenu for the game
@@ -155,7 +157,7 @@ function drawBackground2() {
 
 //draw the star jar main function
 function starJarDraw() {
-    push();
+
     imageMode(CENTER);
 
     //draw the 5 star jars
@@ -214,8 +216,84 @@ function starJarDraw() {
             text(starJarArray[i].MoodWords, starJarArray[i].textWStarJarX, starJarArray[i].textWStarJarY);
         }
     }
+
+}
+
+//draw the wand star
+function wandStarDraw(wandStarX, wandStarY) {
+
+    //draw the star
+    push();
+    fill("#ffcc00");
+    let angle = TWO_PI / 5;
+    let halfAngle = angle / 2.0;
+    beginShape();
+    for (let a = 0; a < TWO_PI; a += angle) {
+        let sx = wandStarX + cos(a) * 12;
+        let sy = wandStarY + sin(a) * 12;
+        vertex(sx, sy);
+        sx = wandStarX + cos(a + halfAngle) * 8;
+        sy = wandStarY + sin(a + halfAngle) * 8;
+        vertex(sx, sy);
+    }
+    endShape(CLOSE);
     pop();
 }
+
+
+//shoot the stars
+function wandMagic() {
+    // the canvas only can have 5 stars
+    if (wandStarCount > 4) {
+        return;
+    }
+    // if not, shoot a star
+    else {
+
+        //distance between orignal star.x and mouseX. This is a challenge for me to understand how to move star by using mouse coordinator. 
+        dx = mouseX - wandStarX;
+        dy = mouseY - wandStarY;
+
+        //calculer the length between mouseX and orginal star.x
+        lenMtoS = sqrt(dx * dx + dy * dy);
+
+        //if the length is 0, cannot shoot the star, so i need give the value as 1
+        if (lenMtoS === 0) {
+            lenMtoS = 1;
+        }
+
+        //give wand star orginal speed and position
+        wandStarArray[wandStarCount] = {};
+        wandStarArray[wandStarCount].wandStarX = wandStarX;
+        wandStarArray[wandStarCount].wandStarY = wandStarY;
+        wandStarArray[wandStarCount].wandStarHSpeed = dx / lenMtoS * wandStarSpeed;
+        wandStarArray[wandStarCount].wandStarVSpeed = dy / lenMtoS * wandStarSpeed;
+        wandStarCount++;
+    }
+}
+
+//move the wand star
+function WandStarsMovingDraw() {
+
+    //array for moving star
+    for (let i = wandStarArray.length - 1; i >= 0; i--) {
+
+        // move star 
+        wandStarArray[i].wandStarX += wandStarArray[i].wandStarHSpeed;
+        wandStarArray[i].wandStarY += wandStarArray[i].wandStarVSpeed;
+
+        //draw the wand star
+        wandStarDraw(wandStarArray[i].wandStarX, wandStarArray[i].wandStarY);
+
+        // if star went out of screen , reset the star
+        if (wandStarArray[i].wandStarX < 0 || wandStarArray[i].wandStarX > width ||
+            wandStarArray[i].wandStarY < 0 || wandStarArray[i].wandStarY > height) {
+            wandStarArray.splice(i, 1);
+            wandStarCount--;
+        }
+    }
+}
+
 
 /**
  * This will be called whenever a key is pressed while the green variation is active
@@ -232,4 +310,6 @@ function game2KeyPressed(event) {
  */
 function game2MousePressed() {
 
+    //when the mousePressed draw the star
+    wandMagic();
 }
