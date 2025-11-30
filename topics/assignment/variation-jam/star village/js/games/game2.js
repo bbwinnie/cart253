@@ -301,7 +301,7 @@ function starJarDraw() {
                     }
 
                     // if hits 10 star, game end
-                    if (starCount === 10) {
+                    if (starCount === 1) {
                         isPassed = true;
 
                         // the game can only play once.
@@ -593,7 +593,7 @@ function game2MousePressed() {
         //if Mouse is on Yes button, go back to the main menu and reset the Pass check states
         if (distCheckY <= 50) {
             isPassed = false;
-            state = "gamemenu";
+            state = "passmenu";
         }
         //if Mouse is on No button, go back to the main menu without counting the game pass.
         else if (distCheckN <= 50) {

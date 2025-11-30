@@ -57,17 +57,19 @@ let game2PassTime = 0;
 let game3PassTime = 0;
 
 
+
 //draw the star and menu option
 function gameMenuDraw() {
 
-    //draw the background
-    drawBgImage();
+
+    MenuBgDraw();
 
     //display the intro Text
     drawIntroText();
 
     //display the game select menu
     drawStar();
+
 }
 
 //draw the intro text
@@ -98,6 +100,13 @@ function drawStar() {
     //3rd Game Right
     image(game3BG, game.g3.x, game.g1.y, game.imgs, game.imgs);
     text(game.g3.text, game.g3.x, game.textY);
+    pop();
+}
+
+function MenuBgDraw() {
+    push();
+    imageMode(CORNER);
+    image(bgImg, 0, 0, width, height);
     pop();
 }
 

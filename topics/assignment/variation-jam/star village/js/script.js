@@ -40,6 +40,10 @@ function draw() {
         case "game3":
             game3Draw();
             break;
+        //Redirect to the Pass Menu if Game is passed.
+        case "passmenu":
+            PassedMenuDraw();
+            break;
     }
 }
 
@@ -68,6 +72,9 @@ function mousePressed() {
         case "game3":
             game3MousePressed();
             break;
+        case "passmenu":
+            passedMenuMousePressed();
+            break;
     }
 }
 
@@ -90,6 +97,10 @@ function keyPressed(event) {
         case "game3":
             game3KeyPressed(event);
             break;
+        case "passmenu":
+            passedMenuKeyPressed(event);
+            break;
+
     }
 }
 

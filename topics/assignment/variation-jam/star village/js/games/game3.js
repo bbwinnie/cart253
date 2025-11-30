@@ -557,7 +557,7 @@ function game3KeyPressed(event) {
         //press Enter to continue
         if (event.keyCode === 13) {
             isPassed = false;
-            state = "gamemenu";
+            state = "passmenu";
         }
         // press Ese to go back to the main menu
         else if (event.keyCode === 27) {
@@ -641,7 +641,7 @@ function game3MousePressed() {
         //if Mouse is on Yes button, go back to the main menu and reset the Pass check states
         if (distCheckY <= 50) {
             isPassed = false;
-            state = "gamemenu";
+            state = "passmenu";
         }
         //if Mouse is on No button, go back to the main menu without counting the game pass.
         else if (distCheckN <= 50) {
