@@ -585,8 +585,8 @@ function game2MousePressed() {
     if (isPassed === true) {
 
         //check the distance between mouse and buttons
-        distCheckY = dist(width / 2 - 100, height / 2 + 50, mouseX, mouseY);
-        distCheckN = dist(width / 2 + 100, height / 2 + 50, mouseX, mouseY);
+        distCheckY = dist(imgYes2.x, imgYes2.y, mouseX, mouseY);
+        distCheckN = dist(imgYes2.x2, imgYes2.y, mouseX, mouseY);
         //if Mouse is on Yes button, go back to the main menu and reset the Pass check states
         if (distCheckY <= 50) {
             isPassed = false;
@@ -605,8 +605,8 @@ function game2MousePressed() {
     //Check if the game is paused
     if (isPaused === true) {
         //if the game is paused, check the distance between mouse and buttons
-        distCheckY = dist(width / 2 - 100, height / 2 + 50, mouseX, mouseY);
-        distCheckN = dist(width / 2 + 100, height / 2 + 50, mouseX, mouseY);
+        distCheckY = dist(imgYes2.x, imgYes2.y, mouseX, mouseY);
+        distCheckN = dist(imgYes2.x2, imgYes2.y, mouseX, mouseY);
         //if Mouse is on Yes button, go back to the main menu
         if (distCheckY <= 50) {
             isPaused = false;

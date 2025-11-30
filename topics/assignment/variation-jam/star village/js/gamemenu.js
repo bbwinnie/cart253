@@ -123,7 +123,7 @@ function gameSelectMousePressed() {
 
     // if mousex and mousey on the third star, go to game 3
     else if (d3 <= 240 / 2) {
-        yellowSetup();
+        game3Setup();
         state = "game3";
     }
     else {

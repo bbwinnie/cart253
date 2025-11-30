@@ -36,6 +36,7 @@ function preload() {
     game3BG = loadImage('assets/images/game3.gif');
     preloadGame1();
     preloadGame2();
+    preloadGame3();
 }
 
 /**
