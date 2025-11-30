@@ -43,7 +43,7 @@ function preload() {
 function menuDraw() {
 
     //set the background
-    drawBgImage()
+    drawBgImage();
 
     //display the Tittle
     drawTittle();

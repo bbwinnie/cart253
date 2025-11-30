@@ -32,6 +32,31 @@ let game = {
     textY: 335,
 }
 
+//set the default of emotion words
+let MoodsList;
+let MoodWords;
+let MoodCategory;
+
+//set the default of distance between mouse and button
+let distCheckY;
+let distCheckN;
+
+//set the paused and passed menu boolean value
+let isPaused = false;
+let isPassed = false;
+
+//number of star 
+let starCount;
+
+//set the default number of gamesPassed
+let gamePassedCount = 0;
+
+//set the default time 
+let game1PassTime = 0;
+let game2PassTime = 0;
+let game3PassTime = 0;
+
+
 //draw the star and menu option
 function gameMenuDraw() {
 
