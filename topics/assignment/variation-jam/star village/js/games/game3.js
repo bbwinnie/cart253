@@ -11,6 +11,7 @@ let boatNextX;
 let boatNextY;
 let itemArray;
 let itemCount;
+let rainCount;
 let itemImages;
 let itemImg;
 let itemX;
@@ -23,6 +24,36 @@ let textItemHSpeed;
 let textItemVSpeed;
 let itemVSpeedTimer;
 let BoatItemDist;
+let HitPauseTimer;
+
+//set the boat size fillcolor and text
+let boatsP = {
+    fill: "#741717ff",
+    text: 'I Cant Move!!!',
+    size: 20
+}
+
+//set the score text , emoji, position and size
+let scoreText3 = {
+    fill: "#ffcc00",
+    word: {
+        text: "Star Caught: ",
+        x: 25,
+        y: 50
+    },
+    emoji: {
+        text: "⭐",
+        x: 180,
+        y: 52
+    },
+    dis: {
+        text: "Run From the Moody Clouds!",
+        x: 350,
+        y: 10,
+    },
+    size: 20,
+}
+
 
 
 //preload all the img and json file
@@ -58,23 +89,37 @@ function game3Setup() {
     isPassed = false;
 
     //array of the item Imags
-    itemImages = [bStar, rStar, yStar, rain];
+    itemImages = [bStar, rStar, yStar];
     itemArray = [];
-    itemCount = 3;
+    itemCount = 5;
 
     // emotion words
     MoodWords = '';
 
+    //boats hit the rain timer
+    HitPauseTimer = 0;
+
+    //Count the number of rains
+    rainCount = 3;
+
     //preset the value of item
     for (let i = 0; i < itemCount; i++) {
 
-        //ctreat random item at random position and random speed total 3 item
+        //ctreat random item at random position and random speed total 5 item
         itemArray[i] = {};
-        itemArray[i].itemImg = random(itemImages);
+
+        //The minimum number of rains is 3
+        if (rainCount > 0) {
+            itemArray[i].itemImg = rain;
+            rainCount--;
+        }
+        else {
+            itemArray[i].itemImg = random(itemImages);
+        }
         itemArray[i].itemX = 800;
         itemArray[i].itemY = random(50, 450);
-        itemArray[i].itemHSpeed = random(-1, -2);
-        itemArray[i].itemVSpeed = random(-2, 2);
+        itemArray[i].itemHSpeed = random(-3, -5);
+        itemArray[i].itemVSpeed = (random(-5, -3), random(3, 5));
         itemArray[i].itemVSpeedTimer = 120;
 
         //check the distance between boats and items
@@ -125,7 +170,8 @@ function game3Draw() {
     //draw the item
     itemDraw();
 
-
+    //draw the socring system
+    game3CountBoardDraw();
 }
 
 //draw the background2
@@ -175,9 +221,17 @@ function starBoatDraw() {
     imageMode(CENTER);
     image(char3, boatX, boatY, 100, 100);
     pop();
+
+    //if boats hit the rain item, timer start crount
+    if (HitPauseTimer > 0) {
+        textFont(myFont);
+        textSize(boatsP.size);
+        fill(boatsP.fill);
+        text(boatsP.text, boatX, boatY - 75);
+    }
 }
 
-//draw the items(star and rain), touch the star +1 score , touch the rain -1 score
+//draw the items(star and rain), touch the star +1 score , touch the rain -1 score and boat stop 2 sec
 function itemDraw() {
     // set the image and font
     imageMode(CENTER);
@@ -185,7 +239,7 @@ function itemDraw() {
     textSize(20);
     textAlign(CENTER, CENTER);
 
-    //draw the random items at random position, total 3 items 
+    //draw the random items at random position, total 5 items 
     for (let i = 0; i < itemCount; i++) {
 
         //Draw a random item
@@ -197,13 +251,13 @@ function itemDraw() {
         } else {
             fill("#ffcc00");
         }
+
         //draw the random text 
         text(itemArray[i].MoodWords, itemArray[i].textItemX, itemArray[i].textItemY);
         itemArray[i].itemVSpeedTimer--;
 
         //keep the current speed of items ecah 2 secs. make sure item move smoothly
         if (itemArray[i].itemVSpeedTimer === 0) {
-            itemArray[i].itemVSpeed = random(-2, 2);
             itemArray[i].textItemVSpeed = itemArray[i].itemVSpeed;
             itemArray[i].itemVSpeedTimer = 120;
         }
@@ -215,21 +269,36 @@ function itemDraw() {
         itemArray[i].textItemY += itemArray[i].textItemVSpeed;
 
         // if the item touch the border change the vertical speed 
-        if (itemArray[i].itemY <= 50 || itemArray[i].itemY >= 450) {
+        if (itemArray[i].itemY < 50 || itemArray[i].itemY > 450) {
             itemArray[i].itemVSpeed = -1 * itemArray[i].itemVSpeed;
             itemArray[i].textItemVSpeed = itemArray[i].itemVSpeed;
         }
 
         // if item went out of canvas, reset the item
         if (itemArray[i].itemX <= 0) {
+
+            //rain number minus and Reset Image
+            if (itemArray[i].itemImg === rain) {
+                rainCount++;
+            }
+            //The minimum number of rains is 3
+            if (rainCount > 0) {
+                itemArray[i].itemImg = rain;
+                rainCount--;
+            }
+            else {
+                itemArray[i].itemImg = random(itemImages);
+            }
             itemArray[i].itemX = 800;
-            itemArray[i].itemHSpeed = random(-1, -2);
+            itemArray[i].itemHSpeed = random(-3, -5);
+            itemArray[i].itemVSpeed = (random(-5, -3), random(3, 5));
             itemArray[i].itemVSpeedTimer = 120;
             // also reset the text
             itemArray[i].textItemX = itemArray[i].itemX;
             itemArray[i].textItemY = itemArray[i].itemY + 25;
             itemArray[i].textItemHSpeed = itemArray[i].itemHSpeed;
-            itemArray[i].itemImg = random(itemImages);
+            itemArray[i].textItemVSpeed = itemArray[i].itemVSpeed;
+
             if (itemArray[i].itemImg === rain) {
                 itemArray[i].MoodWords = random(MoodsList.negative);
                 itemArray[i].textItemY = itemArray[i].itemY + 50;
@@ -237,17 +306,140 @@ function itemDraw() {
             else {
                 itemArray[i].MoodWords = random(MoodsList.positive);
             }
-
         }
 
+        //check the distance between boat and items
+        itemArray[i].BoatItemDist = dist(boatX, boatY, itemArray[i].itemX, itemArray[i].itemY);
+
+        //if boat touch the item
+        if (itemArray[i].BoatItemDist <= 50) {
+            //if boat touch the rain
+            if (itemArray[i].itemImg === rain) {
+                //score - 1
+                if (starCount > 0) {
+                    starCount--;
+                }
+                //boat paused set the timer to 2 secs
+                HitPauseTimer = 120;
+
+                boatHspeed = 0;
+                boatVspeed = 0;
+
+
+                //rain number minus and Reset Image
+                if (itemArray[i].itemImg === rain) {
+                    rainCount++;
+                }
+                //The minimum number of rains is 3
+                if (rainCount > 0) {
+                    itemArray[i].itemImg = rain;
+                    rainCount--;
+                }
+                else {
+                    itemArray[i].itemImg = random(itemImages);
+                }
+
+                //reset the random item
+                itemArray[i].itemX = 800;
+                itemArray[i].itemY = random(50, 450);
+                itemArray[i].itemHSpeed = random(-3, -5);
+                itemArray[i].itemVSpeed = (random(-5, -3), random(3, 5));
+                itemArray[i].itemVSpeedTimer = 120;
+
+                //reset the random text
+                itemArray[i].textItemX = itemArray[i].itemX;
+                itemArray[i].textItemY = itemArray[i].itemY + 25;
+                itemArray[i].textItemHSpeed = itemArray[i].itemHSpeed;
+                itemArray[i].textItemVSpeed = itemArray[i].itemVSpeed;
+                if (itemArray[i].itemImg === rain) {
+                    itemArray[i].MoodWords = random(MoodsList.negative);
+                    itemArray[i].textItemY = itemArray[i].itemY + 50;
+                }
+                else {
+                    itemArray[i].MoodWords = random(MoodsList.positive);
+                }
+            }
+
+            //if catch the star, score +1
+            else {
+                starCount++;
+
+                //reset the item
+                itemArray[i].itemX = 800;
+                itemArray[i].itemY = random(50, 450);
+                itemArray[i].itemHSpeed = random(-3, -5);
+                itemArray[i].itemVSpeed = (random(-5, -3), random(3, 5));
+                itemArray[i].itemVSpeedTimer = 120;
+                //rest the words
+                itemArray[i].textItemX = itemArray[i].itemX;
+                itemArray[i].textItemY = itemArray[i].itemY + 25;
+                itemArray[i].textItemHSpeed = itemArray[i].itemHSpeed;
+                itemArray[i].textItemVSpeed = itemArray[i].itemVSpeed;
+                itemArray[i].itemImg = random(itemImages);
+                if (itemArray[i].itemImg === rain) {
+                    itemArray[i].MoodWords = random(MoodsList.negative);
+                    itemArray[i].textItemY = itemArray[i].itemY + 50;
+                }
+                else {
+                    itemArray[i].MoodWords = random(MoodsList.positive);
+                }
+
+                //if got 10 point, game ends
+                if (starCount === 10) {
+                    isPassed = true;
+
+                    // only will crount the win once
+                    if (game3PassTime < 1) {
+                        gamePassedCount++;
+                        game3PassTime++;
+                    }
+                }
+            }
+        }
     }
+    HitPauseTimer--;
+}
+
+
+//draw the score system
+function game3CountBoardDraw() {
+
+    //draw the text
+    push();
+    textFont(myFont);
+    textSize(scoreText3.size);
+    fill(scoreText3.fill);
+    textAlign(LEFT, CENTER);
+    text(scoreText3.word.text + starCount, scoreText3.word.x, scoreText3.word.y);
+    pop();
+
+    //drwa the emoji
+    push();
+    textSize(scoreText3.size);
+    textAlign(LEFT, CENTER);
+    textFont("sans-serif");
+    text(scoreText3.emoji.text, scoreText3.emoji.x, scoreText2.emoji.y);
+    pop();
+
+    push();
+    textFont(myFont);
+    textSize(scoreText3.size);
+    fill(scoreText3.fill);
+    textAlign(CENTER, CENTER);
+    text(scoreText3.dis.text, scoreText3.dis.x, scoreText3.dis.y);
     pop();
 }
 
+
 /**
- * This will be called whenever a key is pressed while the red variation is active
+ * This will be called whenever a key is pressed while the game3 is active
  */
 function game3KeyPressed(event) {
+
+    // if boats hit the rains, boats stoped
+    if (HitPauseTimer > 0) {
+        return;
+    }
 
     ///when the key pressed boats moves
     switch (event.keyCode) {
@@ -264,6 +456,7 @@ function game3KeyPressed(event) {
             boatVspeed = 5;
             break;
     }
+
 }
 
 //when the key released boats stop
