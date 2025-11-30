@@ -174,6 +174,9 @@ function game2Setup() {
     isPassed = false;
 }
 
+/**
+ * This will be called every frame when the game2 is active
+ */
 function game2Draw() {
 
     //display the detectMenu

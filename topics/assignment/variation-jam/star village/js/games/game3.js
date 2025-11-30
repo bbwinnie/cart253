@@ -175,15 +175,47 @@ function starBoatDraw() {
 /**
  * This will be called whenever a key is pressed while the red variation is active
  */
-function redKeyPressed(event) {
-    if (event.keyCode === 27) {
-        state = "menu";
+function game3KeyPressed(event) {
+
+    ///when the key pressed boats moves
+    switch (event.keyCode) {
+        case 37:
+            boatHspeed = -5;
+            break;
+        case 38:
+            boatVspeed = -5;
+            break;
+        case 39:
+            boatHspeed = 5;
+            break;
+        case 40:
+            boatVspeed = 5;
+            break;
     }
 }
+
+//when the key released boats stop
+function game3KeyReleased(event) {
+    switch (event.keyCode) {
+        case 37:
+            boatHspeed = 0;
+            break;
+        case 39:
+            boatHspeed = 0;
+            break;
+        case 38:
+            boatVspeed = 0;
+            break;
+        case 40:
+            boatVspeed = 0;
+            break;
+    }
+}
+
 
 /**
  * This will be called whenever the mouse is pressed while the red variation is active
  */
-function redMousePressed() {
+function game3MousePressed() {
 
 }

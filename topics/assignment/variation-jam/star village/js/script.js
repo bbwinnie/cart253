@@ -92,3 +92,10 @@ function keyPressed(event) {
             break;
     }
 }
+
+function keyReleased(event) {
+    switch (state) {
+        case "game3":
+            game3KeyReleased(event);
+    }
+}
