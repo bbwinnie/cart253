@@ -1,6 +1,8 @@
 /**
  * This file contains the code to run *only* the game2 part of the program.
  * Note how it has its own draw, greenDraw(), and its own keyPressed, greenKeyPressed().
+ * there was two challenge, The first one is how to make the stars shoot out as you click the mouse. the secoud one is my star jam gif
+ * only can show on first broken jar.
  */
 
 //set the default value of parameters
@@ -30,6 +32,65 @@ let refreshTimer;
 let starJarCount;
 let wandStarArray;
 let wandStarCount;
+
+//set the score text , emoji, position and size
+let scoreText2 = {
+    fill: "#ffcc00",
+    word: {
+        text: "Saved Star: ",
+        x: 25,
+        y: 50
+    },
+    emoji: {
+        text: "⭐",
+        x: 165,
+        y: 52
+    },
+    dis: {
+        text: "Break the jar to save good mood star!",
+        x: 350,
+        y: 10,
+    },
+    size: 20,
+}
+
+//set the passed menu text, position ,color and size
+let passedMenuP2 = {
+    text: {
+        fill: "#91c7faff",
+        t: 'Congrats! \n You find the star wand \n Would you like to continue?',
+        x: 350,
+        y: 180
+    },
+    description: {
+        fill: "#741717ff",
+        t: 'Click the button \n Press "Esc" or "Enter"',
+        y: 265,
+        size: 15
+    },
+}
+
+//set the img size and position 
+let imgYes2 = {
+    x: 250,
+    x2: 450,
+    y: 300,
+    w: 100,
+    h: 50
+}
+
+//set the pause menu text and position 
+let pauseP2 = {
+    words: {
+        t: 'Do you want to give up?',
+        y: 180
+    },
+    dis: {
+        t: 'Click the button below \n Press "Esc" or "Enter"',
+        y: 260
+    }
+}
+
 
 //preload all the img and json file
 function preloadGame2() {
@@ -114,7 +175,8 @@ function game2Setup() {
 }
 
 function game2Draw() {
-    //draw the detectMenu
+
+    //display the detectMenu
     detectMenu2();
 
     //if the state is passed or pause, only show the menu, game stoped
@@ -122,13 +184,17 @@ function game2Draw() {
         return;
     }
 
-    //draw the background 
+    //display the background
     drawBackground2();
 
-    //
+    //display the starJar
     starJarDraw();
 
+    //display the star wand
     WandStarsMovingDraw();
+
+    //display the count board
+    game2CountBoardDraw();
 
 }
 
@@ -157,48 +223,118 @@ function drawBackground2() {
 
 //draw the star jar main function
 function starJarDraw() {
-
+    push();
     imageMode(CENTER);
 
     //draw the 5 star jars
     for (let i = 0; i < starJars; i++) {
 
-        //auto refresh timer for stars counting
-        starJarArray[i].refreshTimer--;
-        //star jars move for x-axis
-        starJarArray[i].starJarX += starJarArray[i].starJarHSpeed;
-        starJarArray[i].textWStarJarX += starJarArray[i].textWStarJarHSpeed;
-        //if it touch the canves border width, star jar will bounce back 
-        if (starJarArray[i].starJarX >= 650 || starJarArray[i].starJarX <= 50) {
-            starJarArray[i].starJarHSpeed = -starJarArray[i].starJarHSpeed;
-            starJarArray[i].textWStarJarHSpeed = starJarArray[i].starJarHSpeed;
-        }
+        //the orginal jars are not broken
+        if (starJarArray[i].isBroken === false) {
+            //auto refresh timer for stars counting
+            starJarArray[i].refreshTimer--;
+            //star jars move for x-axis
+            starJarArray[i].starJarX += starJarArray[i].starJarHSpeed;
+            starJarArray[i].textWStarJarX += starJarArray[i].textWStarJarHSpeed;
+            //if it touch the canves border width, star jar will bounce back 
+            if (starJarArray[i].starJarX >= 650 || starJarArray[i].starJarX <= 50) {
+                starJarArray[i].starJarHSpeed = -starJarArray[i].starJarHSpeed;
+                starJarArray[i].textWStarJarHSpeed = starJarArray[i].starJarHSpeed;
+            }
 
-        //star jars move for y-axis
-        starJarArray[i].starJarY += starJarArray[i].starJarVSpeed;
-        starJarArray[i].textWStarJarY += starJarArray[i].textWStarJarVSpeed;
-        //if it touch the canves border hight, star jar will bounce back 
-        if (starJarArray[i].starJarY >= 450 || starJarArray[i].starJarY <= 50) {
-            starJarArray[i].starJarVSpeed = -starJarArray[i].starJarVSpeed;
-            starJarArray[i].textWStarJarVSpeed = starJarArray[i].starJarVSpeed;
+            //star jars move for y-axis
+            starJarArray[i].starJarY += starJarArray[i].starJarVSpeed;
+            starJarArray[i].textWStarJarY += starJarArray[i].textWStarJarVSpeed;
+            //if it touch the canves border hight, star jar will bounce back 
+            if (starJarArray[i].starJarY >= 450 || starJarArray[i].starJarY <= 50) {
+                starJarArray[i].starJarVSpeed = -starJarArray[i].starJarVSpeed;
+                starJarArray[i].textWStarJarVSpeed = starJarArray[i].starJarVSpeed;
+            }
+            //if auto refresh timer === to 0,  refresh the starjar
+            if (starJarArray[i].refreshTimer <= 0) {
+                // reset the speed for the star jar 
+                starJarArray[i].starJarHSpeed = random([random(-3, -1), random(1, 3)]);
+                starJarArray[i].starJarVSpeed = random([random(-3, -1), random(1, 3)]);
+                // reset the emotion words for the star jar
+                starJarArray[i].MoodWords = random(MoodsList.moods);
+                MoodCategory[i] = MoodsList.positive.includes(starJarArray[i].MoodWords);
+                // reset the position and speed of the star jar
+                starJarArray[i].textWStarJarHSpeed = starJarArray[i].starJarHSpeed;
+                starJarArray[i].textWStarJarVSpeed = starJarArray[i].starJarVSpeed;
+                // change the state back to orginal
+                starJarArray[i].isBroken = false;
+                starJarArray[i].breakTimer = 0;
+                starJarArray[i].jarImg = starJar1;
+                // reset the auto refresh timer 
+                starJarArray[i].refreshTimer = 400;
+            }
+
+            // wand star setting
+            for (let j = 0; j < wandStarArray.length; j++) {
+                // distance between star wand and star jar
+                lenStoJ = dist(wandStarArray[j].wandStarX, wandStarArray[j].wandStarY, starJarArray[i].starJarX, starJarArray[i].starJarY);
+                //if wand star hit the jar, add scoure
+                if (lenStoJ <= 50) {
+                    starJarArray[i].isBroken = true;
+                    starJarArray[i].breakTimer = 60;
+                    starJarArray[i].jarImg = starJar2;
+                    //delet the star that hit the jar
+                    wandStarArray.splice(j, 1);
+                    wandStarCount--;
+
+                    // if the emotion state is positive (true) add 1 score
+                    if (MoodCategory[i] === true) {
+                        starCount++;
+                    }
+
+                    // if the emotion state is nagetive (false) minus 1 score but the score will never below 0
+                    else {
+                        if (starCount > 0) {
+                            starCount--;
+                        }
+                        else {
+                            starCount = 0;
+                        }
+                    }
+
+                    // if hits 10 star, game end
+                    if (starCount === 10) {
+                        isPassed = true;
+
+                        // the game can only play once.
+                        if (game2PassTime < 1) {
+                            gamePassedCount++;
+                            game2PassTime++;
+                        }
+                    }
+                    break;
+                }
+            }
         }
-        //if auto refresh timer === to 0,  refresh the starjar
-        if (starJarArray[i].refreshTimer <= 0) {
-            // reset the speed for the star jar 
-            starJarArray[i].starJarHSpeed = random([random(-3, -1), random(1, 3)]);
-            starJarArray[i].starJarVSpeed = random([random(-3, -1), random(1, 3)]);
-            // reset the emotion words for the star jar
-            starJarArray[i].MoodWords = random(MoodsList.moods);
-            MoodCategory[i] = MoodsList.positive.includes(starJarArray[i].MoodWords);
-            // reset the position and speed of the star jar
-            starJarArray[i].textWStarJarHSpeed = starJarArray[i].starJarHSpeed;
-            starJarArray[i].textWStarJarVSpeed = starJarArray[i].starJarVSpeed;
-            // change the state back to orginal
-            starJarArray[i].isBroken = false;
-            starJarArray[i].breakTimer = 0;
-            starJarArray[i].jarImg = starJar1;
-            // reset the auto refresh timer 
-            starJarArray[i].refreshTimer = 400;
+        else {
+            // if star jar broken, timer star count
+            starJarArray[i].breakTimer--;
+            if (starJarArray[i].breakTimer <= 0) {
+                // if count down over, reset the starjar
+                starJarArray[i].starJarX = random(50, 650);
+                starJarArray[i].starJarY = random(50, 400);
+                starJarArray[i].starJarHSpeed = random([random(-3, -1), random(1, 3)]);
+                starJarArray[i].starJarVSpeed = random([random(-3, -1), random(1, 3)]);
+                // reset the emotion words
+                starJarArray[i].MoodWords = random(MoodsList.moods);
+                MoodCategory[i] = MoodsList.positive.includes(starJarArray[i].MoodWords);
+                // reset the emotion words position and speed
+                starJarArray[i].textWStarJarX = starJarArray[i].starJarX;
+                starJarArray[i].textWStarJarY = starJarArray[i].starJarY + 50;
+                starJarArray[i].textWStarJarHSpeed = starJarArray[i].starJarHSpeed;
+                starJarArray[i].textWStarJarVSpeed = starJarArray[i].starJarVSpeed;
+                // change the state back to orginal
+                starJarArray[i].isBroken = false;
+                starJarArray[i].breakTimer = 0;
+                starJarArray[i].jarImg = starJar1;
+                // reset the auto refresh timer 
+                starJarArray[i].refreshTimer = 400;
+            }
         }
 
         // add the star jar
@@ -216,7 +352,7 @@ function starJarDraw() {
             text(starJarArray[i].MoodWords, starJarArray[i].textWStarJarX, starJarArray[i].textWStarJarY);
         }
     }
-
+    pop();
 }
 
 //draw the wand star
@@ -224,6 +360,7 @@ function wandStarDraw(wandStarX, wandStarY) {
 
     //draw the star
     push();
+    noStroke();
     fill("#ffcc00");
     let angle = TWO_PI / 5;
     let halfAngle = angle / 2.0;
@@ -294,22 +431,193 @@ function WandStarsMovingDraw() {
     }
 }
 
+//set the Score system
+function game2CountBoardDraw() {
+    //set the star Catch Count
+    push();
+    textFont(myFont);
+    textSize(scoreText2.size);
+    fill(scoreText2.fill);
+    textAlign(LEFT, CENTER);
+    text(scoreText2.word.text + starCount, scoreText2.word.x, scoreText2.word.y);
+    pop();
 
-/**
- * This will be called whenever a key is pressed while the green variation is active
- */
+    //set the score emoji
+    push();
+    textSize(scoreText2.size);
+    textAlign(LEFT, CENTER);
+    textFont("sans-serif");
+    text(scoreText2.emoji.text, scoreText2.emoji.x, scoreText2.emoji.y);
+    pop();
+
+    push();
+    textFont(myFont);
+    textSize(scoreText2.size);
+    fill(scoreText2.fill);
+    textAlign(CENTER, CENTER);
+    text(scoreText2.dis.text, scoreText2.dis.x, scoreText2.dis.y);
+    pop();
+}
+
+//when you save 10 star, passed menu show up 
+function game2PassedMenu() {
+
+    if (isPassed === true) {
+        drawPassedMenu2();
+    }
+}
+
+
+//set the passed Menu
+function drawPassedMenu2() {
+
+    //set the background and button
+    push();
+    imageMode(CENTER);
+    image(textBg, width / 2, height / 2 + 25, 600, 650);
+    image(passedCheckYes, width / 2 - 100, height / 2 + 50, 100, 50);
+    image(passedCheckNo, width / 2 + 100, height / 2 + 50, 100, 50);
+    pop();
+
+    //set the text
+    push();
+    textFont(myFont);
+    textSize(scoreText2.size);
+    fill(passedMenuP2.text.fill);
+    textAlign(CENTER, CENTER);
+    text(passedMenuP2.text.t, passedMenuP2.text.x, passedMenuP2.text.y);
+    pop();
+
+    //set the description
+    push();
+    textFont(myFont);
+    textSize(passedMenuP2.description.size);
+    fill(passedMenuP2.description.fill);
+    textAlign(CENTER, CENTER);
+    text(passedMenuP2.description.t, passedMenuP2.text.x, passedMenuP2.description.y);
+    pop();
+
+}
+
+//display the pause Menu
+function game2PauseMenu() {
+
+    //if paused is true show the pause menu
+    if (isPaused === true) {
+        drawPauseMenu2();
+    }
+}
+
+//draw the pause Menu
+function drawPauseMenu2() {
+
+    // draw the background and button of the menu
+    push();
+    imageMode(CENTER);
+    image(textBg, width / 2, height / 2 + 25, 600, 650);
+    image(pauseCheckYes, imgYes2.x, imgYes2.y, imgYes2.w, imgYes2.h);
+    image(pauseCheckNo, imgYes2.x2, imgYes2.y, imgYes2.w, imgYes2.h);
+    pop();
+
+    //draw the text for the menu
+    push();
+    textFont(myFont);
+    textSize(scoreText2.size);
+    fill(passedMenuP2.description.fill);
+    textAlign(CENTER, CENTER);
+    text(pauseP2.words.t, passedMenuP2.text.x, pauseP2.words.y);
+    pop();
+
+    //draw the description for the menu
+    push();
+    textFont(myFont);
+    textSize(passedMenuP.description.size);
+    fill(passedMenuP2.description.fill);
+    textAlign(CENTER, CENTER);
+    text(pauseP2.words.t, passedMenuP2.text.x, pauseP2.dis.y);
+    pop();
+}
+
+//when the key pressed, state change 
 function game2KeyPressed(event) {
+
+    //for passed menu
+    if (isPassed === true) {
+        //press Enter to continue
+        if (event.keyCode === 13) {
+            isPassed = false;
+            state = "gamemenu";
+        }
+
+        // press Ese to go back to the main menu
+        else if (event.keyCode === 27) {
+            isPassed = false;
+            state = "gamemenu";
+            if (gamePassedCount > 0) {
+                gamePassedCount--;
+            }
+        }
+    }
+
+    //for pause menu 
+    //press Ese to the pause menu
     if (event.keyCode === 27) {
-        setup();
+        // if paused menu is not opened, opened the pause menu
+        if (isPaused === false) {
+            isPaused = true;
+        }
+        //else do nothing
+        else {
+            isPaused = false;
+        }
+    }
+
+    //press Enter return to main menu
+    if (event.keyCode === 13 && isPaused === true) {
+        isPaused = false;
         state = "gamemenu";
     }
 }
 
-/**
- * This will be called whenever the mouse is pressed while the green variation is active
- */
+//use mouse to execute the menu commands
 function game2MousePressed() {
+    //Check if the game is passed
+    if (isPassed === true) {
 
-    //when the mousePressed draw the star
+        //check the distance between mouse and buttons
+        distCheckY = dist(width / 2 - 100, height / 2 + 50, mouseX, mouseY);
+        distCheckN = dist(width / 2 + 100, height / 2 + 50, mouseX, mouseY);
+        //if Mouse is on Yes button, go back to the main menu and reset the Pass check states
+        if (distCheckY <= 50) {
+            isPassed = false;
+            state = "gamemenu";
+        }
+        //if Mouse is on No button, go back to the main menu without counting the game pass.
+        else if (distCheckN <= 50) {
+            isPassed = false;
+            state = "gamemenu";
+            if (gamePassedCount > 0) {
+                gamePassedCount--;
+            }
+        }
+        return;
+    }
+    //Check if the game is paused
+    if (isPaused === true) {
+        //if the game is paused, check the distance between mouse and buttons
+        distCheckY = dist(width / 2 - 100, height / 2 + 50, mouseX, mouseY);
+        distCheckN = dist(width / 2 + 100, height / 2 + 50, mouseX, mouseY);
+        //if Mouse is on Yes button, go back to the main menu
+        if (distCheckY <= 50) {
+            isPaused = false;
+            state = "gamemenu";
+        }
+        //if Mouse is on No button, go back to the main menu, continue the game
+        else if (distCheckN <= 50) {
+            isPaused = false;
+        }
+        return;
+    }
+    //when the mouse pressed,shoot the star
     wandMagic();
 }

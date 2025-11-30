@@ -385,7 +385,7 @@ function drawPassed() {
 //display the pause Menu
 function game1PauseMenu() {
 
-    //if paused is true show the pause menu=
+    //if paused is true show the pause menu
     if (isPaused === true) {
         drawPause();
     }
@@ -413,7 +413,7 @@ function drawPause() {
     text(pauseP.words.t, passedMenuP.text.x, pauseP.words.y);
     pop();
 
-    //draw the text for the menu
+    //draw the description for the menu
     push();
     textFont(myFont);
     fill(passedMenuP.description.fill);
@@ -423,7 +423,7 @@ function drawPause() {
     pop();
 }
 
-//when the key pressed, state change to 
+//when the key pressed, state change
 function game1KeyPressed(event) {
 
     //for passed menu
