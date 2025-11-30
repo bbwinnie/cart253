@@ -485,20 +485,18 @@ function game1MousePressed() {
         return;
     }
     //Check if the game is paused
-    else {
-        //if the game is paused, check the distance between mouse and buttons
-        if (isPaused === true) {
-            distCheckY = dist(imgYes.x, imgYes.y, mouseX, mouseY);
-            distCheckN = dist(imgYes.x2, imgYes.y, mouseX, mouseY);
-            //if Mouse is on Yes button, go back to the main menu
-            if (distCheckY <= 50) {
-                isPaused = false;
-                state = "gamemenu";
-            }
-            //if Mouse is on No button, go back to the main menu, continue the game
-            else if (distCheckN <= 50) {
-                isPaused = false;
-            }
+    //if the game is paused, check the distance between mouse and buttons
+    else if (isPaused === true) {
+        distCheckY = dist(imgYes.x, imgYes.y, mouseX, mouseY);
+        distCheckN = dist(imgYes.x2, imgYes.y, mouseX, mouseY);
+        //if Mouse is on Yes button, go back to the main menu
+        if (distCheckY <= 50) {
+            isPaused = false;
+            state = "gamemenu";
+        }
+        //if Mouse is on No button, go back to the main menu, continue the game
+        else if (distCheckN <= 50) {
+            isPaused = false;
         }
         return;
     }

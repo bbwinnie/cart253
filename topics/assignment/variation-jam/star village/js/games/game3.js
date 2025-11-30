@@ -55,6 +55,44 @@ let scoreText3 = {
 }
 
 
+//set the img size and position 
+let imgYes3 = {
+    x: 250,
+    x2: 450,
+    y: 300,
+    w: 100,
+    h: 50
+}
+
+//set the pause menu text and position 
+let pauseP3 = {
+    words: {
+        t: 'Do you want to give up?',
+        y: 180
+    },
+    dis: {
+        t: 'Click the button below \n Press "Esc" or "Enter"',
+        y: 260
+    }
+}
+
+//set the passed menu text, position ,color and size
+let passedMenuP3 = {
+    text: {
+        fill: "#91c7faff",
+        b: 'Congrats! \n You find the moon boat. \n Would you like to continue?',
+        x: 350,
+        y: 180
+    },
+    description: {
+        fill: "#741717ff",
+        t: 'Click the button \n Press "Esc" or "Enter"',
+        y: 265,
+        size: 15
+    },
+}
+
+
 
 //preload all the img and json file
 function preloadGame3() {
@@ -187,12 +225,12 @@ function detectMenu3() {
 
     // if you got 10 point, the passed state turn true, pass menu show up
     if (isPassed === true) {
-        game2PassedMenu();
+        game3PassedMenu();
     }
 
     // if you press the esc, the paused the menu will show up
     if (isPaused === true) {
-        game2PauseMenu();
+        game3PauseMenu();
     }
 }
 
@@ -385,7 +423,7 @@ function itemDraw() {
                 }
 
                 //if got 10 point, game ends
-                if (starCount === 10) {
+                if (starCount === 1) {
                     isPassed = true;
 
                     // only will crount the win once
@@ -400,7 +438,6 @@ function itemDraw() {
     HitPauseTimer--;
 }
 
-
 //draw the score system
 function game3CountBoardDraw() {
 
@@ -413,7 +450,7 @@ function game3CountBoardDraw() {
     text(scoreText3.word.text + starCount, scoreText3.word.x, scoreText3.word.y);
     pop();
 
-    //drwa the emoji
+    //draw the emoji
     push();
     textSize(scoreText3.size);
     textAlign(LEFT, CENTER);
@@ -421,6 +458,7 @@ function game3CountBoardDraw() {
     text(scoreText3.emoji.text, scoreText3.emoji.x, scoreText2.emoji.y);
     pop();
 
+    //draw the intro
     push();
     textFont(myFont);
     textSize(scoreText3.size);
@@ -431,10 +469,123 @@ function game3CountBoardDraw() {
 }
 
 
+//when you save 10 star, passed menu show up 
+function game3PassedMenu() {
+
+    if (isPassed === true) {
+
+        //draw the passed Menu3
+        drawPassedMenu3();
+    }
+}
+
+function drawPassedMenu3() {
+
+    //set the background and button
+    push();
+    imageMode(CENTER);
+    image(textBg, width / 2, height / 2 + 25, 600, 650);
+    image(passedCheckYes, width / 2 - 100, height / 2 + 50, 100, 50);
+    image(passedCheckNo, width / 2 + 100, height / 2 + 50, 100, 50);
+    pop();
+
+    //set the text
+    push();
+    textFont(myFont);
+    textSize(scoreText3.size);
+    fill(passedMenuP3.text.fill);
+    textAlign(CENTER, CENTER);
+    text(passedMenuP3.text.b, passedMenuP3.text.x, passedMenuP3.text.y);
+    pop();
+
+    //set the description
+    push();
+    textFont(myFont);
+    textSize(passedMenuP3.description.size);
+    fill(passedMenuP3.description.fill);
+    text(passedMenuP3.description.t, passedMenuP3.text.x, passedMenuP3.description.y);
+    pop();
+}
+
+//display the pause Menu
+function game3PauseMenu() {
+
+    if (isPaused === true) {
+        //draw the pauseMenu3
+        drawPauseMenu3();
+    }
+}
+
+//draw the pauseMenu3
+function drawPauseMenu3() {
+
+    //draw the image
+    push();
+    imageMode(CENTER);
+    image(textBg, width / 2, height / 2 + 25, 600, 650);
+    image(pauseCheckYes, imgYes3.x, imgYes3.y, imgYes3.w, imgYes3.h);
+    image(pauseCheckNo, imgYes3.x2, imgYes3.y, imgYes3.w, imgYes3.h);
+    pop();
+
+    //draw the text
+    push();
+    textFont(myFont);
+    textSize(scoreText3.size);
+    fill(passedMenuP3.description.fill);
+    textAlign(CENTER, CENTER);
+    text(pauseP3.words.t, passedMenuP3.text.x, pauseP3.words.y);
+    pop();
+
+
+    //draw the dis
+    push();
+    textFont(myFont);
+    textSize(passedMenuP3.description.size);
+    fill(passedMenuP3.description.fill);
+    textAlign(CENTER, CENTER);
+    text(pauseP3.dis.t, passedMenuP3.text.x, pauseP3.dis.y);
+    pop();
+}
+
 /**
  * This will be called whenever a key is pressed while the game3 is active
  */
 function game3KeyPressed(event) {
+
+    //for passed menu
+    if (isPassed === true) {
+        //press Enter to continue
+        if (event.keyCode === 13) {
+            isPassed = false;
+            state = "gamemenu";
+        }
+        // press Ese to go back to the main menu
+        else if (event.keyCode === 27) {
+            isPassed = false;
+            state = "gamemenu";
+            if (gamePassedCount > 0) {
+                gamePassedCount--;
+            }
+        }
+    }
+
+    //for pause menu 
+    //press Ese to the pause menu
+    if (event.keyCode === 27) {
+        // if paused menu is not opened, opened the pause menu
+        if (isPaused === false) {
+            isPaused = true;
+        }
+        //else do nothing
+        else {
+            isPaused = false;
+        }
+    }
+    //press Enter return to main menu
+    if (event.keyCode === 13 && isPaused === true) {
+        isPaused = false;
+        state = "gamemenu";
+    }
 
     // if boats hit the rains, boats stoped
     if (HitPauseTimer > 0) {
@@ -478,9 +629,45 @@ function game3KeyReleased(event) {
 }
 
 
-/**
- * This will be called whenever the mouse is pressed while the red variation is active
- */
+//use mouse to execute the menu commands
 function game3MousePressed() {
+
+    //Check if the game is passed
+    if (isPassed === true) {
+
+        //check the distance between mouse and buttons
+        distCheckY = dist(width / 2 - 100, height / 2 + 50, mouseX, mouseY);
+        distCheckN = dist(width / 2 + 100, height / 2 + 50, mouseX, mouseY);
+        //if Mouse is on Yes button, go back to the main menu and reset the Pass check states
+        if (distCheckY <= 50) {
+            isPassed = false;
+            state = "gamemenu";
+        }
+        //if Mouse is on No button, go back to the main menu without counting the game pass.
+        else if (distCheckN <= 50) {
+            isPassed = false;
+            state = "gamemenu";
+            if (gamePassedCount > 0) {
+                gamePassedCount--;
+            }
+        }
+        return;
+    }
+    //Check if the game is paused
+    else if (isPaused === true) {
+        //if the game is paused, check the distance between mouse and buttons
+        distCheckY = dist(width / 2 - 100, height / 2 + 50, mouseX, mouseY);
+        distCheckN = dist(width / 2 + 100, height / 2 + 50, mouseX, mouseY);
+        //if Mouse is on Yes button, go back to the main menu
+        if (distCheckY <= 50) {
+            isPaused = false;
+            state = "gamemenu";
+        }
+        //if Mouse is on No button, go back to the main menu, continue the game
+        else if (distCheckN <= 50) {
+            isPaused = false;
+        }
+        return;
+    }
 
 }

@@ -537,7 +537,7 @@ function drawPauseMenu2() {
     textSize(passedMenuP.description.size);
     fill(passedMenuP2.description.fill);
     textAlign(CENTER, CENTER);
-    text(pauseP2.words.t, passedMenuP2.text.x, pauseP2.dis.y);
+    text(pauseP2.dis.t, passedMenuP2.text.x, pauseP2.dis.y);
     pop();
 }
 
@@ -606,7 +606,7 @@ function game2MousePressed() {
         return;
     }
     //Check if the game is paused
-    if (isPaused === true) {
+    else if (isPaused === true) {
         //if the game is paused, check the distance between mouse and buttons
         distCheckY = dist(imgYes2.x, imgYes2.y, mouseX, mouseY);
         distCheckN = dist(imgYes2.x2, imgYes2.y, mouseX, mouseY);
