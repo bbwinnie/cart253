@@ -1,7 +1,6 @@
 /**
- * This file contains the code to run *only* the blue variation part of the program.
+ * This file contains the code to run *only* the game1 part of the program.
  * Note how it has its own draw, game1Draw(), and its own keyPressed, blueKeyPressed().
- * This keeps the stuff the menu needs to do *separate* from the rest of the program.
  */
 let starX;
 let starY;
@@ -131,7 +130,7 @@ function game1Setup() {
  */
 function game1Draw() {
 
-    //dtaw the detectMenu
+    //draw the detectMenu
     detectMenu();
 
     //if the state is passed or pause, only show the menu, game stoped

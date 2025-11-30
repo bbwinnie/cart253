@@ -85,7 +85,7 @@ function keyPressed(event) {
             game1KeyPressed(event);
             break
         case "game2":
-            redKeyPressed(event);
+            game2KeyPressed(event);
             break;
         case "game3":
             yellowKeyPressed(event);

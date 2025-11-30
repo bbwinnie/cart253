@@ -117,7 +117,7 @@ function gameSelectMousePressed() {
 
     // if mousex and mousey on the secound star, go to game 2
     else if (d2 <= 240 / 2) {
-        redSetup();
+        game2Setup();
         state = "game2";
     }
 
