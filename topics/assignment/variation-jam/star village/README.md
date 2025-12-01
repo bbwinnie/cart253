@@ -26,15 +26,15 @@ There were a few challenges while i doing this game, such as how to shoot stars 
 
 ## Screenshot(s)
 
-> ![Image of the main page](./assets/readmeImage/main page.png)
-> ![Image of the game selection page](./assets/readmeImage/game select menu.png)
+> ![Image of the main page](./assets/readmeImage/main%20page.png)
+> ![Image of the game selection page](./assets/readmeImage/game%20select%20menu.png)
 > ![Image of the game1 page](./assets/readmeImage/game1.png)
 > ![Image of the game2 page](./assets/readmeImage/game2.png)
 > ![Image of the game3 page](./assets/readmeImage/game3.png)
-> ![Image of the passed gif page](./assets/readmeImage/passed gif.png)
-> ![Image of the end page](./assets/readmeImage/passed menu.png)
-> ![Image of the paused page](./assets/readmeImage/paused menu.png)
-> ![Image of the end game page](./assets/readmeImage/end game.png)
+> ![Image of the passed gif page](./assets/readmeImage/passed%20gif.png)
+> ![Image of the end page](./assets/readmeImage/end%20game.png)
+> ![Image of the paused page](./assets/readmeImage/passed%20menu.png)
+> ![Image of the end game page](./assets/readmeImage/end%20game.png)
 
 ## Attribution
 
