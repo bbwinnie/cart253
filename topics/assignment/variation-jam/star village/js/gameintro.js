@@ -27,6 +27,8 @@ function introDraw() {
     //printer the text
     introType();
 
+    startBgm();
+
 }
 
 //draw the img 
@@ -73,4 +75,10 @@ function introMousePressed() {
     else {
         state = 'gamemenu';
     }
+}
+
+//when the key pressed, enter the gameintro menu
+function introKeyPressed(event) {
+    //press any button Enter to continue
+    state = "gamemenu";
 }

@@ -11,6 +11,8 @@ let textWStarVSpeed;
 let starArray;
 let stars;
 
+
+
 // set the background img size and position
 let imgBG = {
     x: 350,
@@ -87,6 +89,7 @@ function preloadGame1() {
     pauseCheckNo = loadImage("assets/images/no.png");
     passedCheckYes = loadImage("assets/images/yes.png");
     passedCheckNo = loadImage("assets/images/no.png");
+    basketSound = loadSound('assets/sounds/bakset.mp3');
 }
 
 
@@ -129,7 +132,6 @@ function game1Setup() {
  * This will be called every frame when the game1Draw
  */
 function game1Draw() {
-
     //draw the detectMenu
     detectMenu();
 
@@ -261,11 +263,13 @@ function starCatchCount() {
 
                 // if the emotion state is positive (true) add 1 score
                 if (MoodCategory[i] === true) {
+                    playStarBasketSound();
                     starCount++;
                 }
 
                 // if the emotion state is nagetive (false) minus 1 score but the score will never below 0
                 else {
+                    pointLossSound();
                     if (starCount > 0) {
                         starCount--;
                     }
@@ -288,7 +292,7 @@ function starCatchCount() {
     }
 
     // if catch 10 star, game end.
-    if (starCount === 1) {
+    if (starCount === 10) {
         isPassed = true;
 
         // the game can only play once.
@@ -422,6 +426,13 @@ function drawPause() {
     text(pauseP.dis.t, passedMenuP.text.x, pauseP.dis.y);
     pop();
 }
+
+//Catch sound play
+function playStarBasketSound() {
+    basketSound.setVolume(0.7);
+    basketSound.play();
+}
+
 
 //when the key pressed, state change
 function game1KeyPressed(event) {

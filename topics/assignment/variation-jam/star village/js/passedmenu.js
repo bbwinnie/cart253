@@ -14,9 +14,19 @@ let finalWordsP = {
     text: 'The sky is shining again!! all because you never stopped believing.'
 }
 
-function PassedMenuDraw() {
+//define background music for the passedmenu
+let isPMBgmPlaying = false;
 
+
+function preloadPassedMenu() {
+    bgmPMMusic = loadSound('assets/sounds/Passed_Music.mp3');
+
+}
+
+function PassedMenuDraw() {
     BgChangeDraw();
+    stopBgm();
+    startPMBgm();
 
 }
 
@@ -60,6 +70,8 @@ function reLoadGame() {
 
 //for passed menu, key pressed control 
 function passedMenuKeyPressed(event) {
+    stopPMBgm();
+    startBgm();
     //press Any key to continue
     if (gamePassedCount === 3) {
         reLoadGame();
@@ -73,9 +85,11 @@ function passedMenuKeyPressed(event) {
 
 //for passed menu Mouse clicked control
 function passedMenuMousePressed(event) {
+    stopPMBgm();
+    startBgm();
     //Clike Any key to continue
     if (gamePassedCount === 3) {
-        reLoadGame()
+        reLoadGame();
         state = "menu";
     }
     else {
@@ -102,4 +116,22 @@ function drawFinalText() {
     fill(finalWordsP.fill);
     text(finalWordsP.text, passedWordsP.x, passedWordsP.y);
     pop();
+}
+
+//Turn on the background music for the passedmenu
+function startPMBgm() {
+    if (isPMBgmPlaying === false) {
+        bgmPMMusic.setLoop(true);   // loop the background music
+        bgmPMMusic.setVolume(0.4);  // set the volume
+        bgmPMMusic.play();
+        isPMBgmPlaying = true;
+    }
+}
+
+//Turn off the background music for the passedmenu
+function stopPMBgm() {
+    if (isPMBgmPlaying === true) {
+        bgmPMMusic.stop();
+        isPMBgmPlaying = false;
+    }
 }

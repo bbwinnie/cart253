@@ -103,6 +103,7 @@ function preloadGame2() {
     pauseCheckNo = loadImage("assets/images/no.png");
     passedCheckYes = loadImage("assets/images/yes.png");
     passedCheckNo = loadImage("assets/images/no.png");
+    jarStarSound = loadSound('assets/sounds/star_jar.mp3');
 }
 
 //key parameters perset
@@ -287,11 +288,13 @@ function starJarDraw() {
 
                     // if the emotion state is positive (true) add 1 score
                     if (MoodCategory[i] === true) {
+                        playJarStarSound();
                         starCount++;
                     }
 
                     // if the emotion state is nagetive (false) minus 1 score but the score will never below 0
                     else {
+                        pointLossSound();
                         if (starCount > 0) {
                             starCount--;
                         }
@@ -301,7 +304,7 @@ function starJarDraw() {
                     }
 
                     // if hits 10 star, game end
-                    if (starCount === 1) {
+                    if (starCount === 10) {
                         isPassed = true;
 
                         // the game can only play once.
@@ -539,6 +542,12 @@ function drawPauseMenu2() {
     textAlign(CENTER, CENTER);
     text(pauseP2.dis.t, passedMenuP2.text.x, pauseP2.dis.y);
     pop();
+}
+
+//Catch sound play
+function playJarStarSound() {
+    jarStarSound.setVolume(0.7);
+    jarStarSound.play();
 }
 
 //when the key pressed, state change 

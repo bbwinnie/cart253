@@ -107,6 +107,7 @@ function preloadGame3() {
     pauseCheckNo = loadImage("assets/images/no.png");
     passedCheckYes = loadImage("assets/images/yes.png");
     passedCheckNo = loadImage("assets/images/no.png");
+    boatStarSound = loadSound('assets/sounds/star_jar.mp3');
 }
 
 
@@ -353,6 +354,8 @@ function itemDraw() {
         if (itemArray[i].BoatItemDist <= 50) {
             //if boat touch the rain
             if (itemArray[i].itemImg === rain) {
+                //play sound
+                pointLossSound();
                 //score - 1
                 if (starCount > 0) {
                     starCount--;
@@ -400,6 +403,7 @@ function itemDraw() {
 
             //if catch the star, score +1
             else {
+                playboatStarSound();
                 starCount++;
 
                 //reset the item
@@ -423,7 +427,7 @@ function itemDraw() {
                 }
 
                 //if got 10 point, game ends
-                if (starCount === 1) {
+                if (starCount === 10) {
                     isPassed = true;
 
                     // only will crount the win once
@@ -547,6 +551,13 @@ function drawPauseMenu3() {
     pop();
 }
 
+//Catch sound play
+function playboatStarSound() {
+    boatStarSound.setVolume(0.7);
+    boatStarSound.play();
+}
+
+
 /**
  * This will be called whenever a key is pressed while the game3 is active
  */
@@ -594,16 +605,23 @@ function game3KeyPressed(event) {
 
     ///when the key pressed boats moves
     switch (event.keyCode) {
-        case 37:
+        case 37: // left arrow
+        case 65: // A
             boatHspeed = -5;
             break;
-        case 38:
+
+        case 38: // up arrow
+        case 87: // W
             boatVspeed = -5;
             break;
-        case 39:
+
+        case 39: // right arrow
+        case 68: // D
             boatHspeed = 5;
             break;
-        case 40:
+
+        case 40: // down arrow
+        case 83: // S
             boatVspeed = 5;
             break;
     }
@@ -614,15 +632,16 @@ function game3KeyPressed(event) {
 function game3KeyReleased(event) {
     switch (event.keyCode) {
         case 37:
-            boatHspeed = 0;
-            break;
+        case 65:
         case 39:
+        case 68:
             boatHspeed = 0;
             break;
+
         case 38:
-            boatVspeed = 0;
-            break;
+        case 87:
         case 40:
+        case 83:
             boatVspeed = 0;
             break;
     }

@@ -20,7 +20,10 @@ let game1BG;
 let game2BG;
 let game3BG;
 
-// perload all the fonts and images
+//define background music
+let isBgmPlaying = false;
+
+// perload all the fonts, images and sounds
 function preload() {
     myFont = loadFont('assets/font/PixelifySans-VariableFont_wght.ttf');
     bgImg = loadImage('assets/images/startbackground.jpeg');
@@ -34,9 +37,12 @@ function preload() {
     game1BG = loadImage('assets/images/game1.gif');
     game2BG = loadImage('assets/images/game2.gif');
     game3BG = loadImage('assets/images/game3.gif');
+    bgmMainMusic = loadSound('assets/sounds/story_music_full.mp3');
+    pointlossSound = loadSound('assets/sounds/lose_point.mp3');
     preloadGame1();
     preloadGame2();
     preloadGame3();
+    preloadPassedMenu();
 }
 
 /**
@@ -49,6 +55,7 @@ function menuDraw() {
 
     //display the Tittle
     drawTittle();
+
 }
 
 function drawBgImage() {
@@ -69,7 +76,38 @@ function drawTittle() {
     pop();
 }
 
+//Turn on the background music
+function startBgm() {
+    if (isBgmPlaying === false) {
+        bgmMainMusic.setLoop(true);   // loop the background music
+        bgmMainMusic.setVolume(0.4);  // set the volume
+        bgmMainMusic.play();
+        isBgmPlaying = true;
+    }
+}
+
+//Turn off the background music
+function stopBgm() {
+    if (isBgmPlaying === true) {
+        bgmMainMusic.stop();
+        isBgmPlaying = false;
+    }
+}
+
+//Point loss sound
+function pointLossSound() {
+    pointlossSound.setVolume(0.7);
+    pointlossSound.play();
+}
+
+
 // when the mouse Pressed show the intro story
 function menuMousePressed() {
     state = 'intro';
+}
+
+//when the key pressed, enter the gameintro menu
+function menuKeyPressed(event) {
+    //press any button Enter to continue
+    state = "intro";
 }
