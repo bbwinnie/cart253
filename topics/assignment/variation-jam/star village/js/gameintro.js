@@ -3,7 +3,7 @@
  */
 
 // set the intro story for the game
-let introText = "In a little place called Star Valley, tiny starbaby lived believing that light always returns. But lately, dark clouds of bad feelings have covered the sky, and heavy black stars keep falling, dimming their world. Only someone who still carries hope in their heart can help bring back the light.\nSo the Star Elder chooses you and places three magical treasures in your hands:\nThe Magic Basket — to catch the falling good emotion stars.\nThe Star Wand — to break jars rescue the good emotions star.\nThe Moon Boat — search star without hit the cloud.\n“Life has storms and shadows,” the elder whispers, “but if someone is willing to look up… tomorrow can still be bright.”\nNow, the starfolk are waiting for you to guide Glimmer Valley back into the light.\nAre you ready?";
+let introText = "In a little place called Star Valley, tiny starbaby lived believing that light always returns. But lately, dark clouds of bad feelings have covered the sky, and heavy black stars keep falling, dimming their world. Only someone who still carries hope in their heart can help bring back the light.\nSo the Star Elder chooses you and places three magical treasures in your hands:\nThe Magic Basket — to catch the falling good emotion stars.\nThe Star Wand — to break jars rescue the good emotions star.\nThe Moon Boat — search star without hit the cloud.\n“Life has storms and shadows,” the elder whispers, “but if someone is willing to look up… tomorrow can still be bright.”\nNow, the starbaby are waiting for you to help brighten the sky again?.\nAre you ready?";
 
 // show the current infro.
 let typedText = "";

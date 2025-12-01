@@ -100,7 +100,6 @@ function keyPressed(event) {
         case "passmenu":
             passedMenuKeyPressed(event);
             break;
-
     }
 }
 

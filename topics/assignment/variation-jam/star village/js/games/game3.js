@@ -587,7 +587,7 @@ function game3KeyPressed(event) {
         state = "gamemenu";
     }
 
-    // if boats hit the rains, boats stoped
+    // if boats hit the rains, boats stopped
     if (HitPauseTimer > 0) {
         return;
     }

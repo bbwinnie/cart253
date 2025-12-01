@@ -1,5 +1,3 @@
-//Default value to iscontinue check
-let isContinue = false;
 
 //let passed Text, size position and fill
 let passedWordsP = {
@@ -45,21 +43,44 @@ function BgChangeDraw() {
             image(gamemenuImg1, 0, 0, width, height);
             image(gamemenuImg4, 0, 0, width, height);
             drawFinalText();
-            break;
     }
 
 }
 
-//for passed menu key pressed control
+//Reset the counting parameters and reload the pics 
+function reLoadGame() {
+    gamePassedCount = 0;
+    passedFrame = 0;
+    game1PassTime = 0;
+    game2PassTime = 0;
+    game3PassTime = 0;
+    //challenge: final page gif(s) need to be reloaded before restarting the game, otherwsise they will stay at the last frame
+    preload();
+}
+
+//for passed menu, key pressed control 
 function passedMenuKeyPressed(event) {
     //press Any key to continue
-    state = "gamemenu";
+    if (gamePassedCount === 3) {
+        reLoadGame();
+        state = "menu";
+        //if you already get all 3 items the game will restart
+    }
+    else {
+        state = "gamemenu";
+    }
 }
 
 //for passed menu Mouse clicked control
 function passedMenuMousePressed(event) {
     //Clike Any key to continue
-    state = "gamemenu";
+    if (gamePassedCount === 3) {
+        reLoadGame()
+        state = "menu";
+    }
+    else {
+        state = "gamemenu";
+    }
 }
 
 
