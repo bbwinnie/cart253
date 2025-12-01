@@ -33,8 +33,8 @@ There were a few challenges while i doing this game, such as how to shoot stars 
 > ![Image of the game3 page](./assets/readmeImage/game3.png)
 > ![Image of the passed gif page](./assets/readmeImage/passed%20gif.png)
 > ![Image of the end page](./assets/readmeImage/end%20game.png)
-> ![Image of the paused page](./assets/readmeImage/passed%20menu.png)
-> ![Image of the end game page](./assets/readmeImage/end%20game.png)
+> ![Image of the paused page](./assets/readmeImage/paused%20menu.png)
+> ![Image of the end game page](./assets/readmeImage/passed%20menu.png)
 
 ## Attribution
 
